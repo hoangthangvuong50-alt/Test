@@ -119,22 +119,24 @@ local function restyleGui(root)
 
     -- nếu root là Window (Frame chứa header + body)
     if root:IsA("ScreenGui") then
-        root.ResetOnSpawn = false
-        -- optionally thêm background fill
-        local bg = root:FindFirstChild("BananaBackground")
-        if not bg then
-            bg = Instance.new("Frame")
-            bg.Name = "BananaBackground"
-            bg.Size = UDim2.new(1,0,1,0)
-            bg.Position = UDim2.new(0,0,0,0)
-            bg.BackgroundColor3 = THEME.MainBackground
-            bg.BorderSizePixel = 0
-            bg.ZIndex = 0
-            bg.Parent = root
-        else
-            bg.BackgroundColor3 = THEME.MainBackground
-        end
+    root.ResetOnSpawn = false
+    local bg = root:FindFirstChild("BananaBackground")
+    if not bg then
+        bg = Instance.new("Frame")
+        bg.Name = "BananaBackground"
+        bg.Size = UDim2.new(1,0,1,0)
+        bg.Position = UDim2.new(0,0,0,0)
+        bg.BackgroundColor3 = THEME.MainBackground
+        bg.BackgroundTransparency = 0.4 -- 👈 thêm dòng này để không bị che đen
+        bg.BorderSizePixel = 0
+        bg.ZIndex = -1 -- 👈 gửi nó ra sau tất cả phần tử UI
+        bg.Parent = root
+    else
+        bg.BackgroundColor3 = THEME.MainBackground
+        bg.ZIndex = -1
+        bg.BackgroundTransparency = 0.4
     end
+end
 
     for _, obj in pairs(root:GetDescendants()) do
         -- style frames / panels
