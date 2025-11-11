@@ -1,0 +1,854 @@
+
+shared.LoaderTitle = "Đăng Ký Kênh kaitoMC ";
+shared.LoaderKeyFrames = {
+    [1] = {1, 10},
+    [2] = {2, 30},
+    [3] = {3, 60},
+    [4] = {2, 100}
+};
+
+local v2 = {
+    LoaderData = {
+        Name = shared.LoaderTitle or "A Loader",
+        Colors = shared.LoaderColors or {
+            Main = Color3.fromRGB(0, 0, 0),
+            Topic = Color3.fromRGB(200, 200, 200),
+            Title = Color3.fromRGB(255, 255, 255),
+            LoaderBackground = Color3.fromRGB(40, 40, 40),
+            LoaderSplash = Color3.fromRGB(3, 252, 3)
+        }
+    },
+    Keyframes = shared.LoaderKeyFrames
+};
+
+local v3 = {
+    [1] = "",
+    [2] = "",
+    [3] = "",
+    [4] = ""
+};
+
+function TweenObject(obj, t, data)
+    game.TweenService:Create(obj, TweenInfo.new(t, Enum.EasingStyle.Linear, Enum.EasingDirection.InOut), data):Play()
+end
+
+function CreateObject(class, props)
+    local inst = Instance.new(class)
+    local parent
+    for k,v in pairs(props) do
+        if k ~= "Parent" then inst[k] = v else parent = v end
+    end
+    inst.Parent = parent
+    return inst
+end
+
+local function RoundCorner(size, parent)
+    local c = Instance.new("UICorner")
+    c.CornerRadius = UDim.new(0, size)
+    c.Parent = parent
+end
+
+-- 🌀 Loader
+local v5 = CreateObject("ScreenGui", {Name="Core", Parent=game.CoreGui})
+local v6 = CreateObject("Frame", {
+    Name = "Main", Parent = v5, BackgroundColor3 = v2.LoaderData.Colors.Main,
+    BorderSizePixel = 0, ClipsDescendants = true, AnchorPoint = Vector2.new(0.5, 0.5),
+    Position = UDim2.new(0.5,0,0.5,0), Size = UDim2.new(0,0,0,0)
+})
+RoundCorner(12, v6)
+
+local v7 = CreateObject("ImageLabel", {
+    Name="UserImage", Parent=v6, BackgroundTransparency=1,
+    Image="rbxassetid://91263051942186", Position=UDim2.new(0,15,0,10), Size=UDim2.new(0,50,0,50)
+})
+RoundCorner(25,v7)
+
+local v8 = CreateObject("TextLabel", {
+    Name="UserName", Parent=v6, BackgroundTransparency=1,
+    Text="Youtube: kaitoMC ", Position=UDim2.new(0,75,0,10),
+    Size=UDim2.new(0,200,0,50), Font=Enum.Font.GothamBold,
+    TextColor3=v2.LoaderData.Colors.Title, TextSize=14, TextXAlignment=Enum.TextXAlignment.Left
+})
+
+local v9 = CreateObject("TextLabel", {
+    Name="Top", TextTransparency=1, Parent=v6, BackgroundColor3=Color3.fromRGB(255,255,255),
+    BackgroundTransparency=1, Position=UDim2.new(0,30,0,70), Size=UDim2.new(0,301,0,20),
+    Font=Enum.Font.Gotham, Text="Loader", TextColor3=v2.LoaderData.Colors.Topic, TextSize=10,
+    TextXAlignment=Enum.TextXAlignment.Left
+})
+
+local v10 = CreateObject("TextLabel", {
+    Name="Title", Parent=v6, TextTransparency=1, BackgroundTransparency=1,
+    Position=UDim2.new(0,30,0,90), Size=UDim2.new(0,301,0,46), Font=Enum.Font.Gotham,
+    RichText=true, Text="<b>"..v2.LoaderData.Name.."</b>", TextColor3=v2.LoaderData.Colors.Title,
+    TextSize=14, TextXAlignment=Enum.TextXAlignment.Left
+})
+
+local v11 = CreateObject("Frame", {
+    Name="BG", Parent=v6, AnchorPoint=Vector2.new(0.5,0),
+    BackgroundTransparency=1, BackgroundColor3=v2.LoaderData.Colors.LoaderBackground,
+    BorderSizePixel=0, Position=UDim2.new(0.5,0,0,70), Size=UDim2.new(0.85,0,0,24)
+})
+RoundCorner(8,v11)
+
+local v12 = CreateObject("Frame", {
+    Name="Progress", Parent=v11, BackgroundColor3=v2.LoaderData.Colors.LoaderSplash,
+    BackgroundTransparency=1, BorderSizePixel=0, Size=UDim2.new(0,0,0,24)
+})
+RoundCorner(8,v12)
+
+local v13 = CreateObject("TextLabel", {
+    Name="StepLabel", Parent=v6, BackgroundTransparency=1, Position=UDim2.new(0.5,0,1,-25),
+    Size=UDim2.new(1,-20,0,20), Font=Enum.Font.Gotham, Text="", TextColor3=v2.LoaderData.Colors.Topic,
+    TextSize=14, TextXAlignment=Enum.TextXAlignment.Center, AnchorPoint=Vector2.new(0.5,0.5)
+})
+
+function UpdateStepText(id)
+    v13.Text = v3[id] or ""
+end
+
+function UpdatePercentage(percent, id)
+    TweenObject(v12, 0.5, {Size = UDim2.new(percent/100, 0, 0, 24)})
+    UpdateStepText(id)
+end
+
+TweenObject(v6, 0.25, {Size = UDim2.new(0,346,0,121)})
+wait()
+TweenObject(v9, 0.5, {TextTransparency = 0})
+TweenObject(v10, 0.5, {TextTransparency = 0})
+TweenObject(v11, 0.5, {BackgroundTransparency = 0})
+TweenObject(v12, 0.5, {BackgroundTransparency = 0})
+
+for i, frame in pairs(v2.Keyframes) do
+    wait(frame[1])
+    UpdatePercentage(frame[2], i)
+end
+
+UpdatePercentage(100, 4)
+TweenObject(v6, 0.25, {Size = UDim2.new(0,0,0,0)})
+wait(0.25)
+v5:Destroy()
+
+-- 🌀 Giữ nguyên Loader của bạn
+-- (đoạn trên bạn giữ y nguyên, chỉ thay phần cuối bằng bên dưới)
+
+-- Khi loader chạy xong sẽ tự bật menu
+UpdatePercentage(100, 4)
+TweenObject(v6, 0.25, {Size = UDim2.new(0,0,0,0)})
+wait(0.25)
+v5:Destroy()
+
+-- 🟢 Load Fluent UI
+local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
+local Window = Fluent:CreateWindow({
+    Title = "kaitoMC Hub",
+    SubTitle = "Blox Fruit",
+    TabWidth = 160,
+    Theme = "Dark",
+    Acrylic = false,
+    Size = UDim2.fromOffset(500, 320),
+    MinimizeKey = Enum.KeyCode.End
+})
+
+-- 🧭 Tabs
+local Tabs = {
+    Home = Window:AddTab({ Title = "Thông Tin" }),
+    Main = Window:AddTab({ Title = "fixlag mạnh" })
+    Tabs = Window:AddTab({ Title = "fixlag thường" }),
+}
+
+Tabs.Main:AddButton({
+    Title = "XÓA MÔI TRƯỜNG + GIẢM LAG",
+    Description = "thường",
+    Callback = function()
+        local KEYWORDS = {
+            -- Cây cối
+            "tree","leaf","leaves","bush","grass","plant","foliage","weed","flower",
+            "wood","trunk","stem","branch",
+            -- Hàng rào, gian hàng
+            "fence","stall","stand","market","shop","booth","tent",
+            -- Nước, sóng
+            "sea","wave","ocean","beach"
+        }
+
+        local function containsKeyword(name)
+            if not name then return false end
+            name = name:lower()
+            for _,k in ipairs(KEYWORDS) do
+                if string.find(name, k, 1, true) then
+                    return true
+                end
+            end
+            return false
+        end
+
+        -- Xoá trong Workspace
+        for _,d in ipairs(workspace:GetDescendants()) do
+            if containsKeyword(d.Name) then
+                if d:IsA("Model") or d:IsA("BasePart") or d:IsA("MeshPart") then
+                    d:Destroy()
+                end
+            end
+            -- Xoá hiệu ứng chiêu thức
+            if d:IsA("ParticleEmitter") or d:IsA("Trail") or d:IsA("Smoke") or d:IsA("Fire")
+            or d:IsA("Explosion") or d:IsA("Beam") or d:IsA("Sparkles") or d:IsA("Highlight") then
+                d:Destroy()
+            end
+        end
+
+        -- Fix lag (Lighting)
+        local Lighting = game:GetService("Lighting")
+        Lighting.GlobalShadows = false
+        Lighting.FogEnd = 9e9
+        Lighting.Brightness = 1
+        Lighting.ShadowSoftness = 0
+        for _,v in ipairs(Lighting:GetChildren()) do
+            if v:IsA("BlurEffect") or v:IsA("SunRaysEffect") or v:IsA("BloomEffect") 
+            or v:IsA("ColorCorrectionEffect") or v:IsA("DepthOfFieldEffect") then
+                v:Destroy()
+            end
+        end
+
+        -- Xoá sóng + nước biển
+        local Terrain = workspace:FindFirstChildOfClass("Terrain")
+        if Terrain then
+            Terrain.WaterReflectance = 0
+            Terrain.WaterTransparency = 1
+            Terrain.WaterWaveSize = 0
+            Terrain.WaterWaveSpeed = 0
+        end
+
+        -- Giảm Mesh render (đồ họa nhanh)
+        for _,d in ipairs(workspace:GetDescendants()) do
+            if d:IsA("MeshPart") then
+                d.RenderFidelity = Enum.RenderFidelity.Performance
+            end
+        end
+
+        -- Tắt post-effect trong Camera
+        local camera = workspace.CurrentCamera
+        if camera then
+            for _,v in ipairs(camera:GetChildren()) do
+                if v:IsA("PostEffect") then
+                    v:Destroy()
+                end
+            end
+        end
+
+        print("✅ Đã xoá: FixLag thường")
+    end
+})
+
+Tabs.Main:AddButton({
+    Title = "XÓA HẾT (Fix Lag mạnh)",
+    Description = "Xoá toàn bộ cây cối, công trình, đồ trang trí, sóng biển + bật chế độ nhanh",
+    Callback = function()
+        local KEYWORDS = {
+            -- Cây cối
+            "tree","leaf","leaves","bush","grass","plant","foliage","weed","flower",
+            "wood","trunk","stem","branch","log",
+
+            -- Nhà nhỏ
+            "house","hut","shop","market","tent","cabin","roof","booth","stall","stand",
+
+            -- Nhà lớn / pháo đài
+            "building","fort","fortress","castle","palace","temple","shrine","dungeon",
+            "tower","base","headquarters","hq","arena","stadium","citadel",
+
+            -- Hàng rào, tường, cầu, cổng
+            "fence","wall","gate","door","bridge","dock","harbor","port",
+
+            -- Sóng nước
+            "water","sea","ocean","wave","waves","foam","splash",
+
+            -- Đồ trang trí nhỏ
+            "chair","table","bench","sofa","bed","crate","box","barrel",
+            "lamp","lantern","light","post","pillar","statue","sign","rock","stone",
+        }
+
+        local function needRemove(obj)
+            local n = obj.Name:lower()
+            for _,k in ipairs(KEYWORDS) do
+                if string.find(n,k) then
+                    return true
+                end
+            end
+            return false
+        end
+
+        -- Xoá trong workspace (chỉ công trình, cây, đồ decor)
+        for _,obj in ipairs(workspace:GetDescendants()) do
+            if (obj:IsA("Model") or obj:IsA("Part") or obj:IsA("MeshPart"))
+            and needRemove(obj) then
+                obj:Destroy()
+            end
+
+            -- Xoá hiệu ứng ánh sáng kill quái
+            if obj:IsA("PointLight") or obj:IsA("SpotLight") or obj:IsA("SurfaceLight")
+            or obj:IsA("Highlight") or obj:IsA("Sparkles") then
+                obj:Destroy()
+            end
+        end
+
+        -- Xoá GUI thông báo nhận thưởng / earned
+        for _,gui in ipairs(game.Players.LocalPlayer.PlayerGui:GetDescendants()) do
+            if gui:IsA("TextLabel") or gui:IsA("TextButton") or gui:IsA("Frame") then
+                local n = gui.Name:lower()
+                if string.find(n,"money") or string.find(n,"cash") or string.find(n,"coin")
+                or string.find(n,"beli") or string.find(n,"reward") or string.find(n,"gain")
+                or string.find(n,"exp") or string.find(n,"fragment") or string.find(n,"point")
+                or string.find(n,"earned") or string.find(n,"receive") then
+                    gui:Destroy()
+                end
+            end
+        end
+
+        -- Fix lag (Lighting + Terrain + Camera)
+        pcall(function()
+            local Lighting = game:GetService("Lighting")
+            Lighting.GlobalShadows = false
+            Lighting.FogEnd = 9e9
+            Lighting.Brightness = 1
+            sethiddenproperty(Lighting,"Technology",Enum.Technology.Compatibility)
+
+            local Terrain = workspace:FindFirstChildOfClass("Terrain")
+            if Terrain then
+                Terrain.WaterWaveSize = 0
+                Terrain.WaterWaveSpeed = 0
+                Terrain.WaterReflectance = 0
+                Terrain.WaterTransparency = 1
+            end
+
+            -- Camera effects
+            local camera = workspace.CurrentCamera
+            if camera then
+                for _,v in ipairs(camera:GetChildren()) do
+                    if v:IsA("PostEffect") then
+                        v:Destroy()
+                    end
+                end
+            end
+        end)
+
+        print("✅ Đã xoá: đã xoá fix lag mạnh")
+    end
+})
+
+Tabs.Main:AddButton({
+    Title = "🌊 Đi Trên Nước",
+    Description = "Bật/Tắt đi trên mặt nước",
+    Callback = function()
+        -- Toggle đi trên nước
+        if getgenv().WaterWalkEnabled == nil then
+            getgenv().WaterWalkEnabled = false
+        end
+        getgenv().WaterWalkEnabled = not getgenv().WaterWalkEnabled
+
+        local RunService = game:GetService("RunService")
+        local Players = game:GetService("Players")
+        local LocalPlayer = Players.LocalPlayer
+
+        if getgenv().WaterWalkEnabled then
+            -- Tạo platform ẩn
+            if not getgenv().WaterPlatform then
+                local part = Instance.new("Part")
+                part.Size = Vector3.new(500, 1, 500)
+                part.Anchored = true
+                part.Transparency = 1
+                part.CanCollide = true
+                part.Name = "WaterWalkPlatform"
+                part.Parent = workspace
+                getgenv().WaterPlatform = part
+            end
+
+            RunService:BindToRenderStep("WaterWalk", Enum.RenderPriority.Character.Value + 1, function()
+                local char = LocalPlayer.Character
+                if char and char:FindFirstChild("HumanoidRootPart") and getgenv().WaterPlatform then
+                    local hrp = char.HumanoidRootPart
+                    local waterY = 0 -- mực nước
+                    getgenv().WaterPlatform.Position = Vector3.new(hrp.Position.X, waterY, hrp.Position.Z)
+                end
+            end)
+
+            game.StarterGui:SetCore("SendNotification", {
+                Title = "FixLag Menu";
+                Text = "✅ Đi Trên Nước: BẬT";
+                Duration = 3;
+            })
+        else
+            RunService:UnbindFromRenderStep("WaterWalk")
+            if getgenv().WaterPlatform then
+                getgenv().WaterPlatform:Destroy()
+                getgenv().WaterPlatform = nil
+            end
+
+            game.StarterGui:SetCore("SendNotification", {
+                Title = "FixLag Menu";
+                Text = "❌ Đi Trên Nước: TẮT";
+                Duration = 3;
+            })
+        end
+    end
+})
+
+-- ✅ Toggle XÓA THÔNG BÁO (đã sửa chuẩn Fluent)
+local RemoveNotify = false
+
+Tabs.Main:AddToggle("ToggleRemoveNotify", {
+    Title = "Xóa Thông Báo",
+    Description = "Bật để ẩn thông báo (Notify) trong game",
+    Default = false,
+    Callback = function(state)
+        RemoveNotify = state
+        local player = game.Players.LocalPlayer
+        local gui = player:FindFirstChild("PlayerGui")
+        if gui and gui:FindFirstChild("Notifications") then
+            gui.Notifications.Enabled = not state
+        end
+    end
+})
+
+-- ✅ Toggle MÀN HÌNH TRẮNG (chuẩn Fluent)
+Tabs.Main:AddToggle("ToggleWhite", {
+    Title = "Màn Hình Trắng",
+    Description = "Tắt kết xuất 3D để tiết kiệm hiệu năng",
+    Default = false,
+    Callback = function(state)
+        _G.WhiteScreen = state
+        local RunService = game:GetService("RunService")
+
+        if state then
+            RunService:Set3dRenderingEnabled(false)
+        else
+            RunService:Set3dRenderingEnabled(true)
+        end
+    end
+})
+
+-- 🎮 BLOX FRUITS FPS COUNTER + BOOST + SHOW FPS (11/11/2025)
+-- Delta / Arceus X / Hydrogen OK
+-- Gắn vào Fluent UI Menu (thêm nút hiển thị FPS + Boost trong tab chính)
+
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local Lighting = game:GetService("Lighting")
+local Stats = game:GetService("Stats")
+
+local player = Players.LocalPlayer
+
+-- ⚙️ CONFIG
+getgenv().ShowFPS = true
+getgenv().FPSBoost = false
+
+-- ⚙️ BIẾN FPS
+local FPS, LastTime, FrameCount, Ping = 0, tick(), 0, 0
+
+-- 🖥️ GUI GÓC MÀN HÌNH
+local ScreenGui = Instance.new("ScreenGui")
+ScreenGui.Name = "SimpleFPS"
+ScreenGui.Parent = game.CoreGui
+ScreenGui.ResetOnSpawn = false
+
+local FPSFrame = Instance.new("Frame")
+FPSFrame.Size = UDim2.new(0, 180, 0, 85)
+FPSFrame.Position = UDim2.new(1, -200, 0, 20)
+FPSFrame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+FPSFrame.BackgroundTransparency = 0.4
+FPSFrame.BorderSizePixel = 0
+FPSFrame.Parent = ScreenGui
+
+local Corner = Instance.new("UICorner")
+Corner.CornerRadius = UDim.new(0, 10)
+Corner.Parent = FPSFrame
+
+local FPSLabel = Instance.new("TextLabel")
+FPSLabel.Size = UDim2.new(1, 0, 0.4, 0)
+FPSLabel.BackgroundTransparency = 1
+FPSLabel.Text = "FPS: 0 | Ping: 0ms"
+FPSLabel.TextColor3 = Color3.fromRGB(0, 255, 0)
+FPSLabel.Font = Enum.Font.GothamBold
+FPSLabel.TextSize = 16
+FPSLabel.TextStrokeTransparency = 0
+FPSLabel.Parent = FPSFrame
+
+-- 🟢 NÚT BOOST FPS
+local ToggleBtn = Instance.new("TextButton")
+ToggleBtn.Size = UDim2.new(1, 0, 0.3, 0)
+ToggleBtn.Position = UDim2.new(0, 0, 0.4, 0)
+ToggleBtn.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+ToggleBtn.Text = "BOOST: OFF"
+ToggleBtn.TextColor3 = Color3.new(1,1,1)
+ToggleBtn.Font = Enum.Font.GothamBold
+ToggleBtn.TextSize = 12
+ToggleBtn.Parent = FPSFrame
+
+local BtnCorner = Instance.new("UICorner")
+BtnCorner.CornerRadius = UDim.new(0, 10)
+BtnCorner.Parent = ToggleBtn
+
+-- 🔵 NÚT BẬT/TẮT HIỂN THỊ FPS
+local ShowBtn = Instance.new("TextButton")
+ShowBtn.Size = UDim2.new(1, 0, 0.3, 0)
+ShowBtn.Position = UDim2.new(0, 0, 0.7, 0)
+ShowBtn.BackgroundColor3 = Color3.fromRGB(0, 170, 255)
+ShowBtn.Text = "SHOW FPS: ON"
+ShowBtn.TextColor3 = Color3.new(1,1,1)
+ShowBtn.Font = Enum.Font.GothamBold
+ShowBtn.TextSize = 12
+ShowBtn.Parent = FPSFrame
+
+local BtnCorner2 = Instance.new("UICorner")
+BtnCorner2.CornerRadius = UDim.new(0, 10)
+BtnCorner2.Parent = ShowBtn
+
+-- 📈 CẬP NHẬT FPS LIÊN TỤC
+RunService.Heartbeat:Connect(function()
+	if getgenv().ShowFPS then
+		FrameCount += 1
+		local now = tick()
+		if now - LastTime >= 1 then
+			FPS = math.floor(FrameCount / (now - LastTime))
+			FrameCount, LastTime = 0, now
+			
+			local PingValue = Stats.Network.ServerStatsItem["Data Ping"]:GetValueString()
+			Ping = tonumber(PingValue:match("%d+")) or 0
+
+			FPSLabel.Text = string.format("FPS: %d | Ping: %dms", FPS, Ping)
+
+			if FPS > 60 then
+				FPSLabel.TextColor3 = Color3.fromRGB(0, 255, 0)
+			elseif FPS > 30 then
+				FPSLabel.TextColor3 = Color3.fromRGB(255, 255, 0)
+			else
+				FPSLabel.TextColor3 = Color3.fromRGB(255, 0, 0)
+			end
+		end
+	else
+		FPSLabel.Text = ""
+	end
+end)
+
+-- ⚡ HÀM BOOST FPS
+local function ToggleBoost()
+	getgenv().FPSBoost = not getgenv().FPSBoost
+	if getgenv().FPSBoost then
+		ToggleBtn.Text = "BOOST: ON"
+		ToggleBtn.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+
+		Lighting.GlobalShadows = false
+		Lighting.FogEnd = 9e9
+		settings().Rendering.QualityLevel = Enum.SavedQualitySetting.QualityLevel10
+
+		for _, obj in pairs(game:GetDescendants()) do
+			if obj:IsA("BasePart") then
+				obj.Material = Enum.Material.Plastic
+				obj.CastShadow = false
+			elseif obj:IsA("ParticleEmitter") or obj:IsA("Fire") or obj:IsA("Smoke") then
+				obj.Enabled = false
+			end
+		end
+	else
+		ToggleBtn.Text = "BOOST: OFF"
+		ToggleBtn.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+	end
+end
+
+-- 👁️ HÀM BẬT/TẮT HIỂN THỊ FPS (Ẩn/Hiện toàn bộ menu)
+local function ToggleShowFPS()
+    getgenv().ShowFPS = not getgenv().ShowFPS
+    if getgenv().ShowFPS then
+        ShowBtn.Text = "SHOW FPS: ON"
+        ShowBtn.BackgroundColor3 = Color3.fromRGB(0, 170, 255)
+        FPSFrame.Visible = true -- hiện menu FPS
+    else
+        ShowBtn.Text = "SHOW FPS: OFF"
+        ShowBtn.BackgroundColor3 = Color3.fromRGB(100, 100, 100)
+        FPSFrame.Visible = false -- ẩn menu FPS
+    end
+end
+
+-- 🔗 KẾT NỐI NÚT
+ToggleBtn.MouseButton1Click:Connect(ToggleBoost)
+ShowBtn.MouseButton1Click:Connect(ToggleShowFPS)
+
+print("✅ FPS COUNTER + BOOST + TOGGLE SHOW FPS LOADED!")
+
+-- 💡 TÍCH HỢP VÀO FLUENT (thêm toggle trong menu)
+Tabs.Main:AddToggle("ToggleFPSDisplay", {
+	Title = "Hiển thị FPS",
+	Description = "Bật/Tắt hiển thị khung FPS và Ping",
+	Default = true,
+	Callback = function(Value)
+		getgenv().ShowFPS = Value
+		ToggleShowFPS()
+	end
+})
+
+
+
+Tabs.Main:AddSection("Thông Tin")
+
+    Tabs.Home:AddButton({
+    Title = "Zalo hỗ trợ báo lỗi",
+    Description = "kaitoMC  Community",
+    Callback = function()
+        setclipboard("https://zalo.me/g/uxlbxz736")
+    end
+})
+Tabs.Home:AddButton({
+    Title = "YOUTOBE",
+    Description = "kaitoMC  ",
+    Callback = function()
+        setclipboard("https://www.youtube.com/@kaitoMC276")
+    end
+})
+Tabs.Home:AddButton({
+    Title = "YOUTOBE",
+    Description = "meomeo  ",
+    Callback = function()
+        setclipboard("https://youtube.com/@meomeongo?si=F93OdevfdNMKRdIa")
+    end
+})
+
+Fluent:Notify({
+    Title = "Kaitofixlag",
+    Content = "Tải thành công!",
+    Duration = 5
+})
+
+-- 🔘 Nút mở menu (nút tròn có hiệu ứng)
+local TweenService = game:GetService("TweenService")
+
+local buttonGui = Instance.new("ScreenGui", game.CoreGui)
+local button = Instance.new("ImageButton", buttonGui)
+button.Name = "OpenMenuButton"
+button.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+button.BorderSizePixel = 0
+button.Position = UDim2.new(0.12, 0, 0.1, 0)
+button.Size = UDim2.new(0, 50, 0, 50)
+button.Draggable = true
+button.Image = "http://www.roblox.com/asset/?id=91263051942186"
+
+local corner = Instance.new("UICorner", button)
+corner.CornerRadius = UDim.new(0, 12)
+
+local particle = Instance.new("ParticleEmitter", button)
+particle.LightEmission = 1
+particle.Size = NumberSequence.new({
+    NumberSequenceKeypoint.new(0, 0.1),
+    NumberSequenceKeypoint.new(1, 0)
+})
+particle.Lifetime = NumberRange.new(0.5, 1)
+particle.Rate = 0
+particle.Speed = NumberRange.new(5, 10)
+particle.Color = ColorSequence.new(Color3.fromRGB(255, 85, 255), Color3.fromRGB(85, 255, 255))
+
+local spin = TweenService:Create(button, TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Rotation = 360})
+
+button.MouseButton1Down:Connect(function()
+    particle.Rate = 100
+    task.delay(1, function()
+        particle.Rate = 0
+    end)
+
+    spin:Play()
+    game:GetService("VirtualInputManager"):SendKeyEvent(true, Enum.KeyCode.End, false, game)
+
+    spin.Completed:Connect(function()
+        button.Rotation = 0
+    end)
+
+    local grow = TweenService:Create(button, TweenInfo.new(0.2, Enum.EasingStyle.Bounce, Enum.EasingDirection.Out), {Size = UDim2.new(0, 60, 0, 60)})
+    grow:Play()
+    grow.Completed:Connect(function()
+    TweenService:Create(button, TweenInfo.new(0.2, Enum.EasingStyle.Bounce, Enum.EasingDirection.Out), {
+        Size = UDim2.new(0, 50, 0, 50)
+    }):Play()
+end)
+
+
+end)
+
+-- 🧹 Xóa hiệu ứng chết/thức dậy gây lag
+local effects = game:GetService("ReplicatedStorage").Effect.Container
+for _, name in pairs({"Death", "Respawn"}) do
+    if effects:FindFirstChild(name) then
+        effects[name]:Destroy()
+    end
+end
+
+-- 🟢 Mở sẵn menu luôn sau khi loader xong
+task.wait(1)
+game:GetService("VirtualInputManager"):SendKeyEvent(true, Enum.KeyCode.End, false, game)
+rtxM = Tabs.Misc:AddToggle("rtxM", {
+    Title = "Turn on RTX Mode",
+    Description = "",
+    Default = false
+})
+rtxM:OnChanged(function(Value)
+    _G.RTXMode = Value
+    local a = game.Lighting
+    local c = Instance.new("ColorCorrectionEffect", a)
+    local e = Instance.new("ColorCorrectionEffect", a)
+    OldAmbient = a.Ambient
+    OldBrightness = a.Brightness
+    OldColorShift_Top = a.ColorShift_Top
+    OldBrightnessc = c.Brightness
+    OldContrastc = c.Contrast
+    OldTintColorc = c.TintColor
+    OldTintColore = e.TintColor
+    if not _G.RTXMode then
+        return
+    end
+    while _G.RTXMode do
+        wait()
+        a.Ambient = Color3.fromRGB(33, 33, 33)
+        a.Brightness = 0.3
+        c.Brightness = 0.176
+        c.Contrast = 0.39
+        c.TintColor = Color3.fromRGB(217, 145, 57)
+        game.Lighting.FogEnd = 999
+        if not plr.Character.HumanoidRootPart:FindFirstChild("PointLight") then
+            local a2 = Instance.new("PointLight")
+            a2.Parent = plr.Character.HumanoidRootPart
+            a2.Range = 15
+            a2.Color = Color3.fromRGB(217, 145, 57)
+        end
+        if not _G.RTXMode then
+            a.Ambient = OldAmbient
+            a.Brightness = OldBrightness
+            a.ColorShift_Top = OldColorShift_Top
+            c.Contrast = OldContrastc
+            c.Brightness = OldBrightnessc
+            c.TintColor = OldTintColorc
+            e.TintColor = OldTintColore
+            game.Lighting.FogEnd = 2500
+            plr.Character.HumanoidRootPart:FindFirstChild("PointLight"):Destroy()
+        end
+    end
+end)
+Tabs.Misc:AddButton({
+    Title = "Turn on Fast Mode",
+    Description = "",
+    Callback = function()
+        for _, zx in next, workspace:GetDescendants() do
+            if table.find(Past, zx.ClassName) then
+                zx.Material = "Plastic"
+            end
+        end
+    end
+})
+Tabs.Misc:AddButton({
+    Title = "Turn on Low CPU",
+    Description = "",
+    Callback = function()
+        LowCpu()
+    end
+})
+Tabs.Misc:AddButton({
+    Title = "Remove Sky Fog",
+    Description = "",
+    Callback = function()
+        if Lighting:FindFirstChild("LightingLayers") then
+            Lighting.LightingLayers:Destroy()
+        end
+        if Lighting:FindFirstChild("SeaTerrorCC") then
+            Lighting.SeaTerrorCC:Destroy()
+        end
+        if Lighting:FindFirstChild("FantasySky") then
+            Lighting.FantasySky:Destroy()
+        end
+    end
+})
+
+LowCpu = function()
+    local decalsyeeted = true
+    local g = game
+    local w = g.Workspace
+    local l = g.Lighting
+    local t = w.Terrain
+    t.WaterWaveSize = 0
+    t.WaterWaveSpeed = 0
+    t.WaterReflectance = 0
+    t.WaterTransparency = 0
+    l.GlobalShadows = false
+    l.FogEnd = 9e9
+    l.Brightness = 0
+    
+
+    -- Lighting
+    l.GlobalShadows = false
+    l.EnvironmentDiffuseScale = 0
+    l.EnvironmentSpecularScale = 0
+    l.Brightness = 0
+    l.FogEnd = 9e9
+
+    -- Terrain
+    t.WaterWaveSize = 0
+    t.WaterWaveSpeed = 0
+    t.WaterReflectance = 0
+    t.WaterTransparency = 0
+
+    -- Render
+    settings().Rendering.QualityLevel = Enum.QualityLevel.Level01
+    workspace.StreamingEnabled = true
+    workspace.StreamingTargetRadius = 64
+
+    -- Xoá effect nặng
+    for _, v in pairs(l:GetChildren()) do
+        if v:IsA("BlurEffect") or v:IsA("BloomEffect") or v:IsA("SunRaysEffect") or v:IsA("ColorCorrectionEffect") then
+            v:Destroy()
+        end
+    end
+
+    -- Giảm chi tiết vật thể
+    for _, v in pairs(w:GetDescendants()) do
+        if v:IsA("BasePart") then
+            v.Material = Enum.Material.Plastic
+            v.Reflectance = 0
+        elseif v:IsA("Decal") or v:IsA("Texture") then
+            v.Transparency = 1
+        elseif v:IsA("ParticleEmitter") or v:IsA("Trail") then
+            v.Enabled = false
+        elseif v:IsA("Smoke") or v:IsA("Fire") or v:IsA("Sparkles") then
+            v.Enabled = false
+        end
+    end
+
+    print("✅ Super Low CPU mode activated.")
+end
+
+    settings().Rendering.QualityLevel = "Level01"
+    for i, v in pairs(g:GetDescendants()) do
+        if v:IsA("Part") or v:IsA("Union") or v:IsA("CornerWedgePart") or v:IsA("TrussPart") then
+            v.Material = "Plastic"
+            v.Reflectance = 0
+        elseif v:IsA("Decal") or v:IsA("Texture") and decalsyeeted then
+            v.Transparency = 1
+        elseif v:IsA("ParticleEmitter") or v:IsA("Trail") then
+            v.Lifetime = NumberRange.new(0)
+        elseif v:IsA("Explosion") then
+            v.BlastPressure = 1
+            v.BlastRadius = 1
+        elseif v:IsA("Fire") or v:IsA("SpotLight") or v:IsA("Smoke") or v:IsA("Sparkles") then
+            v.Enabled = false
+        elseif v:IsA("MeshPart") then
+            v.Material = "Plastic"
+            v.Reflectance = 0
+            v.TextureID = 10385902758728957
+          -- Xoá cây, lá, hiệu ứng phụ
+for _,v in pairs(workspace:GetDescendants()) do
+    if v:IsA("MeshPart") or v:IsA("Part") then
+        if v.Name:lower():find("leaf") or v.Name:lower():find("tree") or v.Name:lower():find("grass") then
+            v:Destroy()
+        end
+    end
+end
+
+-- Giảm render distance
+game:GetService("Lighting").Technology = Enum.Technology.Compatibility
+workspace.StreamingTargetRadius = 32
+
+        end
+    end
+
