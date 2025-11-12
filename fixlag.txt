@@ -153,8 +153,8 @@ local Window = Fluent:CreateWindow({
 -- 🧭 Tabs
 local Tabs = {
     Home = Window:AddTab({ Title = "Thông Tin" }),
-    Main = Window:AddTab({ Title = "fixlag mạnh" })
-    Tabs = Window:AddTab({ Title = "fixlag thường" }),
+    Main = Window:AddTab({ Title = "fixlag mạnh" }),
+    Misc = Window:AddTab({ Title = "fixlag thường" })
 }
 
 Tabs.Main:AddButton({
@@ -685,81 +685,6 @@ rtxM = Tabs.Misc:AddToggle("rtxM", {
     Description = "",
     Default = false
 })
-rtxM:OnChanged(function(Value)
-    _G.RTXMode = Value
-    local a = game.Lighting
-    local c = Instance.new("ColorCorrectionEffect", a)
-    local e = Instance.new("ColorCorrectionEffect", a)
-    OldAmbient = a.Ambient
-    OldBrightness = a.Brightness
-    OldColorShift_Top = a.ColorShift_Top
-    OldBrightnessc = c.Brightness
-    OldContrastc = c.Contrast
-    OldTintColorc = c.TintColor
-    OldTintColore = e.TintColor
-    if not _G.RTXMode then
-        return
-    end
-    while _G.RTXMode do
-        wait()
-        a.Ambient = Color3.fromRGB(33, 33, 33)
-        a.Brightness = 0.3
-        c.Brightness = 0.176
-        c.Contrast = 0.39
-        c.TintColor = Color3.fromRGB(217, 145, 57)
-        game.Lighting.FogEnd = 999
-        if not plr.Character.HumanoidRootPart:FindFirstChild("PointLight") then
-            local a2 = Instance.new("PointLight")
-            a2.Parent = plr.Character.HumanoidRootPart
-            a2.Range = 15
-            a2.Color = Color3.fromRGB(217, 145, 57)
-        end
-        if not _G.RTXMode then
-            a.Ambient = OldAmbient
-            a.Brightness = OldBrightness
-            a.ColorShift_Top = OldColorShift_Top
-            c.Contrast = OldContrastc
-            c.Brightness = OldBrightnessc
-            c.TintColor = OldTintColorc
-            e.TintColor = OldTintColore
-            game.Lighting.FogEnd = 2500
-            plr.Character.HumanoidRootPart:FindFirstChild("PointLight"):Destroy()
-        end
-    end
-end)
-Tabs.Misc:AddButton({
-    Title = "Turn on Fast Mode",
-    Description = "",
-    Callback = function()
-        for _, zx in next, workspace:GetDescendants() do
-            if table.find(Past, zx.ClassName) then
-                zx.Material = "Plastic"
-            end
-        end
-    end
-})
-Tabs.Misc:AddButton({
-    Title = "Turn on Low CPU",
-    Description = "",
-    Callback = function()
-        LowCpu()
-    end
-})
-Tabs.Misc:AddButton({
-    Title = "Remove Sky Fog",
-    Description = "",
-    Callback = function()
-        if Lighting:FindFirstChild("LightingLayers") then
-            Lighting.LightingLayers:Destroy()
-        end
-        if Lighting:FindFirstChild("SeaTerrorCC") then
-            Lighting.SeaTerrorCC:Destroy()
-        end
-        if Lighting:FindFirstChild("FantasySky") then
-            Lighting.FantasySky:Destroy()
-        end
-    end
-})
 
 LowCpu = function()
     local decalsyeeted = true
@@ -851,4 +776,80 @@ workspace.StreamingTargetRadius = 32
 
         end
     end
+rtxM:OnChanged(function(Value)
+    _G.RTXMode = Value
+    local a = game.Lighting
+    local c = Instance.new("ColorCorrectionEffect", a)
+    local e = Instance.new("ColorCorrectionEffect", a)
+    OldAmbient = a.Ambient
+    OldBrightness = a.Brightness
+    OldColorShift_Top = a.ColorShift_Top
+    OldBrightnessc = c.Brightness
+    OldContrastc = c.Contrast
+    OldTintColorc = c.TintColor
+    OldTintColore = e.TintColor
+    if not _G.RTXMode then
+        return
+    end
+    while _G.RTXMode do
+        wait()
+        a.Ambient = Color3.fromRGB(33, 33, 33)
+        a.Brightness = 0.3
+        c.Brightness = 0.176
+        c.Contrast = 0.39
+        c.TintColor = Color3.fromRGB(217, 145, 57)
+        game.Lighting.FogEnd = 999
+        local plr = game.Players.LocalPlayer
+            local a2 = Instance.new("PointLight")
+            a2.Parent = plr.Character.HumanoidRootPart
+            a2.Range = 15
+            a2.Color = Color3.fromRGB(217, 145, 57)
+        end
+        if not _G.RTXMode then
+            a.Ambient = OldAmbient
+            a.Brightness = OldBrightness
+            a.ColorShift_Top = OldColorShift_Top
+            c.Contrast = OldContrastc
+            c.Brightness = OldBrightnessc
+            c.TintColor = OldTintColorc
+            e.TintColor = OldTintColore
+            game.Lighting.FogEnd = 2500
+            plr.Character.HumanoidRootPart:FindFirstChild("PointLight"):Destroy()
+        end
+    end
+end)
+Tabs.Misc:AddButton({
+    Title = "Turn on Fast Mode",
+    Description = "",
+    Callback = function()
+        for _, zx in next, workspace:GetDescendants() do
+            if table.find(Past, zx.ClassName) then
+                zx.Material = "Plastic"
+            end
+        end
+    end
+})
+Tabs.Misc:AddButton({
+    Title = "Turn on Low CPU",
+    Description = "",
+    Callback = function()
+        LowCpu()
+    end
+})
+Tabs.Misc:AddButton({
+    Title = "Remove Sky Fog",
+    Description = "",
+    Callback = function()
+        if Lighting:FindFirstChild("LightingLayers") then
+            Lighting.LightingLayers:Destroy()
+        end
+        if Lighting:FindFirstChild("SeaTerrorCC") then
+            Lighting.SeaTerrorCC:Destroy()
+        end
+        if Lighting:FindFirstChild("FantasySky") then
+            Lighting.FantasySky:Destroy()
+        end
+    end
+})
+
 
