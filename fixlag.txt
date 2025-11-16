@@ -1,4 +1,3 @@
-
 shared.LoaderTitle = "Đăng Ký Kênh kaitoMC ";
 shared.LoaderKeyFrames = {
     [1] = {1, 10},
@@ -130,8 +129,6 @@ wait(0.25)
 v5:Destroy()
 
 -- 🌀 Giữ nguyên Loader của bạn
--- (đoạn trên bạn giữ y nguyên, chỉ thay phần cuối bằng bên dưới)
-
 -- Khi loader chạy xong sẽ tự bật menu
 UpdatePercentage(100, 4)
 TweenObject(v6, 0.25, {Size = UDim2.new(0,0,0,0)})
@@ -139,7 +136,7 @@ wait(0.25)
 v5:Destroy()
 
 -- 🟢 Load Fluent UI
-local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
+local Fluent = loadstring(game:HttpGet("https://raw.githubusercontent.com/hoangthangvuong50-alt/Test/refs/heads/main/test%201.txt"))()
 local Window = Fluent:CreateWindow({
     Title = "kaitoMC Hub",
     SubTitle = "Blox Fruit",
@@ -149,7 +146,6 @@ local Window = Fluent:CreateWindow({
     Size = UDim2.fromOffset(500, 320),
     MinimizeKey = Enum.KeyCode.End
 })
-
 -- 🧭 Tabs
 local Tabs = {
     Home = Window:AddTab({ Title = "Thông Tin" }),
@@ -583,11 +579,6 @@ Tabs.Main:AddToggle("ToggleFPSDisplay", {
 		ToggleShowFPS()
 	end
 })
-
-
-
-Tabs.Main:AddSection("Thông Tin")
-
     Tabs.Home:AddButton({
     Title = "Zalo hỗ trợ báo lỗi",
     Description = "kaitoMC  Community",
@@ -602,73 +593,11 @@ Tabs.Home:AddButton({
         setclipboard("https://www.youtube.com/@kaitoMC276")
     end
 })
-Tabs.Home:AddButton({
-    Title = "YOUTOBE",
-    Description = "meomeo  ",
-    Callback = function()
-        setclipboard("https://youtube.com/@meomeongo?si=F93OdevfdNMKRdIa")
-    end
-})
-
 Fluent:Notify({
     Title = "Kaitofixlag",
     Content = "Tải thành công!",
     Duration = 5
 })
-
--- 🔘 Nút mở menu (nút tròn có hiệu ứng)
-local TweenService = game:GetService("TweenService")
-
-local buttonGui = Instance.new("ScreenGui", game.CoreGui)
-local button = Instance.new("ImageButton", buttonGui)
-button.Name = "OpenMenuButton"
-button.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
-button.BorderSizePixel = 0
-button.Position = UDim2.new(0.12, 0, 0.1, 0)
-button.Size = UDim2.new(0, 50, 0, 50)
-button.Draggable = true
-button.Image = "http://www.roblox.com/asset/?id=91263051942186"
-
-local corner = Instance.new("UICorner", button)
-corner.CornerRadius = UDim.new(0, 12)
-
-local particle = Instance.new("ParticleEmitter", button)
-particle.LightEmission = 1
-particle.Size = NumberSequence.new({
-    NumberSequenceKeypoint.new(0, 0.1),
-    NumberSequenceKeypoint.new(1, 0)
-})
-particle.Lifetime = NumberRange.new(0.5, 1)
-particle.Rate = 0
-particle.Speed = NumberRange.new(5, 10)
-particle.Color = ColorSequence.new(Color3.fromRGB(255, 85, 255), Color3.fromRGB(85, 255, 255))
-
-local spin = TweenService:Create(button, TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Rotation = 360})
-
-button.MouseButton1Down:Connect(function()
-    particle.Rate = 100
-    task.delay(1, function()
-        particle.Rate = 0
-    end)
-
-    spin:Play()
-    game:GetService("VirtualInputManager"):SendKeyEvent(true, Enum.KeyCode.End, false, game)
-
-    spin.Completed:Connect(function()
-        button.Rotation = 0
-    end)
-
-    local grow = TweenService:Create(button, TweenInfo.new(0.2, Enum.EasingStyle.Bounce, Enum.EasingDirection.Out), {Size = UDim2.new(0, 60, 0, 60)})
-    grow:Play()
-    grow.Completed:Connect(function()
-    TweenService:Create(button, TweenInfo.new(0.2, Enum.EasingStyle.Bounce, Enum.EasingDirection.Out), {
-        Size = UDim2.new(0, 50, 0, 50)
-    }):Play()
-end)
-
-
-end)
-
 -- 🧹 Xóa hiệu ứng chết/thức dậy gây lag
 local effects = game:GetService("ReplicatedStorage").Effect.Container
 for _, name in pairs({"Death", "Respawn"}) do
@@ -676,159 +605,6 @@ for _, name in pairs({"Death", "Respawn"}) do
         effects[name]:Destroy()
     end
 end
-
--- 🟢 Mở sẵn menu luôn sau khi loader xong
-task.wait(1)
-game:GetService("VirtualInputManager"):SendKeyEvent(true, Enum.KeyCode.End, false, game)
-rtxM = Tabs.Misc:AddToggle("rtxM", {
-    Title = "Turn on RTX Mode",
-    Description = "",
-    Default = false
-})
-
-LowCpu = function()
-    local decalsyeeted = true
-    local g = game
-    local w = g.Workspace
-    local l = g.Lighting
-    local t = w.Terrain
-    t.WaterWaveSize = 0
-    t.WaterWaveSpeed = 0
-    t.WaterReflectance = 0
-    t.WaterTransparency = 0
-    l.GlobalShadows = false
-    l.FogEnd = 9e9
-    l.Brightness = 0
-    
-
-    -- Lighting
-    l.GlobalShadows = false
-    l.EnvironmentDiffuseScale = 0
-    l.EnvironmentSpecularScale = 0
-    l.Brightness = 0
-    l.FogEnd = 9e9
-
-    -- Terrain
-    t.WaterWaveSize = 0
-    t.WaterWaveSpeed = 0
-    t.WaterReflectance = 0
-    t.WaterTransparency = 0
-
-    -- Render
-    settings().Rendering.QualityLevel = Enum.QualityLevel.Level01
-    workspace.StreamingEnabled = true
-    workspace.StreamingTargetRadius = 64
-
-    -- Xoá effect nặng
-    for _, v in pairs(l:GetChildren()) do
-        if v:IsA("BlurEffect") or v:IsA("BloomEffect") or v:IsA("SunRaysEffect") or v:IsA("ColorCorrectionEffect") then
-            v:Destroy()
-        end
-    end
-
-    -- Giảm chi tiết vật thể
-    for _, v in pairs(w:GetDescendants()) do
-        if v:IsA("BasePart") then
-            v.Material = Enum.Material.Plastic
-            v.Reflectance = 0
-        elseif v:IsA("Decal") or v:IsA("Texture") then
-            v.Transparency = 1
-        elseif v:IsA("ParticleEmitter") or v:IsA("Trail") then
-            v.Enabled = false
-        elseif v:IsA("Smoke") or v:IsA("Fire") or v:IsA("Sparkles") then
-            v.Enabled = false
-        end
-    end
-
-    print("✅ Super Low CPU mode activated.")
-end
-
-    settings().Rendering.QualityLevel = "Level01"
-    for i, v in pairs(g:GetDescendants()) do
-        if v:IsA("Part") or v:IsA("Union") or v:IsA("CornerWedgePart") or v:IsA("TrussPart") then
-            v.Material = "Plastic"
-            v.Reflectance = 0
-        elseif v:IsA("Decal") or v:IsA("Texture") and decalsyeeted then
-            v.Transparency = 1
-        elseif v:IsA("ParticleEmitter") or v:IsA("Trail") then
-            v.Lifetime = NumberRange.new(0)
-        elseif v:IsA("Explosion") then
-            v.BlastPressure = 1
-            v.BlastRadius = 1
-        elseif v:IsA("Fire") or v:IsA("SpotLight") or v:IsA("Smoke") or v:IsA("Sparkles") then
-            v.Enabled = false
-        elseif v:IsA("MeshPart") then
-            v.Material = "Plastic"
-            v.Reflectance = 0
-            v.TextureID = 10385902758728957
-          -- Xoá cây, lá, hiệu ứng phụ
-for _,v in pairs(workspace:GetDescendants()) do
-    if v:IsA("MeshPart") or v:IsA("Part") then
-        if v.Name:lower():find("leaf") or v.Name:lower():find("tree") or v.Name:lower():find("grass") then
-            v:Destroy()
-        end
-    end
-end
-
--- Giảm render distance
-game:GetService("Lighting").Technology = Enum.Technology.Compatibility
-workspace.StreamingTargetRadius = 32
-
-        end
-    end
-rtxM:OnChanged(function(Value)
-    _G.RTXMode = Value
-    local a = game.Lighting
-    local c = Instance.new("ColorCorrectionEffect", a)
-    local e = Instance.new("ColorCorrectionEffect", a)
-    OldAmbient = a.Ambient
-    OldBrightness = a.Brightness
-    OldColorShift_Top = a.ColorShift_Top
-    OldBrightnessc = c.Brightness
-    OldContrastc = c.Contrast
-    OldTintColorc = c.TintColor
-    OldTintColore = e.TintColor
-    if not _G.RTXMode then
-        return
-    end
-    while _G.RTXMode do
-        wait()
-        a.Ambient = Color3.fromRGB(33, 33, 33)
-        a.Brightness = 0.3
-        c.Brightness = 0.176
-        c.Contrast = 0.39
-        c.TintColor = Color3.fromRGB(217, 145, 57)
-        game.Lighting.FogEnd = 999
-        local plr = game.Players.LocalPlayer
-            local a2 = Instance.new("PointLight")
-            a2.Parent = plr.Character.HumanoidRootPart
-            a2.Range = 15
-            a2.Color = Color3.fromRGB(217, 145, 57)
-        end
-        if not _G.RTXMode then
-            a.Ambient = OldAmbient
-            a.Brightness = OldBrightness
-            a.ColorShift_Top = OldColorShift_Top
-            c.Contrast = OldContrastc
-            c.Brightness = OldBrightnessc
-            c.TintColor = OldTintColorc
-            e.TintColor = OldTintColore
-            game.Lighting.FogEnd = 2500
-            plr.Character.HumanoidRootPart:FindFirstChild("PointLight"):Destroy()
-        end
-    end
-end)
-Tabs.Misc:AddButton({
-    Title = "Turn on Fast Mode",
-    Description = "",
-    Callback = function()
-        for _, zx in next, workspace:GetDescendants() do
-            if table.find(Past, zx.ClassName) then
-                zx.Material = "Plastic"
-            end
-        end
-    end
-})
 Tabs.Misc:AddButton({
     Title = "Turn on Low CPU",
     Description = "",
@@ -837,19 +613,22 @@ Tabs.Misc:AddButton({
     end
 })
 Tabs.Misc:AddButton({
-    Title = "Remove Sky Fog",
+    Title = "Turn on increase Boats",
     Description = "",
     Callback = function()
-        if Lighting:FindFirstChild("LightingLayers") then
-            Lighting.LightingLayers:Destroy()
-        end
-        if Lighting:FindFirstChild("SeaTerrorCC") then
-            Lighting.SeaTerrorCC:Destroy()
-        end
-        if Lighting:FindFirstChild("FantasySky") then
-            Lighting.FantasySky:Destroy()
+        for _, v in pairs(workspace.Boats:GetDescendants()) do
+            if table.find(ListSeaBoat, v.Name) and tostring(v.Owner.Value) == tostring(plr.Name) then
+                v.VehicleSeat.MaxSpeed = 350
+                v.VehicleSeat.Torque = 0.2
+                v.VehicleSeat.TurnSpeed = 5
+                v.VehicleSeat.HeadsUpDisplay = true
+            end
         end
     end
 })
+-- 🟢 Mở sẵn menu luôn sau khi loader xong
+task.wait(1)
+game:GetService("VirtualInputManager"):SendKeyEvent(true, Enum.KeyCode.End, false, game)
+
 
 
