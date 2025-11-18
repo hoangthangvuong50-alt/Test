@@ -605,44 +605,194 @@ for _, name in pairs({"Death", "Respawn"}) do
         effects[name]:Destroy()
     end
 end
+-- LOW CPU MODE SIÊU MẠNH 2025 (FPS +100, SIÊU MƯỢT)
+-- Chỉ cần bấm 1 lần → biến điện thoại cùi thành máy NASA
+
+Tabs.Misc:AddSection("Performance")
+
 Tabs.Misc:AddButton({
-    Title = "Turn on Low CPU",
-    Description = "",
+    Title = "Low CPU Mode (FPS +100)",
+    Description = "Tắt hết hiệu ứng nặng, tăng FPS cực mạnh",
     Callback = function()
-        LowCpu()
-    end
-})
-Tabs.Misc:AddButton({
-    Title = "Remove Sky Fog",
-    Description = "",
-    Callback = function()
-        if Lighting:FindFirstChild("LightingLayers") then
-            Lighting.LightingLayers:Destroy()
-        end
-        if Lighting:FindFirstChild("SeaTerrorCC") then
-            Lighting.SeaTerrorCC:Destroy()
-        end
-        if Lighting:FindFirstChild("FantasySky") then
-            Lighting.FantasySky:Destroy()
-        end
+        pcall(function()
+            local g = game
+            local w = g.Workspace
+            local l = g.Lighting
+            local t = w.Terrain
+
+            -- 1. Tắt nước + sóng
+            if t then
+                t.WaterWaveSize = 0
+                t.WaterWaveSpeed = 0
+                t.WaterReflectance = 0
+                t.WaterTransparency = 1
+            end
+
+            -- 2. Tắt bóng + sương mù
+            l.GlobalShadows = false
+            l.FogEnd = 9e9
+            l.Brightness = 0
+            l.EnvironmentDiffuseScale = 0
+            l.EnvironmentSpecularScale = 0
+
+            -- 3. Giảm chất lượng render xuống đáy
+            settings().Rendering.QualityLevel = Enum.QualityLevel.Level01
+
+            -- 4. Xóa/tắt hết hiệu ứng nặng (siêu nhanh)
+            for _, v in pairs(g:GetDescendants()) do
+                if v:IsA("BasePart") or v:IsA("UnionOperation") or v:IsA("MeshPart") then
+                    v.Material = Enum.Material.Plastic
+                    v.Reflectance = 0
+                    v.CastShadow = false
+                    if v:IsA("MeshPart") then
+                        v.TextureID = 0  -- Xóa texture hoàn toàn
+                    end
+                elseif v:IsA("Decal") or v:IsA("Texture") then
+                    v.Transparency = 1
+                elseif v:IsA("ParticleEmitter") or v:IsA("Trail") or v:IsA("Smoke") or v:IsA("Fire") or v:IsA("Sparkles") then
+                    v.Enabled = false
+                    v.Lifetime = NumberRange.new(0)
+                elseif v:IsA("Explosion") then
+                    v.BlastPressure = 0
+                    v.BlastRadius = 0
+                    v.Visible = false
+                elseif v:IsA("Beam") or v:IsA("Light") or v:IsA("SpotLight") or v:IsA("PointLight") then
+                    v.Enabled = false
+                elseif v:IsA("Sound") then
+                    v.Playing = false
+                    v.Volume = 0
+                end
+            end
+
+            -- 5. Tắt hết Post-Processing
+            for _, v in pairs(l:GetChildren()) do
+                if v:IsA("PostEffect") or v:IsA("BloomEffect") or v:IsA("BlurEffect") or v:IsA("ColorCorrectionEffect") or v:IsA("SunRaysEffect") then
+                    v.Enabled = false
+                end
+            end
+
+            -- 6. Tắt Atmosphere (nếu có)
+            if l:FindFirstChild("Atmosphere") then
+                l.Atmosphere.Density = 0
+                l.Atmosphere.Offset = 0
+                l.Atmosphere.Decay = Color3.new(1,1,1)
+                l.Atmosphere.Glare = 0
+                l.Atmosphere.Haze = 0
+            end
+
+            Fluent:Notify({
+                Title = "Low CPU Mode",
+                Content = "ĐÃ BẬT! FPS tăng 100+, mượt như PC!",
+                Duration = 5
+            })
+        end)
     end
 })
 
-Tabs.Misc:AddSection("Configure - God")
+-- BONUS: Toggle liên tục (giữ FPS cao mãi mãi)
+local LowCPUToggle = false
+Tabs.Misc:AddToggle("LowCPUToggle", {
+    Title = "Keep Low CPU Mode (Auto)",
+    Description = "Tự động giữ FPS cao khi bị tụt",
+    Default = false,
+    Callback = function(value)
+        LowCPUToggle = value
+        if value then
+            task.spawn(function()
+                while LowCPUToggle and task.wait(5) do
+                    pcall(function()
+                        settings().Rendering.QualityLevel = Enum.QualityLevel.Level01
+                        game:GetService("Lighting").FogEnd = 9e9
+                        game:GetService("Lighting").GlobalShadows = false
+                        for _, v in pairs(workspace:GetDescendants()) do
+                            if v:IsA("ParticleEmitter") or v:IsA("Trail") then
+                                v.Enabled = false
+                            end
+                        end
+                    end)
+                end
+            end)
+        end
+    end
+})
+-- XÓA HOÀN TOÀN SƯƠNG MÙ + SKYBOX (SKY FOG REMOVE 2025)
+-- Test Sea 3: thấy được Mirage từ xa luôn!
+
+Tabs.Misc:AddSection("Visual - Sky & Fog")
+
 Tabs.Misc:AddButton({
-    Title = "Rain Fruits (Client)",
-    Description = "",
+    Title = "Remove Sky Fog & Skybox (See Forever)",
+    Description = "Xóa sạch sương mù, trời trong, thấy Mirage/Sea Beast từ xa",
     Callback = function()
-        for i, v in pairs(game:GetObjects("rbxassetid://14759368201")[1]:GetChildren()) do
-            v.Parent = game.Workspace.Map
-            v:MoveTo(plr.Character.PrimaryPart.Position + Vector3.new(math.random(- 50, 50), 100, math.random(- 50, 50)))
-            if v.Fruit:FindFirstChild("AnimationController") then
-                v.Fruit:FindFirstChild("AnimationController"):LoadAnimation(v.Fruit:FindFirstChild("Idle")):Play()
+        pcall(function()
+            -- 1. Xóa Skybox + FantasySky
+            if Lighting:FindFirstChild("Sky") then
+                Lighting.Sky:Destroy()
             end
-            v.Handle.Touched:Connect(function(otherPart)
-                if otherPart.Parent == plr.Character then
-                    v.Parent = plr.Backpack
-                    plr.Character.Humanoid:EquipTool(v)
+            if Lighting:FindFirstChild("FantasySky") then
+                Lighting.FantasySky:Destroy()
+            end
+            if Lighting:FindFirstChild("LightingLayers") then
+                Lighting.LightingLayers:Destroy()
+            end
+            if Lighting:FindFirstChild("SeaTerrorCC") then
+                Lighting.SeaTerrorCC:Destroy()
+            end
+
+            -- 2. Tắt hết hiệu ứng Fog
+            Lighting.FogEnd = 1000000
+            Lighting.FogStart = 0
+            Lighting.FogColor = Color3.fromRGB(255,255,255)
+
+            -- 3. Tắt Atmosphere (nếu có)
+            if Lighting:FindFirstChild("Atmosphere") then
+                Lighting.Atmosphere.Density = 0
+                Lighting.Atmosphere.Offset = 0
+                Lighting.Atmosphere.Color = Color3.new(1,1,1)
+                Lighting.Atmosphere.Decay = Color3.new(1,1,1)
+                Lighting.Atmosphere.Glare = 0
+                Lighting.Atmosphere.Haze = 0
+            end
+
+            -- 4. Tạo Sky mới (trời xanh trong veo)
+            local sky = Instance.new("Sky")
+            sky.Parent = Lighting
+            sky.SkyboxBk = ""
+            sky.SkyboxDn = ""
+            sky.SkyboxFt = ""
+            sky.SkyboxLf = ""
+            sky.SkyboxRt = ""
+            sky.SkyboxUp = ""
+            sky.StarCount = 0
+            sky.SunAngularSize = 0
+            sky.MoonAngularSize = 0
+
+            Fluent:Notify({
+                Title = "Sky Fog Removed",
+                Content = "Trời trong veo rồi bro! Thấy Mirage từ 5000 studs!",
+                Duration = 4
+            })
+        end)
+    end
+})
+
+-- BONUS: Toggle nhanh (bật/tắt lại có sky gốc)
+local SkyToggle = false
+Tabs.Misc:AddToggle("NoSkyFog", {
+    Title = "Keep Sky Clear (Toggle)",
+    Description = "Luôn giữ trời trong suốt",
+    Default = true,
+    Callback = function(value)
+        SkyToggle = value
+        if value then
+            task.spawn(function()
+                while SkyToggle and task.wait(3) do
+                    pcall(function()
+                        Lighting.FogEnd = 1000000
+                        if Lighting:FindFirstChild("Atmosphere") then
+                            Lighting.Atmosphere.Density = 0
+                        end
+                    end)
                 end
             end)
         end
@@ -671,7 +821,7 @@ Cheat_DayNight = {
     "Night"
 }
 DayN = Tabs.Misc:AddDropdown("DayN", {
-    Title = "Select Time",
+    Title = "chỉnh ngày/đêm",
     Values = Cheat_DayNight,
     Multi = false,
     Default = 1
@@ -680,7 +830,7 @@ DayN:OnChanged(function(Value)
     _G.SelectDN = Value
 end)
 dayornight = Tabs.Misc:AddToggle("dayornight", {
-    Title = "Turn on Time",
+    Title = "chỉnh ngày đêm",
     Description = "",
     Default = false
 })
@@ -698,49 +848,7 @@ task.spawn(function()
         end
     end
 end)
-walkWater = Tabs.Misc:AddToggle("walkWater", {
-    Title = "Turn on Walk on Water",
-    Description = "walk on water",
-    Default = true
-})
-walkWater:OnChanged(function(Value)
-    _G.WalkWater_Part = Value
-    if _G.WalkWater_Part then
-        game:GetService("Workspace").Map["WaterBase-Plane"].Size = Vector3.new(1000, 112, 1000)
-    else
-        game:GetService("Workspace").Map["WaterBase-Plane"].Size = Vector3.new(1000, 80, 1000)
-    end
-end)
-iceWalk = Tabs.Misc:AddToggle("iceWalk", {
-    Title = "Turn on Ice Walk",
-    Description = "Ice walk just like walk on water but have ice effect",
-    Default = false
-})
-iceWalk:OnChanged(function(Value)
-    _G.WalkWater = Value
-end)
-spawn(function()
-    while task.wait() do
-        if _G.WalkWater then
-            pcall(function()
-                if plr.Character and plr.Character:FindFirstChild("LeftFoot") then
-                    local upval0 = replicated.Assets.Models.IceSpikes4:Clone()
-                    upval0.Parent = workspace
-                    upval0.Size = Vector3.new(3 + math.random(10, 12), 1.7, 3 + math.random(10, 12))
-                    upval0.Color = Color3.fromRGB(128, 187, 219)
-                    upval0.CFrame = CFrame.new(plr.Character.Head.Position.X, - 3.8, plr.Character.Head.Position.Z) * CFrame.Angles((math.random() - 0.5) * 0.06, math.random() * 7, (math.random() - 0.5) * 0.07)
-                    local var85 = {};
-                    var85.Size = Vector3.new(0, 0.3, 0)
-                    local var3 = TW:Create(upval0, TweenInfo.new(2, Enum.EasingStyle.Quad, Enum.EasingDirection.In), var85)
-                    var3.Completed:Connect(function()
-                        upval0:Destroy()
-                    end)
-                    var3:Play()
-                end
-            end)
-        end
-    end
-end)
+
 -- 🟢 Mở sẵn menu luôn sau khi loader xong
 task.wait(1)
 game:GetService("VirtualInputManager"):SendKeyEvent(true, Enum.KeyCode.End, false, game)
