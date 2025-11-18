@@ -613,19 +613,134 @@ Tabs.Misc:AddButton({
     end
 })
 Tabs.Misc:AddButton({
-    Title = "Turn on increase Boats",
+    Title = "Remove Sky Fog",
     Description = "",
     Callback = function()
-        for _, v in pairs(workspace.Boats:GetDescendants()) do
-            if table.find(ListSeaBoat, v.Name) and tostring(v.Owner.Value) == tostring(plr.Name) then
-                v.VehicleSeat.MaxSpeed = 350
-                v.VehicleSeat.Torque = 0.2
-                v.VehicleSeat.TurnSpeed = 5
-                v.VehicleSeat.HeadsUpDisplay = true
-            end
+        if Lighting:FindFirstChild("LightingLayers") then
+            Lighting.LightingLayers:Destroy()
+        end
+        if Lighting:FindFirstChild("SeaTerrorCC") then
+            Lighting.SeaTerrorCC:Destroy()
+        end
+        if Lighting:FindFirstChild("FantasySky") then
+            Lighting.FantasySky:Destroy()
         end
     end
 })
+
+Tabs.Misc:AddSection("Configure - God")
+Tabs.Misc:AddButton({
+    Title = "Rain Fruits (Client)",
+    Description = "",
+    Callback = function()
+        for i, v in pairs(game:GetObjects("rbxassetid://14759368201")[1]:GetChildren()) do
+            v.Parent = game.Workspace.Map
+            v:MoveTo(plr.Character.PrimaryPart.Position + Vector3.new(math.random(- 50, 50), 100, math.random(- 50, 50)))
+            if v.Fruit:FindFirstChild("AnimationController") then
+                v.Fruit:FindFirstChild("AnimationController"):LoadAnimation(v.Fruit:FindFirstChild("Idle")):Play()
+            end
+            v.Handle.Touched:Connect(function(otherPart)
+                if otherPart.Parent == plr.Character then
+                    v.Parent = plr.Backpack
+                    plr.Character.Humanoid:EquipTool(v)
+                end
+            end)
+        end
+    end
+})
+briggt1 = Tabs.Misc:AddToggle("briggt1", {
+    Title = "Turn on Full Bright",
+    Description = "",
+    Default = false
+})
+briggt1:OnChanged(function(Value)
+    bright = Value
+    if Value == true then
+        Lighting.Ambient = Color3.new(1, 1, 1)
+        Lighting.ColorShift_Bottom = Color3.new(1, 1, 1)
+        Lighting.ColorShift_Top = Color3.new(1, 1, 1)
+    else
+        Lighting.Ambient = Color3.new(0, 0, 0)
+        Lighting.ColorShift_Bottom = Color3.new(0, 0, 0)
+        Lighting.ColorShift_Top = Color3.new(0, 0, 0)
+    end  
+end)
+
+Cheat_DayNight = {
+    "Day",
+    "Night"
+}
+DayN = Tabs.Misc:AddDropdown("DayN", {
+    Title = "Select Time",
+    Values = Cheat_DayNight,
+    Multi = false,
+    Default = 1
+})
+DayN:OnChanged(function(Value)
+    _G.SelectDN = Value
+end)
+dayornight = Tabs.Misc:AddToggle("dayornight", {
+    Title = "Turn on Time",
+    Description = "",
+    Default = false
+})
+dayornight:OnChanged(function(Value)
+    _G.daylightN = Value
+end)
+task.spawn(function()
+    while task.wait() do
+        if _G.daylightN then
+            if _G.SelectDN == "Day" then
+                Lighting.ClockTime = 12
+            elseif _G.SelectDN == "Night" then
+                Lighting.ClockTime = 0
+            end
+        end
+    end
+end)
+walkWater = Tabs.Misc:AddToggle("walkWater", {
+    Title = "Turn on Walk on Water",
+    Description = "walk on water",
+    Default = true
+})
+walkWater:OnChanged(function(Value)
+    _G.WalkWater_Part = Value
+    if _G.WalkWater_Part then
+        game:GetService("Workspace").Map["WaterBase-Plane"].Size = Vector3.new(1000, 112, 1000)
+    else
+        game:GetService("Workspace").Map["WaterBase-Plane"].Size = Vector3.new(1000, 80, 1000)
+    end
+end)
+iceWalk = Tabs.Misc:AddToggle("iceWalk", {
+    Title = "Turn on Ice Walk",
+    Description = "Ice walk just like walk on water but have ice effect",
+    Default = false
+})
+iceWalk:OnChanged(function(Value)
+    _G.WalkWater = Value
+end)
+spawn(function()
+    while task.wait() do
+        if _G.WalkWater then
+            pcall(function()
+                if plr.Character and plr.Character:FindFirstChild("LeftFoot") then
+                    local upval0 = replicated.Assets.Models.IceSpikes4:Clone()
+                    upval0.Parent = workspace
+                    upval0.Size = Vector3.new(3 + math.random(10, 12), 1.7, 3 + math.random(10, 12))
+                    upval0.Color = Color3.fromRGB(128, 187, 219)
+                    upval0.CFrame = CFrame.new(plr.Character.Head.Position.X, - 3.8, plr.Character.Head.Position.Z) * CFrame.Angles((math.random() - 0.5) * 0.06, math.random() * 7, (math.random() - 0.5) * 0.07)
+                    local var85 = {};
+                    var85.Size = Vector3.new(0, 0.3, 0)
+                    local var3 = TW:Create(upval0, TweenInfo.new(2, Enum.EasingStyle.Quad, Enum.EasingDirection.In), var85)
+                    var3.Completed:Connect(function()
+                        upval0:Destroy()
+                    end)
+                    var3:Play()
+                end
+            end)
+        end
+    end
+end)
 -- 🟢 Mở sẵn menu luôn sau khi loader xong
 task.wait(1)
 game:GetService("VirtualInputManager"):SendKeyEvent(true, Enum.KeyCode.End, false, game)
