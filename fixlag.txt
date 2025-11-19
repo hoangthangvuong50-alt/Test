@@ -141,7 +141,7 @@ local Window = Fluent:CreateWindow({
     Title = "kaitoMC Hub",
     SubTitle = "Blox Fruit",
     TabWidth = 160,
-    Theme = "Dark",
+    Theme = "Banana",
     Acrylic = false,
     Size = UDim2.fromOffset(500, 320),
     MinimizeKey = Enum.KeyCode.End
@@ -468,6 +468,10 @@ FPSLabel.TextStrokeTransparency = 0
 FPSLabel.Parent = FPSFrame
 
 -- 🟢 NÚT BOOST FPS
+local UserInputService = game:GetService("UserInputService")
+
+local BoostEnabled = false
+
 local ToggleBtn = Instance.new("TextButton")
 ToggleBtn.Size = UDim2.new(1, 0, 0.3, 0)
 ToggleBtn.Position = UDim2.new(0, 0, 0.4, 0)
@@ -481,6 +485,51 @@ ToggleBtn.Parent = FPSFrame
 local BtnCorner = Instance.new("UICorner")
 BtnCorner.CornerRadius = UDim.new(0, 10)
 BtnCorner.Parent = ToggleBtn
+
+---------------------------------------------------------------------
+-- 🎯 KÉO NÚT (DRAG SYSTEM)
+---------------------------------------------------------------------
+local dragging = false
+local dragStart, startPos, dragInput
+
+local function update(input)
+	local delta = input.Position - dragStart
+	ToggleBtn.Position = UDim2.new(
+		startPos.X.Scale,
+		startPos.X.Offset + delta.X,
+		startPos.Y.Scale,
+		startPos.Y.Offset + delta.Y
+	)
+end
+
+ToggleBtn.InputBegan:Connect(function(input)
+	if input.UserInputType == Enum.UserInputType.Touch 
+	or input.UserInputType == Enum.UserInputType.MouseButton1 then
+		dragging = true
+		dragStart = input.Position
+		startPos = ToggleBtn.Position
+
+		input.Changed:Connect(function()
+			if input.UserInputState == Enum.UserInputState.End then
+				dragging = false
+			end
+		end)
+	end
+end)
+
+ToggleBtn.InputChanged:Connect(function(input)
+	if input.UserInputType == Enum.UserInputType.Touch 
+	or input.UserInputType == Enum.UserInputType.MouseMovement then
+		dragInput = input
+	end
+end)
+
+UserInputService.InputChanged:Connect(function(input)
+	if dragging and input == dragInput then
+		update(input)
+	end
+end)
+
 
 -- 🔵 NÚT BẬT/TẮT HIỂN THỊ FPS
 local ShowBtn = Instance.new("TextButton")
@@ -852,74 +901,4 @@ end)
 -- 🟢 Mở sẵn menu luôn sau khi loader xong
 task.wait(1)
 game:GetService("VirtualInputManager"):SendKeyEvent(true, Enum.KeyCode.End, false, game)
--- Giao diện chính
-local screenGui = Instance.new("ScreenGui")
-screenGui.Name = "ControlGUI"
-screenGui.Parent = game.CoreGui
-
--- Nút toggle
-local toggleButton = Instance.new("ImageButton")
-toggleButton.Size = UDim2.new(0, 55, 0, 55)
-toggleButton.Position = UDim2.new(0.15, 0, 0.15, 0)
-toggleButton.Image = "rbxassetid://125868498014025"
-toggleButton.ScaleType = Enum.ScaleType.Fit
-toggleButton.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
-toggleButton.BorderSizePixel = 0
-toggleButton.Parent = screenGui
-
--- 🟢 Bo tròn hoàn toàn nút
-local corner = Instance.new("UICorner")
-corner.CornerRadius = UDim.new(1, 0)
-corner.Parent = toggleButton
-
--- 🖱 Kéo nút
-local dragging, dragInput, dragStart, startPos
-
-local function update(input)
-	local delta = input.Position - dragStart
-	toggleButton.Position = UDim2.new(
-		startPos.X.Scale,
-		startPos.X.Offset + delta.X,
-		startPos.Y.Scale,
-		startPos.Y.Offset + delta.Y
-	)
-end
-
-toggleButton.InputBegan:Connect(function(input)
-	if input.UserInputType == Enum.UserInputType.Touch or input.UserInputType == Enum.UserInputType.MouseButton1 then
-		dragging = true
-		dragStart = input.Position
-		startPos = toggleButton.Position
-		input.Changed:Connect(function()
-			if input.UserInputState == Enum.UserInputState.End then
-				dragging = false
-			end
-		end)
-	end
-end)
-
-toggleButton.InputChanged:Connect(function(input)
-	if input.UserInputType == Enum.UserInputType.Touch or input.UserInputType == Enum.UserInputType.MouseMovement then
-		dragInput = input
-	end
-end)
-
-UserInputService.InputChanged:Connect(function(input)
-	if dragging and input == dragInput then
-		update(input)
-	end
-end)
-
--- ⚙️ Toggle Fluent menu
-local isFluentVisible = true
-
-toggleButton.MouseButton1Click:Connect(function()
-	isFluentVisible = not isFluentVisible
-	if isFluentVisible then
-		Window:Minimize(false)
-	else
-		Window:Minimize(true)
-	end
-end)
-
 
