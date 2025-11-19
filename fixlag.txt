@@ -898,70 +898,110 @@ task.spawn(function()
     end
 end)
 
--- 🟢 Mở sẵn menu luôn sau khi loader xong
-task.wait(1)
-game:GetService("VirtualInputManager"):SendKeyEvent(true, Enum.KeyCode.End, false, game)
-task.wait(0.1)
-game:GetService("VirtualInputManager"):SendKeyEvent(false, Enum.KeyCode.End, false, game)
+--========================================================
+-- 🔥 MENU TOGGLE BUTTON (FULL OPTIMIZED VERSION)
+--========================================================
 
-local v22 = Instance.new("ScreenGui")
-local v23 = Instance.new("ImageButton")
-local v24 = Instance.new("UICorner")
-local v25 = Instance.new("ParticleEmitter")
-local v26 = game:GetService("TweenService")
+local TweenService = game:GetService("TweenService")
+local Input = game:GetService("VirtualInputManager")
 
-v22.Parent = game.CoreGui
-v22.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-
-v23.Parent = v22
-v23.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
-v23.BorderSizePixel = 0
-v23.Position = UDim2.new(0.120833337 - 0.1, 0, 0.0952890813 + 0.01, 0)
-v23.Size = UDim2.new(0, 50, 0, 50)
-v23.Draggable = true
-v23.Image = "http://www.roblox.com/asset/?id=77769725339245"
-
-v24.Parent = v23
-v24.CornerRadius = UDim.new(0, 12)
-
-v25.Parent = v23
-v25.LightEmission = 1
-v25.Size = NumberSequence.new({
-    NumberSequenceKeypoint.new(0, 0.1),
-    NumberSequenceKeypoint.new(1, 0)
-})
-v25.Lifetime = NumberRange.new(0.5, 1)
-v25.Rate = 0
-v25.Speed = NumberRange.new(5, 10)
-v25.Color = ColorSequence.new(Color3.fromRGB(255, 85, 255), Color3.fromRGB(85, 255, 255))
-
-local v47 = v26:Create(v23, TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Rotation = 360})
-
-v23.MouseButton1Down:Connect(function()
-    v25.Rate = 100
-    task.delay(1, function() v25.Rate = 0 end)
-    v47:Play()
-    game:GetService("VirtualInputManager"):SendKeyEvent(true, Enum.KeyCode.End, false, game)
-    v47.Completed:Connect(function() v23.Rotation = 0 end)
-
-    local v235 = v26:Create(v23, TweenInfo.new(0.2, Enum.EasingStyle.Bounce, Enum.EasingDirection.Out), {Size = UDim2.new(0, 60, 0, 60)})
-    v235:Play()
-    v235.Completed:Connect(function()
-        local v483 = v26:Create(v23, TweenInfo.new(0.2, Enum.EasingStyle.Bounce, Enum.EasingDirection.Out), {Size = UDim2.new(0, 50, 0, 50)})
-        v483:Play()
-    end)
+--===== TỰ ĐỘNG MỞ MENU SAU KHI LOAD (muốn tắt thì xoá 3 dòng dưới) =====
+task.delay(1, function()
+    Input:SendKeyEvent(true, Enum.KeyCode.End, false, game)
+    task.wait(0.05)
+    Input:SendKeyEvent(false, Enum.KeyCode.End, false, game)
 end)
 
--- Xóa hiệu ứng death/respawn (nếu có)
-if game:GetService("ReplicatedStorage").Effect.Container:FindFirstChild("Death") then
-    game:GetService("ReplicatedStorage").Effect.Container.Death:Destroy()
-end
-if game:GetService("ReplicatedStorage").Effect.Container:FindFirstChild("Respawn") then
-    game:GetService("ReplicatedStorage").Effect.Container.Respawn:Destroy()
+--========================================================
+-- 🟣 UI BUTTON
+--========================================================
+
+local gui = Instance.new("ScreenGui")
+gui.Name = "MenuController"
+gui.Parent = game.CoreGui
+
+local btn = Instance.new("ImageButton")
+btn.Parent = gui
+btn.Size = UDim2.new(0, 55, 0, 55)
+btn.Position = UDim2.new(0.07, 0, 0.15, 0)
+btn.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+btn.Image = "http://www.roblox.com/asset/?id=77769725339245"
+btn.BorderSizePixel = 0
+btn.Draggable = true
+
+local corner = Instance.new("UICorner", btn)
+corner.CornerRadius = UDim.new(0, 14)
+
+--========================================================
+-- 🌌 HẠT HIỆU ỨNG
+--========================================================
+
+local fx = Instance.new("ParticleEmitter", btn)
+fx.Rate = 0
+fx.LightEmission = 1
+fx.Size = NumberSequence.new{
+    NumberSequenceKeypoint.new(0, 0.1),
+    NumberSequenceKeypoint.new(1, 0)
+}
+fx.Speed = NumberRange.new(6, 12)
+fx.Lifetime = NumberRange.new(0.5, 1)
+fx.Color = ColorSequence.new(Color3.fromRGB(255, 80, 255), Color3.fromRGB(80, 255, 255))
+
+--========================================================
+-- 🌀 ANIMATION XOAY
+--========================================================
+
+local spin = TweenService:Create(
+    btn,
+    TweenInfo.new(0.4, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
+    {Rotation = 360}
+)
+
+--========================================================
+-- 🟢 CLICK EFFECT + TOGGLE MENU
+--========================================================
+
+btn.MouseButton1Down:Connect(function()
+
+    -- 🌟 Hạt nổ ra
+    fx.Rate = 80
+    task.delay(0.6, function() fx.Rate = 0 end)
+
+    -- 🔄 Xoay icon
+    spin:Play()
+    spin.Completed:Connect(function()
+        btn.Rotation = 0
+    end)
+
+    -- 📈 Animation nảy lên
+    local grow = TweenService:Create(btn, TweenInfo.new(0.15, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {
+        Size = UDim2.new(0, 65, 0, 65)
+    })
+    local shrink = TweenService:Create(btn, TweenInfo.new(0.15, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {
+        Size = UDim2.new(0, 55, 0, 55)
+    })
+
+    grow:Play()
+    grow.Completed:Connect(function()
+        shrink:Play()
+    end)
+
+    -- 🟣 Toggle menu
+    Input:SendKeyEvent(true, Enum.KeyCode.End, false, game)
+    task.wait(0.05)
+    Input:SendKeyEvent(false, Enum.KeyCode.End, false, game)
+end)
+
+--========================================================
+-- 🧹 XOÁ HIỆU ỨNG DEATH / RESPAWN
+--========================================================
+
+local effects = game:GetService("ReplicatedStorage"):WaitForChild("Effect", 5)
+if effects and effects:FindFirstChild("Container") then
+    for _, v in pairs({"Death", "Respawn"}) do
+        if effects.Container:FindFirstChild(v) then
+            effects.Container[v]:Destroy()
+        end
+    end
 end
 
--- === TỰ ĐỘNG MỞ MENU NGAY SAU KHI LOAD XONG ===
-task.wait(1) -- đợi chắc chắn mọi thứ load xong
-game:GetService("VirtualInputManager"):SendKeyEvent(true, Enum.KeyCode.End, false, game)
-task.wait(0.1)
-game:GetService("VirtualInputManager"):SendKeyEvent(false, Enum.KeyCode.End, false, game)
