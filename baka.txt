@@ -42,30 +42,42 @@ local a,b={{1,'ModuleScript',{'MainModule'},{{18,'ModuleScript',{'Creator'}},{28
         DropdownFrame = Color3.fromRGB(25, 25, 30),
         DropdownBorder = Color3.fromRGB(255, 208, 0),
     }
-end,[55]=function()
+end,
+[55] = function()
     return {
-        Name = "Redz",  -- Đổi tên theme để giống redzlib
-        Accent = Color3.fromRGB(255, 255, 255),  -- Accent trắng như redzlib
-        Background = Color3.fromRGB(0, 0, 0),  -- Nền đen solid
-        DarkContrast = Color3.fromRGB(20, 20, 20),
-        LightContrast = Color3.fromRGB(0, 0, 0),
-        TextColor = Color3.fromRGB(255, 255, 255),  -- Text trắng
-        SubTextColor = Color3.fromRGB(180, 180, 180),  -- Subtext xám
-        Stroke = Color3.fromRGB(20, 20, 20),  -- Stroke xám mỏng như redzlib
-        Hover = Color3.fromRGB(20, 20, 20),  -- Hover xám tối
-        Element = Color3.fromRGB(0, 0, 0),  -- Element đen
-        ElementTransparency = 0,  -- Tắt trong suốt, solid như redzlib
-        ElementBorder = Color3.fromRGB(20, 20, 20),  -- Border xám
-        DialogButton = Color3.fromRGB(0, 0, 0),
-        DialogButtonBorder = Color3.fromRGB(20, 20, 20),
-        Tab = Color3.fromRGB(0, 0, 0),  -- Tab đen
-        AccentText = Color3.fromRGB(255, 255, 255),
-        ToggleOff = Color3.fromRGB(20, 20, 20),
-        ToggleOn = Color3.fromRGB(255, 255, 255),  -- Toggle on trắng
-        ToggleBorder = Color3.fromRGB(20, 20, 20),
-        Slider = Color3.fromRGB(255, 255, 255),
-        DropdownFrame = Color3.fromRGB(0, 0, 0),  -- Dropdown đen
-        DropdownBorder = Color3.fromRGB(20, 20, 20),
+        Accent = Color3.fromRGB(255,255,255),
+
+        Background = Color3.fromRGB(0,0,0),
+        DarkContrast = Color3.fromRGB(20,20,20),
+        LightContrast = Color3.fromRGB(0,0,0),
+
+        Text = Color3.fromRGB(255,255,255),
+        SubText = Color3.fromRGB(180,180,180),
+
+        Element = Color3.fromRGB(0,0,0),
+        ElementBorder = Color3.fromRGB(20,20,20),
+        ElementTransparency = 0,
+
+        Hover = Color3.fromRGB(20,20,20),
+        HoverChange = 0.05,
+
+        Dialog = Color3.fromRGB(0,0,0),
+        DialogBorder = Color3.fromRGB(20,20,20),
+        DialogButton = Color3.fromRGB(0,0,0),
+        DialogButtonBorder = Color3.fromRGB(20,20,20),
+
+        Tab = Color3.fromRGB(0,0,0),
+
+        DropdownFrame = Color3.fromRGB(0,0,0),
+        DropdownBorder = Color3.fromRGB(20,20,20),
+
+        Input = Color3.fromRGB(0,0,0),
+        InputFocused = Color3.fromRGB(20,20,20),
+        InputIndicator = Color3.fromRGB(255,255,255),
+
+        AcrylicMain = Color3.fromRGB(0,0,0),
+        AcrylicBorder = Color3.fromRGB(20,20,20),
+        AcrylicNoise = 0.9,
     }
 end,
 [53]=function()local aa,ab,ac,ad,ae=b(53)return{Name='Rose',Accent=Color3.fromRGB(180,55,90),AcrylicMain=Color3.fromRGB(40,40,40),AcrylicBorder=Color3.fromRGB(130,90,110),AcrylicGradient=ColorSequence.new(Color3.fromRGB(190,60,135),Color3.fromRGB(165,50,70)),AcrylicNoise=0.92,TitleBarLine=Color3.fromRGB(140,85,105),Tab=Color3.fromRGB(180,140,160),Element=Color3.fromRGB(200,120,170),ElementBorder=Color3.fromRGB(110,70,85),InElementBorder=Color3.fromRGB(120,90,90),ElementTransparency=0.86,ToggleSlider=Color3.fromRGB(200,120,170),ToggleToggled=Color3.fromRGB(0,0,0),SliderRail=Color3.fromRGB(200,120,170),DropdownFrame=Color3.fromRGB(200,160,180),DropdownHolder=Color3.fromRGB(120,50,75),DropdownBorder=Color3.fromRGB(90,40,55),DropdownOption=Color3.fromRGB(200,120,170),Keybind=Color3.fromRGB(200,120,170),Input=Color3.fromRGB(200,120,170),InputFocused=Color3.fromRGB(20,10,30),InputIndicator=Color3.fromRGB(170,150,190),Dialog=Color3.fromRGB(120,50,75),DialogHolder=Color3.fromRGB(95,40,60),DialogHolderLine=Color3.fromRGB(90,35,55),DialogButton=Color3.fromRGB(120,50,75),DialogButtonBorder=Color3.fromRGB(155,90,115),DialogBorder=Color3.fromRGB(100,70,90),DialogInput=Color3.fromRGB(135,55,80),DialogInputLine=Color3.fromRGB(190,160,180),Text=Color3.fromRGB(240,240,240),SubText=Color3.fromRGB(170,170,170),Hover=Color3.fromRGB(200,120,170),HoverChange=0.04}end}do local ab,ac,ad,ae,af,ag,ah,aj,c,e,f,g,h,i,j,k=task,setmetatable,error,newproxy,getmetatable,next,table,unpack,coroutine,script,type,require,pcall,getfenv,setfenv,rawget local l,m,n,o,p,s,t,u,v,w,x=ah.insert,ah.remove,ah.freeze or function(l)return l end,ab and ab.defer or function(l,...)local m=c.create(l)c.resume(m,...)return m end,'0.0.0-venv',{},{},{},{},{},{}local y,z={GetChildren=function(y)local z,A=x[y],{}for B in ag,z do l(A,B)end return A end,FindFirstChild=function(y,z)if not z then ad('Argument 1 missing or nil',2)end for A in ag,x[y]do if A.Name==z then return A end end return end,GetFullName=function(y)local z,A=y.Name,y.Parent while A do z=A.Name..'.'..z A=A.Parent end return'VirtualEnv.'..z end},{}for A,B in ag,y do z[A]=function(C,...)if not x[C]then ad("Expected ':' not '.' calling member function "..A,1)end return B(C,...)end end local C=function(C,D,E)local F,G,H,I,J=ac({},{__mode='k'}),function(F)ad(F..' is not a valid (virtual) member of '..C..' "'..D..'"',1)end,function(F)ad('Unable to assign (virtual) property '..F..'. Property is read only',1)end,(ae(true))local K=af(I)K.__index=function(L,M)if M=='ClassName'then return C elseif M=='Name'then return D elseif M=='Parent'then return E elseif C=='StringValue'and M=='Value'then return J else local N=z[M]if N then return N end end for N in ag,F do if N.Name==M then return N end end G(M)end K.__newindex=function(L,M,N)if M=='ClassName'then H(M)elseif M=='Name'then D=N elseif M=='Parent'then if N==I then return end if E~=nil then x[E][I]=nil end E=N if N~=nil then x[N][I]=true end elseif C=='StringValue'and M=='Value'then J=N else G(M)end end K.__tostring=function()return D end x[I]=F if E~=nil then x[E][I]=true end return I end local function D(E,F)local G,H,I,J=E[1],E[2],E[3],E[4]local K=m(I,1)local L=C(H,K,F)s[G]=L if I then for M,N in ag,I do L[M]=N end end if J then for M,N in ag,J do D(N,L)end end return L end local E={}for F,G in ag,a do l(E,D(G))end for H,I in ag,aa do local J=s[H]t[J]=I local K=J.ClassName if K=='LocalScript'or K=='Script'then l(v,J)end end local J=function(J)local K,L=J.ClassName,u[J]if L and K=='ModuleScript'then return aj(L)end local M=t[J]if not M then return end if K=='LocalScript'or K=='Script'then M()return else local N={M()}u[J]=N return aj(N)end end function b(K)local L=s[K]local M=t[L]if not M then return end local N,O,P,Q,R,S,T=false,n{Version=p,Script=e,Shared=w,GetScript=function()return e end,GetShared=function()return w end},L,function(N,...)if x[N]and N.ClassName=='ModuleScript'and t[N]then return J(N)end return g(N,...)end local U,V=function(U,...)if not N then T()end if f(U)=='number'and U>=0 then if U==0 then return S else U=U+1 local V,W=h(i,U)if V and W==R then return S end end end return i(U,...)end,function(U,V,...)if not N then T()end if f(U)=='number'and U>=0 then if U==0 then return j(S,V)else U=U+1 local W,X=h(i,U)if W and X==R then return j(S,V)end end end return j(U,V,...)end function T()R=i(0)local W={maui=O,script=P,require=Q,getfenv=U,setfenv=V}S=ac({},{__index=function(X,Y)local Z=k(S,Y)if Z~=nil then return Z end local _=W[Y]if _~=nil then return _ end return R[Y]end})j(M,S)N=true end return O,P,Q,U,V end for K,L in ag,v do o(J,L)end do local M for N,O in ag,E do if O.ClassName=='ModuleScript'and O.Name=='MainModule'then M=O break end end if M then return J(M)end end end-- [[ Banana UI layout style patch ]]
