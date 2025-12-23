@@ -1985,7 +1985,7 @@ local Minimizer = Window:NewMinimizer({
 })
 
 local MobileButton = Minimizer:CreateMobileMinimizer({
-    Image = "rbxassetid://94102616387051",
+    Image = "rbxassetid://132435046893603",
     BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 })
 
@@ -2016,11 +2016,11 @@ local Info = Window:MakeTab({
 Info:AddDiscordInvite({
 	Title = "Join Zalo",
 	Description = "",
-	Banner = "rbxassetid://120213707198275", 
+	Banner = "rbxassetid://132435046893603", 
 	Logo = "rbxassetid://120213707198275",
 	Invite = "https://zalo.me/g/uxlbxz736",
-	Members = 2000, 
-	Online = 204, 
+	Members = 65, 
+	Online = 65, 
 })
 
 local Farming = Window:MakeTab({
