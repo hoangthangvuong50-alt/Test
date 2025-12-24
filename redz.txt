@@ -5776,3 +5776,44 @@ task.spawn(function()
         end)
     end)
 end)
+local SeaEvent = Window:MakeTab({
+  Name = "Sea Event",
+  Icon = "Info"
+})
+SeaEvent:AddToggle({
+local ListSeaBoat = {
+    "Guardian",
+    "PirateGrandBrigade",
+    "MarineGrandBrigade",
+    "PirateBrigade",
+    "MarineBrigade",
+    "PirateSloop",
+    "MarineSloop",
+    "Beast Hunter"
+}
+local ListSeaZone = {
+    "Lv 1",
+    "Lv 2",
+    "Lv 3",
+    "Lv 4",
+    "Lv 5",
+    "Lv 6",
+    "Lv Infinite"
+}
+local SeaEvent = Window:MakeTab({
+    Name = " Spy Status ",
+    Content = ""
+})
+spawn(function()
+    while wait(.2) do
+        pcall(function()
+            local spycheck = string.match(replicated.Remotes.CommF_:InvokeServer("InfoLeviathan", "1"), "%d+")
+            if spycheck then
+                SPYING:SetDesc(" Spy Leviathan  : " .. tostring(spycheck))
+                if tostring(spycheck) == 5 then
+                    SPYING:SetDesc(" Spy Leviathan : Already Done!!")
+                end
+            end
+        end)
+    end
+end)
