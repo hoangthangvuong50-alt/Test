@@ -5780,6 +5780,7 @@ local SeaEvent = Window:MakeTab({
   Name = "Sea Event",
   Icon = "Info"
 })
+
 SeaEvent:AddToggle({
 local ListSeaBoat = {
     "Guardian",
@@ -5790,7 +5791,7 @@ local ListSeaBoat = {
     "PirateSloop",
     "MarineSloop",
     "Beast Hunter"
-}
+})
 local ListSeaZone = {
     "Lv 1",
     "Lv 2",
@@ -5800,7 +5801,7 @@ local ListSeaZone = {
     "Lv 6",
     "Lv Infinite"
 }
-local SeaEvent = Window:MakeTab({
+local SPYING = SeaEvent:AddToggle({
     Name = " Spy Status ",
     Content = ""
 })
