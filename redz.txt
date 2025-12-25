@@ -5813,4 +5813,103 @@ DungeonTables = {
     "Bird: Phoenix",
     "Dough"
 }
+local Q = Tabs.Raids:AddDropdown("Q", {
+    Title = "Select Chip",
+    Values = DungeonTables,
+    Multi = false,
+    Default = 1
+})
+Q:OnChanged(function(Value)
+    _G.SelectChip = Value
+end)
+local Q = fruitraid:AddToggle("Q", {
+    Title = "Auto Select Dungeon Chip",
+    Description = "",
+    Default = false
+})
+Q:OnChanged(function(Value)
+    _G.AutoSelectDungeon = Value
+end)
+spawn(function()
+    while wait(Sec) do
+        if _G.AutoSelectDungeon then
+            pcall(function()
+                if GetBP("Flame-Flame") then
+                    _G.SelectChip = "Flame"
+                elseif GetBP("Ice-Ice") then
+                    _G.SelectChip = "Ice"
+                elseif GetBP("Quake-Quake") then
+                    _G.SelectChip = "Quake"
+                elseif GetBP("Light-Light") then
+                    _G.SelectChip = "Light"
+                elseif GetBP("Dark-Dark") then
+                    _G.SelectChip = "Dark"
+                elseif GetBP("String-String") then
+                    _G.SelectChip = "String"
+                elseif GetBP("Rumble-Rumble") then
+                    _G.SelectChip = "Rumble"
+                elseif GetBP("Magma-Magma") then
+                    _G.SelectChip = "Magma"
+                elseif GetBP("Human-Human: Buddha Fruit") then
+                    _G.SelectChip = "Human: Buddha"
+                elseif GetBP("Dough-Dough") then
+                    _G.SelectChip = "Dough"
+                elseif GetBP("Sand-Sand") then
+                    _G.SelectChip = "Sand"
+                elseif GetBP("Bird-Bird: Phoenix") then
+                    _G.SelectChip = "Bird: Phoenix"
+                else
+                    _G.SelectChip = "Ice"
+                end
+            end)
+        end
+    end
+end)
+fruitraid:AddToggle({
+    Title = "Buy Dungeon Chips [Beli]",
+    Description = "",
+    Callback = function()
+        if not GetBP("Special Microchip") then
+            replicated.Remotes.CommF_:InvokeServer("RaidsNpc", "Select", _G.SelectChip)
+        end
+    end
+})
+fruitraid:AddToggle({
+    Title = "Buy Dungeon Chips [Devil Fruit]",
+    Description = "Use your lowest fruit in your bag",
+    Callback = function()
+        if GetBP("Special Microchip") then
+            return
+        end
+        local FruitPrice = {}
+        local FruitStore = {}
+        for i, v in next, replicated:WaitForChild("Remotes").CommF_:InvokeServer("GetFruits") do
+            if v.Price <= 490000 then
+                table.insert(FruitPrice, v.Name)
+            end
+        end
+        for _, y in pairs(FruitPrice) do
+            for i, v in pairs(DungeonTables) do
+                if not GetBP("Special Microchip") then
+                    replicated.Remotes.CommF_:InvokeServer("LoadFruit", tostring(y))
+                    replicated.Remotes.CommF_:InvokeServer("RaidsNpc", "Select", _G.SelectChip)
+                end
+            end
+        end
+    end
+})
 
+local DungeonTables = {
+    "Flame",
+    "Ice",
+    "Quake",
+    "Light",
+    "Dark",
+    "String",
+    "Rumble",
+    "Magma",
+    "Human: Buddha",
+    "Sand",
+    "Bird: Phoenix",
+    "Dough"
+}
