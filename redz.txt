@@ -5776,10 +5776,11 @@ task.spawn(function()
         end)
     end)
 end)
-local SeaEvent  = Window:AddDropdown({
+local SeaEvent  = Window:MakeTab({
   Title = "SeaEvent ",
   Icon = "waves"
 })
+
 local ListSeaBoat = SeaEvent:AddToggle({
     "Guardian",
     "PirateGrandBrigade",
