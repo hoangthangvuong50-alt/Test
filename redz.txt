@@ -5776,44 +5776,41 @@ task.spawn(function()
         end)
     end)
 end)
-local SeaEvent  = Window:MakeTab({
-  Title = "SeaEvent ",
+local fruitraid  = Window:MakeTab({
+  Title = "Fruit/Raid ",
   Icon = "waves"
 })
 
--- Tạo dropdown cho thuyền
-local BoatDropdown = SeaEvent:AddDropdown("BoatDropdown", {
-    Title = "Select Boat",
-    Values = {"Guardian", "PirateGrandBrigade", "MarineGrandBrigade", "PirateBrigade", "MarineBrigade", "PirateSloop", "MarineSloop", "Beast Hunter"},
-    Multi = false,
-    Default = nil
+fruitraid:AddToggle({
+    Name = "Raiding Status  ",
+    Default = false,
+    Callback = function(Value)
+        _G.FarmMastery_Dev = Value
+    end
 })
-
--- Tạo dropdown cho zone
-local ZoneDropdown = SeaEvent:AddDropdown("ZoneDropdown", {
-    Title = "Select Zone",
-    Values = {"Lv 1", "Lv 2", "Lv 3", "Lv 4", "Lv 5", "Lv 6", "Lv Infinite"},
-    Multi = false,
-    Default = nil
-})
-
--- Tạo paragraph để hiển thị spy status
-local SpyParagraph = SeaEvent:AddParagraph({
-    Title = "Spy Status",
-    Content = "Waiting..."
-})
-
--- Spawn function cập nhật paragraph
 spawn(function()
     while wait(.2) do
         pcall(function()
-            local spycheck = string.match(replicated.Remotes.CommF_:InvokeServer("InfoLeviathan", "1"), "%d+")
-            if spycheck then
-                SpyParagraph:SetDesc("Spy Leviathan: " .. tostring(spycheck))
-                if tostring(spycheck) == "5" then
-                    SpyParagraph:SetDesc("Spy Leviathan: Already Done!!")
-                end
+            if plr.PlayerGui.Main.Timer.Visible == true then
+                fruitraid:SetDesc(" Raiding Statud : True")
+            else
+                fruitraid:SetDesc(" Raiding Statud : False")
             end
         end)
     end
 end)
+DungeonTables = {
+    "Flame",
+    "Ice",
+    "Quake",
+    "Light",
+    "Dark",
+    "String",
+    "Rumble",
+    "Magma",
+    "Human: Buddha",
+    "Sand",
+    "Bird: Phoenix",
+    "Dough"
+}
+
