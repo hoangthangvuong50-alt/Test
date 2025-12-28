@@ -5781,9 +5781,8 @@ local raidtrai  = Window:MakeTab({
   Icon = "waves"
 })
 
-RandomFF = raidtrai:AddToggle("RandomFF", {
-    Title = "Auto Random Fruit",
-    Description = "Automatic random devil fruit",
+ raidtrai:AddToggle({
+    Name = "Auto Random Fruit",
     Default = false
 })
 RandomFF:OnChanged(function(Value)
