@@ -1951,7 +1951,7 @@ end
 
 local Fluent = loadstring(game:HttpGet("https://raw.githubusercontent.com/hoangthangvuong50-alt/Test/refs/heads/main/hehe.txt"))()
 
-local Window = Library:MakeWindow({
+local Window = Fluent:MakeWindow({
   Title = "RedzHub : Blox Fruits",
   SubTitle = "by kaitoMC276",
   ScriptFolder = "RedzLibraryBF"
