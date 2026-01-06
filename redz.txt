@@ -1949,7 +1949,8 @@ QuestNeta = function()
     }
 end
 
-local Fluent = loadstring(game:HttpGet("https://github.com/ActualMasterOogway/Fluent-Renewed/releases/latest/download/Fluent.luau"))()
+local Fluent = loadstring(game:HttpGet("https://raw.githubusercontent.com/Footagesus/WindUI/refs/heads/main/main_example.lua
+"))()
 local Window = Fluent:CreateWindow({
     Title = "none",
     SubTitle = "",
