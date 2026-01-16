@@ -1963,6 +1963,7 @@ local Tabs = {
     menu = Window:AddTab({
         Title = "Thông tin",
         Icon = ""
+    }),
     Main = Window:AddTab({
         Title = "Farm",
         Icon = ""
