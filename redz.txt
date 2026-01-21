@@ -1768,14 +1768,14 @@ QuestCheck = function()
             NameMon = "kissed Warrior"
             PosM = CFrame.new(- 16347, 64, 984)
             PosQ = CFrame.new(- 16538, 55, 1049)
-        elseif a == 2525 or a <= 2550 then
+        elseif a == 2525 or a <= 2549 then
             Mon = "Isle Champion"
             Qdata = 2;
             Qname = "TikiQuest2"
             NameMon = "Isle Champion"
             PosQ = CFrame.new(- 16541.0215, 57.3082275, 1051.46118, 0.0410757065, - 0, - 0.999156058, 0, 1, - 0, 0.999156058, 0, 0.0410757065)
             PosM = CFrame.new(- 16602.1015625, 130.38734436035156, 1087.24560546875)
-        elseif a == 2551 or a <= 2574 then
+        elseif a == 2550 or a <= 2574 then
             Mon = "Serpent Hunter"
             Qdata = 1;
             Qname = "TikiQuest3"
