@@ -2020,7 +2020,7 @@ QuestNeta = function()
     }
 end
 
-local Fluent = loadstring(game:HttpGet("https://raw.githubusercontent.com/hoangthangvuong50-alt/Test/refs/heads/main/test%201.txt"))()
+local Fluent = loadstring(game:HttpGet("https://raw.githubusercontent.com/hoangthangvuong50-alt/Test/refs/heads/main/new.txt"))()
 local Window = Fluent:CreateWindow({
     Title = "bananahub(kaitoMC276)",
     SubTitle = "",
