@@ -27,190 +27,97 @@ return function(t)
     local C=false
     v.AcrylicPaint=n.AcrylicPaint()
     
-    -- BANANA CAT HUB PINK EDITION LAYOUT
+    -- BANANA CAT HUB PINK EDITION - EMPTY FRAME ONLY
     v.Root=s('Frame',{
         BackgroundColor3=Color3.fromRGB(255,170,200),
         Size=UDim2.fromOffset(600,350),
         Position=UDim2.new(0.25,0,0.2,0),
         Parent=t.Parent,
         Active=true,
-        Draggable=true
+        Draggable=true,
+        Name = "PinkHubFrame"
     },{
         s('UICorner',{CornerRadius=UDim.new(0,20)}),
         s('UIStroke',{
             Color=Color3.fromRGB(255,105,180),
             Thickness=3
-        }),
-        s('TextLabel',{ -- TITLE
-            Text="NaNa Make ui🌸",
-            Size=UDim2.new(1,0,0,50),
-            BackgroundTransparency=1,
-            TextColor3=Color3.fromRGB(255,20,147),
-            Font=Enum.Font.GothamBold,
-            TextSize=24,
-            TextXAlignment='Center'
         })
+        -- ĐÃ XOÁ TITLE Ở ĐÂY
     })
     
-    -- LEFT MENU (TABS)
-    local D=s('Frame',{
+    -- LEFT MENU (EMPTY - FOR YOUR TABS)
+    v.TabHolder=s('Frame',{
         BackgroundColor3=Color3.fromRGB(255,140,180),
-        Position=UDim2.new(0,10,0,60),
-        Size=UDim2.new(0,200,0,280),
-        Parent=v.Root
+        Position=UDim2.new(0,10,0,10), -- Đặt lên trên
+        Size=UDim2.new(0,200,1,-20), -- Chiều cao full
+        Parent=v.Root,
+        Name = "LeftMenu"
     },{
         s('UICorner',{CornerRadius=UDim.new(0,15)})
     })
     
-    -- RIGHT CONTENT
+    -- RIGHT CONTENT (EMPTY - FOR YOUR ELEMENTS)
     v.ContainerHolder=s('ScrollingFrame',{
         BackgroundColor3=Color3.fromRGB(255,160,200),
-        Position=UDim2.new(0,220,0,60),
-        Size=UDim2.new(0,370,0,280),
+        Position=UDim2.new(0,220,0,10), -- Đặt lên trên
+        Size=UDim2.new(0,370,1,-20), -- Chiều cao full
         Parent=v.Root,
         ScrollBarThickness=5,
         ScrollBarImageColor3=Color3.fromRGB(255,105,180),
-        CanvasSize=UDim2.new(0,0,0,0)
+        CanvasSize=UDim2.new(0,0,0,0),
+        BorderSizePixel=0,
+        Name = "ContentArea"
     },{
         s('UICorner',{CornerRadius=UDim.new(0,15)}),
         s('UIPadding',{
             PaddingTop=UDim.new(0,10),
             PaddingLeft=UDim.new(0,10),
             PaddingRight=UDim.new(0,10)
-        }),
-        s('UIListLayout',{
-            Padding=UDim.new(0,10),
-            SortOrder=Enum.SortOrder.LayoutOrder
         })
     })
     
-    -- TAB BUTTONS (PINK STYLE)
-    local E={
-        {name="Shop", order=1},
-        {name="Status And Server", order=2},
-        {name="LocalPlayer", order=3},
-        {name="Setting Farm", order=4},
-        {name="Fruit & Raid", order=5},
-        {name="Sea Event", order=6}
-    }
-    
-    v.Tabs={}
-    v.Containers={}
-    v.SelectedTab=1
-    
-    for F,G in ipairs(E) do
-        -- TAB BUTTON
-        local H=s('TextButton',{
-            Text=G.name,
-            Size=UDim2.new(1,-20,0,35),
-            Position=UDim2.new(0,10,0,10+(45*(F-1))),
-            BackgroundColor3=Color3.fromRGB(255,182,193),
-            TextColor3=Color3.fromRGB(255,20,147),
-            Font=Enum.Font.GothamBold,
-            TextSize=14,
-            Parent=D,
-            AutoButtonColor=true
-        },{
-            s('UICorner',{CornerRadius=UDim.new(0,12)}),
-            s('UIStroke',{
-                Color=Color3.fromRGB(255,105,180),
-                Thickness=2
-            })
-        })
+    -- EMPTY TAB SYSTEM (JUST RETURN EMPTY OBJECT)
+    function v.AddTab(E,F)
+        -- Return empty tab object
+        local emptyTab = {
+            Container = v.ContainerHolder,
+            ScrollFrame = v.ContainerHolder,
+            Type = "Tab"
+        }
         
-        -- TAB CONTENT CONTAINER
-        local I=s('Frame',{
-            Size=UDim2.new(1,0,0,0),
-            BackgroundTransparency=1,
-            Parent=v.ContainerHolder,
-            Visible=F==1,
-            LayoutOrder=F
-        },{
-            s('UIListLayout',{
-                Padding=UDim.new(0,10),
-                SortOrder=Enum.SortOrder.LayoutOrder
-            })
-        })
-        
-        m.AddSignal(H.MouseButton1Click,function()
-            for J,K in pairs(v.Containers) do
-                K.Visible=false
-            end
-            I.Visible=true
-            v.SelectedTab=F
-        end)
-        
-        v.Containers[F]=I
-        v.Tabs[F]={Button=H, Container=I}
+        -- Set metatable để hỗ trợ AddToggle, AddButton, etc.
+        setmetatable(emptyTab, u.Elements)
+        return emptyTab
     end
     
-    -- SAMPLE TOGGLE FOR FIRST TAB
-    local J=s('TextButton',{
-        Text="✔ Sharkman Karate",
-        Size=UDim2.new(1,0,0,40),
-        BackgroundColor3=Color3.fromRGB(255,182,193),
-        TextColor3=Color3.fromRGB(255,20,147),
-        Font=Enum.Font.GothamBold,
-        TextSize=15,
-        Parent=v.Containers[1]
-    },{
-        s('UICorner',{CornerRadius=UDim.new(0,12)}),
-        s('UIStroke',{
-            Color=Color3.fromRGB(255,105,180),
-            Thickness=2
-        })
-    })
-    
-    -- FUNCTION TO ADD ELEMENTS TO TABS
-    function v.AddTab(K,L)
-        -- Keep original tab system but with pink style
-        local M=e(p.Tab):Init(v)
-        return M:New(L.Title or "Tab", L.Icon, D)
+    -- EMPTY FUNCTIONS
+    function v.SelectTab(E,F)
+        -- Do nothing
     end
     
-    -- UPDATE CONTAINER SIZE
-    m.AddSignal(v.ContainerHolder.UIListLayout:GetPropertyChangedSignal'AbsoluteContentSize',function()
-        v.ContainerHolder.CanvasSize=UDim2.new(0,0,0,v.ContainerHolder.UIListLayout.AbsoluteContentSize.Y+20)
-    end)
-    
-    -- WINDOW FUNCTIONS
-    function v.Minimize(M)
+    function v.Minimize(E)
         v.Minimized=not v.Minimized
         v.Root.Visible=not v.Minimized
     end
     
-    function v.Destroy(M)
+    function v.Destroy(E)
         v.Root:Destroy()
     end
     
-    -- DIALOG (PINK STYLE)
-    local N=e(p.Dialog):Init(v)
-    function v.Dialog(O,P)
-        local Q=N:Create()
-        Q.Root.BackgroundColor3=Color3.fromRGB(255,170,200)
-        Q.Title.TextColor3=Color3.fromRGB(255,20,147)
-        Q.Title.Text=P.Title
-        
-        local R=s('TextLabel',{
-            Text=P.Content,
-            TextColor3=Color3.fromRGB(255,20,147),
-            Size=UDim2.new(1,-40,1,-100),
-            Position=UDim2.fromOffset(20,60),
-            BackgroundTransparency=1,
-            TextWrapped=true,
-            Font=Enum.Font.Gotham,
-            TextSize=14,
-            Parent=Q.Root
+    -- SIMPLE DIALOG
+    function v.Dialog(H,I)
+        -- Simple alert
+        game:GetService("StarterGui"):SetCore("SendNotification", {
+            Title = I.Title or "Notification",
+            Text = I.Content or "",
+            Duration = 5
         })
-        
-        for S,T in pairs(P.Buttons or {}) do
-            local U=Q:Button(T.Title,T.Callback)
-            U.Frame.BackgroundColor3=Color3.fromRGB(255,182,193)
-            U.Title.TextColor3=Color3.fromRGB(255,20,147)
-        end
-        
-        Q:Open()
     end
+    
+    -- UPDATE CONTAINER SIZE
+    m.AddSignal(v.ContainerHolder:GetPropertyChangedSignal'AbsoluteCanvasSize',function()
+        v.ContainerHolder.CanvasSize=UDim2.new(0,0,0,v.ContainerHolder.AbsoluteCanvasSize.Y+20)
+    end)
     
     return v
 end
@@ -252,152 +159,74 @@ end,
         PinkElement = Color3.fromRGB(255, 182, 193),
     }
 end,
-[53]=function()local aa,ab,ac,ad,ae=b(53)return{Name='Rose',Accent=Color3.fromRGB(180,55,90),AcrylicMain=Color3.fromRGB(40,40,40),AcrylicBorder=Color3.fromRGB(130,90,110),AcrylicGradient=ColorSequence.new(Color3.fromRGB(190,60,135),Color3.fromRGB(165,50,70)),AcrylicNoise=0.92,TitleBarLine=Color3.fromRGB(140,85,105),Tab=Color3.fromRGB(180,140,160),Element=Color3.fromRGB(200,120,170),ElementBorder=Color3.fromRGB(110,70,85),InElementBorder=Color3.fromRGB(120,90,90),ElementTransparency=0.86,ToggleSlider=Color3.fromRGB(200,120,170),ToggleToggled=Color3.fromRGB(0,0,0),SliderRail=Color3.fromRGB(200,120,170),DropdownFrame=Color3.fromRGB(200,160,180),DropdownHolder=Color3.fromRGB(120,50,75),DropdownBorder=Color3.fromRGB(90,40,55),DropdownOption=Color3.fromRGB(200,120,170),Keybind=Color3.fromRGB(200,120,170),Input=Color3.fromRGB(200,120,170),InputFocused=Color3.fromRGB(20,10,30),InputIndicator=Color3.fromRGB(170,150,190),Dialog=Color3.fromRGB(120,50,75),DialogHolder=Color3.fromRGB(95,40,60),DialogHolderLine=Color3.fromRGB(90,35,55),DialogButton=Color3.fromRGB(120,50,75),DialogButtonBorder=Color3.fromRGB(155,90,115),DialogBorder=Color3.fromRGB(100,70,90),DialogInput=Color3.fromRGB(135,55,80),DialogInputLine=Color3.fromRGB(190,160,180),Text=Color3.fromRGB(240,240,240),SubText=Color3.fromRGB(170,170,170),Hover=Color3.fromRGB(200,120,170),HoverChange=0.04}end}do local ab,ac,ad,ae,af,ag,ah,aj,c,e,f,g,h,i,j,k=task,setmetatable,error,newproxy,getmetatable,next,table,unpack,coroutine,script,type,require,pcall,getfenv,setfenv,rawget local l,m,n,o,p,s,t,u,v,w,x=ah.insert,ah.remove,ah.freeze or function(l)return l end,ab and ab.defer or function(l,...)local m=c.create(l)c.resume(m,...)return m end,'0.0.0-venv',{},{},{},{},{},{}local y,z={GetChildren=function(y)local z,A=x[y],{}for B in ag,z do l(A,B)end return A end,FindFirstChild=function(y,z)if not z then ad('Argument 1 missing or nil',2)end for A in ag,x[y]do if A.Name==z then return A end end return end,GetFullName=function(y)local z,A=y.Name,y.Parent while A do z=A.Name..'.'..z A=A.Parent end return'VirtualEnv.'..z end},{}for A,B in ag,y do z[A]=function(C,...)if not x[C]then ad("Expected ':' not '.' calling member function "..A,1)end return B(C,...)end end local C=function(C,D,E)local F,G,H,I,J=ac({},{__mode='k'}),function(F)ad(F..' is not a valid (virtual) member of '..C..' "'..D..'"',1)end,function(F)ad('Unable to assign (virtual) property '..F..'. Property is read only',1)end,(ae(true))local K=af(I)K.__index=function(L,M)if M=='ClassName'then return C elseif M=='Name'then return D elseif M=='Parent'then return E elseif C=='StringValue'and M=='Value'then return J else local N=z[M]if N then return N end end for N in ag,F do if N.Name==M then return N end end G(M)end K.__newindex=function(L,M,N)if M=='ClassName'then H(M)elseif M=='Name'then D=N elseif M=='Parent'then if N==I then return end if E~=nil then x[E][I]=nil end E=N if N~=nil then x[N][I]=true end elseif C=='StringValue'and M=='Value'then J=N else G(M)end end K.__tostring=function()return D end x[I]=F if E~=nil then x[E][I]=true end return I end local function D(E,F)local G,H,I,J=E[1],E[2],E[3],E[4]local K=m(I,1)local L=C(H,K,F)s[G]=L if I then for M,N in ag,I do L[M]=N end end if J then for M,N in ag,J do D(N,L)end end return L end local E={}for F,G in ag,a do l(E,D(G))end for H,I in ag,aa do local J=s[H]t[J]=I local K=J.ClassName if K=='LocalScript'or K=='Script'then l(v,J)end end local J=function(J)local K,L=J.ClassName,u[J]if L and K=='ModuleScript'then return aj(L)end local M=t[J]if not M then return end if K=='LocalScript'or K=='Script'then M()return else local N={M()}u[J]=N return aj(N)end end function b(K)local L=s[K]local M=t[L]if not M then return end local N,O,P,Q,R,S,T=false,n{Version=p,Script=e,Shared=w,GetScript=function()return e end,GetShared=function()return w end},L,function(N,...)if x[N]and N.ClassName=='ModuleScript'and t[N]then return J(N)end return g(N,...)end local U,V=function(U,...)if not N then T()end if f(U)=='number'and U>=0 then if U==0 then return S else U=U+1 local V,W=h(i,U)if V and W==R then return S end end end return i(U,...)end,function(U,V,...)if not N then T()end if f(U)=='number'and U>=0 then if U==0 then return j(S,V)else U=U+1 local W,X=h(i,U)if W and X==R then return j(S,V)end end end return j(U,V,...)end function T()R=i(0)local W={maui=O,script=P,require=Q,getfenv=U,setfenv=V}S=ac({},{__index=function(X,Y)local Z=k(S,Y)if Z~=nil then return Z end local _=W[Y]if _~=nil then return _ end return R[Y]end})j(M,S)N=true end return O,P,Q,U,V end for K,L in ag,v do o(J,L)end do local M for N,O in ag,E do if O.ClassName=='ModuleScript'and O.Name=='MainModule'then M=O break end end if M then return J(M)end end end -- [[ Banana Cat Hub Pink Edition Theme Patch ]]
+[53]=function()local aa,ab,ac,ad,ae=b(53)return{Name='Rose',Accent=Color3.fromRGB(180,55,90),AcrylicMain=Color3.fromRGB(40,40,40),AcrylicBorder=Color3.fromRGB(130,90,110),AcrylicGradient=ColorSequence.new(Color3.fromRGB(190,60,135),Color3.fromRGB(165,50,70)),AcrylicNoise=0.92,TitleBarLine=Color3.fromRGB(140,85,105),Tab=Color3.fromRGB(180,140,160),Element=Color3.fromRGB(200,120,170),ElementBorder=Color3.fromRGB(110,70,85),InElementBorder=Color3.fromRGB(120,90,90),ElementTransparency=0.86,ToggleSlider=Color3.fromRGB(200,120,170),ToggleToggled=Color3.fromRGB(0,0,0),SliderRail=Color3.fromRGB(200,120,170),DropdownFrame=Color3.fromRGB(200,160,180),DropdownHolder=Color3.fromRGB(120,50,75),DropdownBorder=Color3.fromRGB(90,40,55),DropdownOption=Color3.fromRGB(200,120,170),Keybind=Color3.fromRGB(200,120,170),Input=Color3.fromRGB(200,120,170),InputFocused=Color3.fromRGB(20,10,30),InputIndicator=Color3.fromRGB(170,150,190),Dialog=Color3.fromRGB(120,50,75),DialogHolder=Color3.fromRGB(95,40,60),DialogHolderLine=Color3.fromRGB(90,35,55),DialogButton=Color3.fromRGB(120,50,75),DialogButtonBorder=Color3.fromRGB(155,90,115),DialogBorder=Color3.fromRGB(100,70,90),DialogInput=Color3.fromRGB(135,55,80),DialogInputLine=Color3.fromRGB(190,160,180),Text=Color3.fromRGB(240,240,240),SubText=Color3.fromRGB(170,170,170),Hover=Color3.fromRGB(200,120,170),HoverChange=0.04}end}do local ab,ac,ad,ae,af,ag,ah,aj,c,e,f,g,h,i,j,k=task,setmetatable,error,newproxy,getmetatable,next,table,unpack,coroutine,script,type,require,pcall,getfenv,setfenv,rawget local l,m,n,o,p,s,t,u,v,w,x=ah.insert,ah.remove,ah.freeze or function(l)return l end,ab and ab.defer or function(l,...)local m=c.create(l)c.resume(m,...)return m end,'0.0.0-venv',{},{},{},{},{},{}local y,z={GetChildren=function(y)local z,A=x[y],{}for B in ag,z do l(A,B)end return A end,FindFirstChild=function(y,z)if not z then ad('Argument 1 missing or nil',2)end for A in ag,x[y]do if A.Name==z then return A end end return end,GetFullName=function(y)local z,A=y.Name,y.Parent while A do z=A.Name..'.'..z A=A.Parent end return'VirtualEnv.'..z end},{}for A,B in ag,y do z[A]=function(C,...)if not x[C]then ad("Expected ':' not '.' calling member function "..A,1)end return B(C,...)end end local C=function(C,D,E)local F,G,H,I,J=ac({},{__mode='k'}),function(F)ad(F..' is not a valid (virtual) member of '..C..' "'..D..'"',1)end,function(F)ad('Unable to assign (virtual) property '..F..'. Property is read only',1)end,(ae(true))local K=af(I)K.__index=function(L,M)if M=='ClassName'then return C elseif M=='Name'then return D elseif M=='Parent'then return E elseif C=='StringValue'and M=='Value'then return J else local N=z[M]if N then return N end end for N in ag,F do if N.Name==M then return N end end G(M)end K.__newindex=function(L,M,N)if M=='ClassName'then H(M)elseif M=='Name'then D=N elseif M=='Parent'then if N==I then return end if E~=nil then x[E][I]=nil end E=N if N~=nil then x[N][I]=true end elseif C=='StringValue'and M=='Value'then J=N else G(M)end end K.__tostring=function()return D end x[I]=F if E~=nil then x[E][I]=true end return I end local function D(E,F)local G,H,I,J=E[1],E[2],E[3],E[4]local K=m(I,1)local L=C(H,K,F)s[G]=L if I then for M,N in ag,I do L[M]=N end end if J then for M,N in ag,J do D(N,L)end end return L end local E={}for F,G in ag,a do l(E,D(G))end for H,I in ag,aa do local J=s[H]t[J]=I local K=J.ClassName if K=='LocalScript'or K=='Script'then l(v,J)end end local J=function(J)local K,L=J.ClassName,u[J]if L and K=='ModuleScript'then return aj(L)end local M=t[J]if not M then return end if K=='LocalScript'or K=='Script'then M()return else local N={M()}u[J]=N return aj(N)end end function b(K)local L=s[K]local M=t[L]if not M then return end local N,O,P,Q,R,S,T=false,n{Version=p,Script=e,Shared=w,GetScript=function()return e end,GetShared=function()return w end},L,function(N,...)if x[N]and N.ClassName=='ModuleScript'and t[N]then return J(N)end return g(N,...)end local U,V=function(U,...)if not N then T()end if f(U)=='number'and U>=0 then if U==0 then return S else U=U+1 local V,W=h(i,U)if V and W==R then return S end end end return i(U,...)end,function(U,V,...)if not N then T()end if f(U)=='number'and U>=0 then if U==0 then return j(S,V)else U=U+1 local W,X=h(i,U)if W and X==R then return j(S,V)end end end return j(U,V,...)end function T()R=i(0)local W={maui=O,script=P,require=Q,getfenv=U,setfenv=V}S=ac({},{__index=function(X,Y)local Z=k(S,Y)if Z~=nil then return Z end local _=W[Y]if _~=nil then return _ end return R[Y]end})j(M,S)N=true end return O,P,Q,U,V end for K,L in ag,v do o(J,L)end do local M for N,O in ag,E do if O.ClassName=='ModuleScript'and O.Name=='MainModule'then M=O break end end if M then return J(M)end end end -- [[ Pink Style for Custom Elements ]]
 task.spawn(function()
-    task.wait(1) -- Đợi UI load
+    task.wait(2) -- Đợi UI load
     
     local CoreGui = game:GetService("CoreGui")
     
-    -- Tìm Fluent UI window
-    for _,obj in pairs(CoreGui:GetDescendants()) do
-        if obj.Name == "Fluent" or obj:FindFirstChild("Fluent") then
-            -- Áp dụng pink style
-            if obj:IsA("Frame") then
-                -- Main window
-                obj.BackgroundColor3 = Color3.fromRGB(255, 170, 200)
-                obj.Position = UDim2.new(0.25, 0, 0.2, 0)
-                obj.Size = UDim2.new(0, 600, 0, 350)
-                obj.Active = true
-                obj.Draggable = true
-                
-                -- Thêm góc bo và viền
-                local corner = Instance.new("UICorner")
-                corner.CornerRadius = UDim.new(0, 20)
-                corner.Parent = obj
-                
-                local stroke = Instance.new("UIStroke")
-                stroke.Color = Color3.fromRGB(255, 105, 180)
-                stroke.Thickness = 3
-                stroke.Parent = obj
-                
-                -- Tìm và chỉnh sửa tất cả elements
-                for _,child in pairs(obj:GetDescendants()) do
-                    if child:IsA("Frame") or child:IsA("TextButton") or child:IsA("ScrollingFrame") then
-                        -- Màu nền
-                        if child.Name == "TabHolder" or child.Name:find("Tab") then
-                            child.BackgroundColor3 = Color3.fromRGB(255, 140, 180)
-                        elseif child.Name:find("Container") or child.Name:find("Content") then
-                            child.BackgroundColor3 = Color3.fromRGB(255, 160, 200)
-                        elseif child:IsA("TextButton") and not child.Name:find("Close") and not child.Name:find("Min") and not child.Name:find("Max") then
-                            child.BackgroundColor3 = Color3.fromRGB(255, 182, 193)
-                        end
-                        
-                        -- Góc bo (12px cho buttons, 15px cho containers)
-                        for _,cornerChild in pairs(child:GetChildren()) do
-                            if cornerChild:IsA("UICorner") then
-                                if child:IsA("TextButton") then
-                                    cornerChild.CornerRadius = UDim.new(0, 12)
-                                else
-                                    cornerChild.CornerRadius = UDim.new(0, 15)
-                                end
-                            end
-                        end
-                        
-                        -- Đường viền
-                        if not child:FindFirstChild("UIStroke") and child:IsA("TextButton") then
-                            local btnStroke = Instance.new("UIStroke")
-                            btnStroke.Color = Color3.fromRGB(255, 105, 180)
-                            btnStroke.Thickness = 2
-                            btnStroke.Parent = child
-                        end
-                    end
-                    
-                    -- Text labels
-                    if child:IsA("TextLabel") or (child:IsA("TextButton") and child.Text ~= "") then
-                        child.TextColor3 = Color3.fromRGB(255, 20, 147)
-                        if child.Name == "Title" or child:IsA("TextLabel") then
-                            child.Font = Enum.Font.GothamBold
-                        end
-                    end
+    -- Tìm Pink Hub Frame
+    for _,screenGui in pairs(CoreGui:GetChildren()) do
+        if screenGui:IsA("ScreenGui") then
+            for _,frame in pairs(screenGui:GetChildren()) do
+                if frame.Name == "PinkHubFrame" then
+                    -- Style các elements tự động
+                    stylePinkElements(frame)
                 end
             end
         end
     end
     
-    -- Thêm tiêu đề "NaNa Make ui🌸"
-    task.wait(2) -- Đợi window tạo xong
-    local fluentScreen = CoreGui:FindFirstChild("Fluent") or CoreGui:FindFirstChild("ScreenGui")
-    if fluentScreen then
-        -- Xóa title cũ nếu có
-        local oldTitle = fluentScreen:FindFirstChild("PinkTitle")
-        if oldTitle then oldTitle:Destroy() end
-        
-        local title = Instance.new("TextLabel")
-        title.Name = "PinkTitle"
-        title.Text = "NaNa Make ui🌸"
-        title.Size = UDim2.new(1, 0, 0, 50)
-        title.Position = UDim2.new(0, 0, 0, 0)
-        title.BackgroundTransparency = 1
-        title.TextColor3 = Color3.fromRGB(255, 20, 147)
-        title.Font = Enum.Font.GothamBold
-        title.TextSize = 24
-        title.TextXAlignment = Enum.TextXAlignment.Center
-        title.ZIndex = 100
-        title.Parent = fluentScreen
-        
-        -- Di chuyển các element xuống dưới title
-        for _,child in pairs(fluentScreen:GetChildren()) do
-            if child:IsA("Frame") and child.Name ~= "PinkTitle" and child ~= title then
-                child.Position = UDim2.new(0.25, 0, 0.2, 50) -- Di chuyển xuống 50px
+    function stylePinkElements(parent)
+        -- Tự động style các elements được thêm vào
+        for _,child in pairs(parent:GetDescendants()) do
+            -- Buttons
+            if child:IsA("TextButton") then
+                child.BackgroundColor3 = Color3.fromRGB(255,182,193)
+                child.TextColor3 = Color3.fromRGB(255,20,147)
+                child.Font = Enum.Font.GothamBold
+                
+                local corner = child:FindFirstChild("UICorner") or Instance.new("UICorner")
+                corner.CornerRadius = UDim.new(0,12)
+                corner.Parent = child
+                
+                local stroke = child:FindFirstChild("UIStroke") or Instance.new("UIStroke")
+                stroke.Color = Color3.fromRGB(255,105,180)
+                stroke.Thickness = 2
+                stroke.Parent = child
             end
-        end
-        
-        -- Tạo menu trái (nếu chưa có)
-        local mainFrame = fluentScreen:FindFirstChildWhichIsA("Frame")
-        if mainFrame then
-            -- Tìm hoặc tạo menu trái
-            local leftMenu = mainFrame:FindFirstChild("LeftMenu")
-            if not leftMenu then
-                leftMenu = Instance.new("Frame")
-                leftMenu.Name = "LeftMenu"
-                leftMenu.BackgroundColor3 = Color3.fromRGB(255, 140, 180)
-                leftMenu.Position = UDim2.new(0, 10, 0, 60)
-                leftMenu.Size = UDim2.new(0, 200, 0, 280)
-                leftMenu.Parent = mainFrame
+            
+            -- TextLabels
+            if child:IsA("TextLabel") then
+                child.TextColor3 = Color3.fromRGB(255,20,147)
+                child.Font = Enum.Font.GothamBold
+            end
+            
+            -- Frames (section containers)
+            if child:IsA("Frame") and child.BackgroundTransparency < 1 then
+                child.BackgroundColor3 = Color3.fromRGB(255,182,193)
                 
-                local menuCorner = Instance.new("UICorner")
-                menuCorner.CornerRadius = UDim.new(0, 15)
-                menuCorner.Parent = leftMenu
+                local corner = child:FindFirstChild("UICorner") or Instance.new("UICorner")
+                corner.CornerRadius = UDim.new(0,12)
+                corner.Parent = child
                 
-                -- Tạo các nút menu
-                local buttons = {
-                    "Shop", "Status And Server", "LocalPlayer", 
-                    "Setting Farm", "Fruit & Raid", "Sea Event"
-                }
+                local stroke = child:FindFirstChild("UIStroke") or Instance.new("UIStroke")
+                stroke.Color = Color3.fromRGB(255,105,180)
+                stroke.Thickness = 2
+                stroke.Parent = child
+            end
+            
+            -- Toggle switches
+            if child:IsA("Frame") and child.Name:find("Toggle") then
+                child.BackgroundColor3 = Color3.fromRGB(255,182,193)
                 
-                for i, btnText in ipairs(buttons) do
-                    local btn = Instance.new("TextButton")
-                    btn.Text = btnText
-                    btn.Position = UDim2.new(0, 10, 0, 10 + (45 * (i-1)))
-                    btn.Size = UDim2.new(1, -20, 0, 35)
-                    btn.BackgroundColor3 = Color3.fromRGB(255, 182, 193)
-                    btn.TextColor3 = Color3.fromRGB(255, 20, 147)
-                    btn.Font = Enum.Font.GothamBold
-                    btn.TextSize = 14
-                    btn.Parent = leftMenu
-                    
-                    local c = Instance.new("UICorner")
-                    c.CornerRadius = UDim.new(0, 12)
-                    c.Parent = btn
-                    
-                    local s = Instance.new("UIStroke")
-                    s.Color = Color3.fromRGB(255, 105, 180)
-                    s.Thickness = 2
-                    s.Parent = btn
+                local corner = child:FindFirstChild("UICorner") or Instance.new("UICorner")
+                if corner then
+                    corner.CornerRadius = UDim.new(0,9)
                 end
             end
         end
     end
     
-    print("🎀 Banana Cat Hub Pink Edition đã được áp dụng!")
+    print("🎀 Pink UI Frame ready - Add your own elements!")
 end)
