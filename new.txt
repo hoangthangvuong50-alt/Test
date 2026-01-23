@@ -26,12 +26,30 @@ return function(t)
     local A,B=false
     local C=false
     v.AcrylicPaint=n.AcrylicPaint()
-    local D,E=s('Frame',{Size=UDim2.fromOffset(4,0),BackgroundColor3=Color3.fromRGB(255,105,180),Position=UDim2.fromOffset(0,17),AnchorPoint=Vector2.new(0,0.5),ThemeTag={BackgroundColor3='Accent'}},{s('UICorner',{CornerRadius=UDim.new(0,2)})}),s('Frame',{Size=UDim2.fromOffset(20,20),BackgroundTransparency=1,Position=UDim2.new(1,-20,1,-20)})
     
-    -- TAB HOLDER (PINK STYLE)
+    -- PINK ACCENT SELECTOR
+    local D=s('Frame',{
+        Size=UDim2.fromOffset(4,0),
+        BackgroundColor3=Color3.fromRGB(255,105,180),
+        Position=UDim2.fromOffset(0,17),
+        AnchorPoint=Vector2.new(0,0.5),
+        ThemeTag={BackgroundColor3='Accent'},
+        Name = "TabSelector"
+    },{
+        s('UICorner',{CornerRadius=UDim.new(0,2)})
+    })
+    
+    local E=s('Frame',{
+        Size=UDim2.fromOffset(20,20),
+        BackgroundTransparency=1,
+        Position=UDim2.new(1,-20,1,-20),
+        Name = "ResizeHandle"
+    })
+    
+    -- PINK TAB HOLDER (LEFT MENU)
     v.TabHolder=s('ScrollingFrame',{
-        BackgroundColor3=Color3.fromRGB(255,140,180),
         Size=UDim2.fromScale(1,1),
+        BackgroundColor3=Color3.fromRGB(255,140,180),
         ScrollBarImageTransparency=1,
         ScrollBarThickness=0,
         BorderSizePixel=0,
@@ -43,6 +61,7 @@ return function(t)
         s('UIListLayout',{Padding=UDim.new(0,4)})
     })
     
+    -- TAB CONTAINER (HOLDS TABHOLDER + SELECTOR)
     local F=s('Frame',{
         Size=UDim2.new(0,t.TabWidth,1,-66),
         Position=UDim2.new(0,12,0,54),
@@ -54,14 +73,15 @@ return function(t)
         D
     })
     
-    -- MAIN WINDOW (PINK STYLE)
+    -- PINK MAIN WINDOW
     v.Root=s('Frame',{
         BackgroundColor3=Color3.fromRGB(255,170,200),
         Size=v.Size,
         Position=v.Position,
         Parent=t.Parent,
         Active=true,
-        Draggable=true
+        Draggable=true,
+        Name = "MainWindow"
     },{
         s('UICorner',{CornerRadius=UDim.new(0,20)}),
         s('UIStroke',{
@@ -69,15 +89,14 @@ return function(t)
             Thickness=3
         }),
         v.AcrylicPaint.Frame,
-        v.TabDisplay,
-        v.ContainerHolder,
         F,
         E
     })
     
+    -- PINK TAB DISPLAY
     v.TabDisplay=s('TextLabel',{
         RichText=true,
-        Text='Tab',
+        Text=t.Title or "Tab",
         TextTransparency=0,
         FontFace=Font.new('rbxassetid://12187365364',Enum.FontWeight.SemiBold,Enum.FontStyle.Normal),
         TextSize=28,
@@ -90,44 +109,246 @@ return function(t)
         Name = "TabDisplay"
     })
     
-    v.ContainerHolder=s('CanvasGroup',{
+    -- PINK CONTENT CONTAINER (RIGHT SIDE)
+    v.ContainerHolder=s('ScrollingFrame',{
         Size=UDim2.new(1,-t.TabWidth-32,1,-102),
         Position=UDim2.fromOffset(t.TabWidth+26,90),
-        BackgroundTransparency=1,
+        BackgroundColor3=Color3.fromRGB(255,160,200),
+        ScrollBarThickness=6,
+        ScrollBarImageColor3=Color3.fromRGB(255,105,180),
+        BorderSizePixel=0,
+        CanvasSize=UDim2.new(0,0,0,0),
         Name = "ContainerHolder"
+    },{
+        s('UICorner',{CornerRadius=UDim.new(0,15)}),
+        s('UIPadding',{
+            PaddingTop=UDim.new(0,10),
+            PaddingLeft=UDim.new(0,10),
+            PaddingRight=UDim.new(0,10),
+            PaddingBottom=UDim.new(0,10)
+        })
     })
     
+    -- ADD CONTAINER TO ROOT
+    v.ContainerHolder.Parent = v.Root
+    v.TabDisplay.Parent = v.Root
+    
+    -- TITLE BAR
     v.TitleBar=e(d.Parent.TitleBar){Title=t.Title,SubTitle=t.SubTitle,Parent=v.Root,Window=v}
-    if e(k).UseAcrylic then v.AcrylicPaint.AddParent(v.Root)end
+    
+    if e(k).UseAcrylic then 
+        v.AcrylicPaint.AddParent(v.Root)
+    end
+    
+    -- MOTORS (GIỮ NGUYÊN)
     local G,H=l.GroupMotor.new{X=v.Size.X.Offset,Y=v.Size.Y.Offset},l.GroupMotor.new{X=v.Position.X.Offset,Y=v.Position.Y.Offset}
     v.SelectorPosMotor=l.SingleMotor.new(17)
     v.SelectorSizeMotor=l.SingleMotor.new(0)
     v.ContainerBackMotor=l.SingleMotor.new(0)
     v.ContainerPosMotor=l.SingleMotor.new(94)
+    
     G:onStep(function(I)v.Root.Size=UDim2.new(0,I.X,0,I.Y)end)
     H:onStep(function(I)v.Root.Position=UDim2.new(0,I.X,0,I.Y)end)
+    
     local I,J=0,0
-    v.SelectorPosMotor:onStep(function(K)D.Position=UDim2.new(0,0,0,K+17)local L=tick()local M=L-J if I~=nil then v.SelectorSizeMotor:setGoal(q((math.abs(K-I)/(M*60))+16))I=K end J=L end)
+    v.SelectorPosMotor:onStep(function(K)
+        D.Position=UDim2.new(0,0,0,K+17)
+        local L=tick()
+        local M=L-J 
+        if I~=nil then 
+            v.SelectorSizeMotor:setGoal(q((math.abs(K-I)/(M*60))+16))
+            I=K 
+        end 
+        J=L 
+    end)
+    
     v.SelectorSizeMotor:onStep(function(K)D.Size=UDim2.new(0,4,0,K)end)
     v.ContainerBackMotor:onStep(function(K)v.ContainerHolder.GroupTransparency=K end)
     v.ContainerPosMotor:onStep(function(K)v.ContainerHolder.Position=UDim2.fromOffset(t.TabWidth+26,K)end)
+    
+    -- WINDOW FUNCTIONS
     local K,L
-    v.Maximize=function(M,N,O)v.Maximized=M v.TitleBar.MaxButton.Frame.Icon.Image=M and o.Restore or o.Max if M then K=v.Size.X.Offset L=v.Size.Y.Offset end local P,Q=M and j.ViewportSize.X or K,M and j.ViewportSize.Y or L G:setGoal{X=l[O and'Instant'or'Spring'].new(P,{frequency=6}),Y=l[O and'Instant'or'Spring'].new(Q,{frequency=6})}v.Size=UDim2.fromOffset(P,Q)if not N then H:setGoal{X=q(M and 0 or v.Position.X.Offset,{frequency=6}),Y=q(M and 0 or v.Position.Y.Offset,{frequency=6})}end end
-    m.AddSignal(v.TitleBar.Frame.InputBegan,function(M)if M.UserInputType==Enum.UserInputType.MouseButton1 or M.UserInputType==Enum.UserInputType.Touch then w=true y=M.Position z=v.Root.Position if v.Maximized then z=UDim2.fromOffset(i.X-(i.X*((K-100)/v.Root.AbsoluteSize.X)),i.Y-(i.Y*(L/v.Root.AbsoluteSize.Y)))end M.Changed:Connect(function()if M.UserInputState==Enum.UserInputState.End then w=false end end)end end)
-    m.AddSignal(v.TitleBar.Frame.InputChanged,function(M)if M.UserInputType==Enum.UserInputType.MouseMovement or M.UserInputType==Enum.UserInputType.Touch then x=M end end)
-    m.AddSignal(E.InputBegan,function(M)if M.UserInputType==Enum.UserInputType.MouseButton1 or M.UserInputType==Enum.UserInputType.Touch then A=true B=M.Position end end)
-    m.AddSignal(h.InputChanged,function(M)if M==x and w then local N=M.Position-y v.Position=UDim2.fromOffset(z.X.Offset+N.X,z.Y.Offset+N.Y)H:setGoal{X=r(v.Position.X.Offset),Y=r(v.Position.Y.Offset)}if v.Maximized then v.Maximize(false,true,true)end end if(M.UserInputType==Enum.UserInputType.MouseMovement or M.UserInputType==Enum.UserInputType.Touch)and A then local N,O=M.Position-B,v.Size local P=Vector3.new(O.X.Offset,O.Y.Offset,0)+Vector3.new(1,1,0)*N local Q=Vector2.new(math.clamp(P.X,470,2048),math.clamp(P.Y,380,2048))G:setGoal{X=l.Instant.new(Q.X),Y=l.Instant.new(Q.Y)}end end)
-    m.AddSignal(h.InputEnded,function(M)if A==true or M.UserInputType==Enum.UserInputType.Touch then A=false v.Size=UDim2.fromOffset(G:getValue().X,G:getValue().Y)end end)
-    m.AddSignal(v.TabHolder.UIListLayout:GetPropertyChangedSignal'AbsoluteContentSize',function()v.TabHolder.CanvasSize=UDim2.new(0,0,0,v.TabHolder.UIListLayout.AbsoluteContentSize.Y)end)
-    m.AddSignal(h.InputBegan,function(M)if type(u.MinimizeKeybind)=='table'and u.MinimizeKeybind.Type=='Keybind'and not h:GetFocusedTextBox()then if M.KeyCode.Name==u.MinimizeKeybind.Value then v:Minimize()end elseif M.KeyCode==u.MinimizeKey and not h:GetFocusedTextBox()then v:Minimize()end end)
-    function v.Minimize(M)v.Minimized=not v.Minimized v.Root.Visible=not v.Minimized if not C then C=true local N=u.MinimizeKeybind and u.MinimizeKeybind.Value or u.MinimizeKey.Name u:Notify{Title='Interface',Content='Press '..N..' to toggle the inteface.',Duration=6}end end
-    function v.Destroy(M)if e(k).UseAcrylic then v.AcrylicPaint.Model:Destroy()end v.Root:Destroy()end
-    local M=e(p.Dialog):Init(v)
-    function v.Dialog(N,O)local P=M:Create()P.Title.Text=O.Title local Q=s('TextLabel',{FontFace=Font.new'rbxasset://fonts/families/GothamSSm.json',Text=O.Content,TextColor3=Color3.fromRGB(240,240,240),TextSize=14,TextXAlignment=Enum.TextXAlignment.Left,TextYAlignment=Enum.TextYAlignment.Top,Size=UDim2.new(1,-40,1,0),Position=UDim2.fromOffset(20,60),BackgroundTransparency=1,Parent=P.Root,ClipsDescendants=false,ThemeTag={TextColor3='Text'}})s('UISizeConstraint',{MinSize=Vector2.new(300,165),MaxSize=Vector2.new(620,math.huge),Parent=P.Root})P.Root.Size=UDim2.fromOffset(Q.TextBounds.X+40,165)if Q.TextBounds.X+40>v.Size.X.Offset-120 then P.Root.Size=UDim2.fromOffset(v.Size.X.Offset-120,165)Q.TextWrapped=true P.Root.Size=UDim2.fromOffset(v.Size.X.Offset-120,Q.TextBounds.Y+150)end for R,S in next,O.Buttons do P:Button(S.Title,S.Callback)end P:Open()end
-    local N=e(p.Tab):Init(v)
-    function v.AddTab(O,P)return N:New(P.Title,P.Icon,v.TabHolder)end
-    function v.SelectTab(O,P)N:SelectTab(1)end
-    m.AddSignal(v.TabHolder:GetPropertyChangedSignal'CanvasPosition',function()I=N:GetCurrentTabPos()+16 J=0 v.SelectorPosMotor:setGoal(r(N:GetCurrentTabPos()))end)
+    v.Maximize=function(M,N,O)
+        v.Maximized=M 
+        v.TitleBar.MaxButton.Frame.Icon.Image=M and o.Restore or o.Max 
+        if M then 
+            K=v.Size.X.Offset 
+            L=v.Size.Y.Offset 
+        end 
+        local P,Q=M and j.ViewportSize.X or K,M and j.ViewportSize.Y or L 
+        G:setGoal{
+            X=l[O and'Instant'or'Spring'].new(P,{frequency=6}),
+            Y=l[O and'Instant'or'Spring'].new(Q,{frequency=6})
+        }
+        v.Size=UDim2.fromOffset(P,Q)
+        if not N then 
+            H:setGoal{
+                X=q(M and 0 or v.Position.X.Offset,{frequency=6}),
+                Y=q(M and 0 or v.Position.Y.Offset,{frequency=6})
+            }
+        end 
+    end
+    
+    -- INPUT HANDLING
+    m.AddSignal(v.TitleBar.Frame.InputBegan,function(M)
+        if M.UserInputType==Enum.UserInputType.MouseButton1 or M.UserInputType==Enum.UserInputType.Touch then 
+            w=true 
+            y=M.Position 
+            z=v.Root.Position 
+            if v.Maximized then 
+                z=UDim2.fromOffset(
+                    i.X-(i.X*((K-100)/v.Root.AbsoluteSize.X)),
+                    i.Y-(i.Y*(L/v.Root.AbsoluteSize.Y))
+                )
+            end 
+            M.Changed:Connect(function()
+                if M.UserInputState==Enum.UserInputState.End then 
+                    w=false 
+                end 
+            end)
+        end 
+    end)
+    
+    m.AddSignal(v.TitleBar.Frame.InputChanged,function(M)
+        if M.UserInputType==Enum.UserInputType.MouseMovement or M.UserInputType==Enum.UserInputType.Touch then 
+            x=M 
+        end 
+    end)
+    
+    m.AddSignal(E.InputBegan,function(M)
+        if M.UserInputType==Enum.UserInputType.MouseButton1 or M.UserInputType==Enum.UserInputType.Touch then 
+            A=true 
+            B=M.Position 
+        end 
+    end)
+    
+    m.AddSignal(h.InputChanged,function(M)
+        if M==x and w then 
+            local N=M.Position-y 
+            v.Position=UDim2.fromOffset(z.X.Offset+N.X,z.Y.Offset+N.Y)
+            H:setGoal{X=r(v.Position.X.Offset),Y=r(v.Position.Y.Offset)}
+            if v.Maximized then 
+                v.Maximize(false,true,true)
+            end 
+        end 
+        if(M.UserInputType==Enum.UserInputType.MouseMovement or M.UserInputType==Enum.UserInputType.Touch)and A then 
+            local N,O=M.Position-B,v.Size 
+            local P=Vector3.new(O.X.Offset,O.Y.Offset,0)+Vector3.new(1,1,0)*N 
+            local Q=Vector2.new(math.clamp(P.X,470,2048),math.clamp(P.Y,380,2048))
+            G:setGoal{X=l.Instant.new(Q.X),Y=l.Instant.new(Q.Y)}
+        end 
+    end)
+    
+    m.AddSignal(h.InputEnded,function(M)
+        if A==true or M.UserInputType==Enum.UserInputType.Touch then 
+            A=false 
+            v.Size=UDim2.fromOffset(G:getValue().X,G:getValue().Y)
+        end 
+    end)
+    
+    -- TAB LAYOUT UPDATE
+    m.AddSignal(v.TabHolder.UIListLayout:GetPropertyChangedSignal'AbsoluteContentSize',function()
+        v.TabHolder.CanvasSize=UDim2.new(0,0,0,v.TabHolder.UIListLayout.AbsoluteContentSize.Y)
+    end)
+    
+    -- MINIMIZE KEY
+    m.AddSignal(h.InputBegan,function(M)
+        if type(u.MinimizeKeybind)=='table'and u.MinimizeKeybind.Type=='Keybind'and not h:GetFocusedTextBox()then 
+            if M.KeyCode.Name==u.MinimizeKeybind.Value then 
+                v:Minimize()
+            end 
+        elseif M.KeyCode==u.MinimizeKey and not h:GetFocusedTextBox()then 
+            v:Minimize()
+        end 
+    end)
+    
+    -- WINDOW METHODS
+    function v.Minimize(M)
+        v.Minimized=not v.Minimized 
+        v.Root.Visible=not v.Minimized 
+        if not C then 
+            C=true 
+            local N=u.MinimizeKeybind and u.MinimizeKeybind.Value or u.MinimizeKey.Name 
+            u:Notify{
+                Title='Interface',
+                Content='Press '..N..' to toggle the inteface.',
+                Duration=6
+            }
+        end 
+    end
+    
+    function v.Destroy(M)
+        if e(k).UseAcrylic then 
+            v.AcrylicPaint.Model:Destroy()
+        end 
+        v.Root:Destroy()
+    end
+    
+    -- DIALOG
+    local N=e(p.Dialog):Init(v)
+    function v.Dialog(O,P)
+        local Q=N:Create()
+        Q.Root.BackgroundColor3=Color3.fromRGB(255,170,200)
+        Q.Title.TextColor3=Color3.fromRGB(255,20,147)
+        Q.Title.Text=P.Title
+        
+        local R=s('TextLabel',{
+            FontFace=Font.new'rbxasset://fonts/families/GothamSSm.json',
+            Text=P.Content,
+            TextColor3=Color3.fromRGB(255,20,147),
+            TextSize=14,
+            TextXAlignment=Enum.TextXAlignment.Left,
+            TextYAlignment=Enum.TextYAlignment.Top,
+            Size=UDim2.new(1,-40,1,-100),
+            Position=UDim2.fromOffset(20,60),
+            BackgroundTransparency=1,
+            Parent=Q.Root,
+            ClipsDescendants=false,
+            ThemeTag={TextColor3='Text'}
+        })
+        
+        s('UISizeConstraint',{
+            MinSize=Vector2.new(300,165),
+            MaxSize=Vector2.new(620,math.huge),
+            Parent=Q.Root
+        })
+        
+        Q.Root.Size=UDim2.fromOffset(R.TextBounds.X+40,165)
+        if R.TextBounds.X+40>v.Size.X.Offset-120 then 
+            Q.Root.Size=UDim2.fromOffset(v.Size.X.Offset-120,165)
+            R.TextWrapped=true 
+            Q.Root.Size=UDim2.fromOffset(v.Size.X.Offset-120,R.TextBounds.Y+150)
+        end 
+        
+        for S,T in next,P.Buttons do 
+            Q:Button(T.Title,T.Callback)
+        end 
+        
+        Q:Open()
+    end
+    
+    -- TAB SYSTEM INIT
+    local O=e(p.Tab):Init(v)
+    function v.AddTab(P,Q)
+        return O:New(Q.Title or "Tab", Q.Icon, v.TabHolder)
+    end
+    
+    function v.SelectTab(P,Q)
+        O:SelectTab(Q or 1)
+    end
+    
+    -- TAB SELECTOR UPDATE
+    m.AddSignal(v.TabHolder:GetPropertyChangedSignal'CanvasPosition',function()
+        I=O:GetCurrentTabPos()+16 
+        J=0 
+        v.SelectorPosMotor:setGoal(r(O:GetCurrentTabPos()))
+    end)
+    
+    -- CONTAINER SIZE UPDATE
+    m.AddSignal(v.ContainerHolder:GetPropertyChangedSignal'AbsoluteCanvasSize',function()
+        v.ContainerHolder.CanvasSize=UDim2.new(0,0,0,v.ContainerHolder.AbsoluteCanvasSize.Y+20)
+    end)
+    
     return v
 end
 end,
@@ -168,52 +389,67 @@ end,
         PinkElement = Color3.fromRGB(255, 182, 193),
     }
 end,
-[53]=function()local aa,ab,ac,ad,ae=b(53)return{Name='Rose',Accent=Color3.fromRGB(180,55,90),AcrylicMain=Color3.fromRGB(40,40,40),AcrylicBorder=Color3.fromRGB(130,90,110),AcrylicGradient=ColorSequence.new(Color3.fromRGB(190,60,135),Color3.fromRGB(165,50,70)),AcrylicNoise=0.92,TitleBarLine=Color3.fromRGB(140,85,105),Tab=Color3.fromRGB(180,140,160),Element=Color3.fromRGB(200,120,170),ElementBorder=Color3.fromRGB(110,70,85),InElementBorder=Color3.fromRGB(120,90,90),ElementTransparency=0.86,ToggleSlider=Color3.fromRGB(200,120,170),ToggleToggled=Color3.fromRGB(0,0,0),SliderRail=Color3.fromRGB(200,120,170),DropdownFrame=Color3.fromRGB(200,160,180),DropdownHolder=Color3.fromRGB(120,50,75),DropdownBorder=Color3.fromRGB(90,40,55),DropdownOption=Color3.fromRGB(200,120,170),Keybind=Color3.fromRGB(200,120,170),Input=Color3.fromRGB(200,120,170),InputFocused=Color3.fromRGB(20,10,30),InputIndicator=Color3.fromRGB(170,150,190),Dialog=Color3.fromRGB(120,50,75),DialogHolder=Color3.fromRGB(95,40,60),DialogHolderLine=Color3.fromRGB(90,35,55),DialogButton=Color3.fromRGB(120,50,75),DialogButtonBorder=Color3.fromRGB(155,90,115),DialogBorder=Color3.fromRGB(100,70,90),DialogInput=Color3.fromRGB(135,55,80),DialogInputLine=Color3.fromRGB(190,160,180),Text=Color3.fromRGB(240,240,240),SubText=Color3.fromRGB(170,170,170),Hover=Color3.fromRGB(200,120,170),HoverChange=0.04}end}do local ab,ac,ad,ae,af,ag,ah,aj,c,e,f,g,h,i,j,k=task,setmetatable,error,newproxy,getmetatable,next,table,unpack,coroutine,script,type,require,pcall,getfenv,setfenv,rawget local l,m,n,o,p,s,t,u,v,w,x=ah.insert,ah.remove,ah.freeze or function(l)return l end,ab and ab.defer or function(l,...)local m=c.create(l)c.resume(m,...)return m end,'0.0.0-venv',{},{},{},{},{},{}local y,z={GetChildren=function(y)local z,A=x[y],{}for B in ag,z do l(A,B)end return A end,FindFirstChild=function(y,z)if not z then ad('Argument 1 missing or nil',2)end for A in ag,x[y]do if A.Name==z then return A end end return end,GetFullName=function(y)local z,A=y.Name,y.Parent while A do z=A.Name..'.'..z A=A.Parent end return'VirtualEnv.'..z end},{}for A,B in ag,y do z[A]=function(C,...)if not x[C]then ad("Expected ':' not '.' calling member function "..A,1)end return B(C,...)end end local C=function(C,D,E)local F,G,H,I,J=ac({},{__mode='k'}),function(F)ad(F..' is not a valid (virtual) member of '..C..' "'..D..'"',1)end,function(F)ad('Unable to assign (virtual) property '..F..'. Property is read only',1)end,(ae(true))local K=af(I)K.__index=function(L,M)if M=='ClassName'then return C elseif M=='Name'then return D elseif M=='Parent'then return E elseif C=='StringValue'and M=='Value'then return J else local N=z[M]if N then return N end end for N in ag,F do if N.Name==M then return N end end G(M)end K.__newindex=function(L,M,N)if M=='ClassName'then H(M)elseif M=='Name'then D=N elseif M=='Parent'then if N==I then return end if E~=nil then x[E][I]=nil end E=N if N~=nil then x[N][I]=true end elseif C=='StringValue'and M=='Value'then J=N else G(M)end end K.__tostring=function()return D end x[I]=F if E~=nil then x[E][I]=true end return I end local function D(E,F)local G,H,I,J=E[1],E[2],E[3],E[4]local K=m(I,1)local L=C(H,K,F)s[G]=L if I then for M,N in ag,I do L[M]=N end end if J then for M,N in ag,J do D(N,L)end end return L end local E={}for F,G in ag,a do l(E,D(G))end for H,I in ag,aa do local J=s[H]t[J]=I local K=J.ClassName if K=='LocalScript'or K=='Script'then l(v,J)end end local J=function(J)local K,L=J.ClassName,u[J]if L and K=='ModuleScript'then return aj(L)end local M=t[J]if not M then return end if K=='LocalScript'or K=='Script'then M()return else local N={M()}u[J]=N return aj(N)end end function b(K)local L=s[K]local M=t[L]if not M then return end local N,O,P,Q,R,S,T=false,n{Version=p,Script=e,Shared=w,GetScript=function()return e end,GetShared=function()return w end},L,function(N,...)if x[N]and N.ClassName=='ModuleScript'and t[N]then return J(N)end return g(N,...)end local U,V=function(U,...)if not N then T()end if f(U)=='number'and U>=0 then if U==0 then return S else U=U+1 local V,W=h(i,U)if V and W==R then return S end end end return i(U,...)end,function(U,V,...)if not N then T()end if f(U)=='number'and U>=0 then if U==0 then return j(S,V)else U=U+1 local W,X=h(i,U)if W and X==R then return j(S,V)end end end return j(U,V,...)end function T()R=i(0)local W={maui=O,script=P,require=Q,getfenv=U,setfenv=V}S=ac({},{__index=function(X,Y)local Z=k(S,Y)if Z~=nil then return Z end local _=W[Y]if _~=nil then return _ end return R[Y]end})j(M,S)N=true end return O,P,Q,U,V end for K,L in ag,v do o(J,L)end do local M for N,O in ag,E do if O.ClassName=='ModuleScript'and O.Name=='MainModule'then M=O break end end if M then return J(M)end end end -- [[ Pink Style for Fluent UI Elements ]]
+[53]=function()local aa,ab,ac,ad,ae=b(53)return{Name='Rose',Accent=Color3.fromRGB(180,55,90),AcrylicMain=Color3.fromRGB(40,40,40),AcrylicBorder=Color3.fromRGB(130,90,110),AcrylicGradient=ColorSequence.new(Color3.fromRGB(190,60,135),Color3.fromRGB(165,50,70)),AcrylicNoise=0.92,TitleBarLine=Color3.fromRGB(140,85,105),Tab=Color3.fromRGB(180,140,160),Element=Color3.fromRGB(200,120,170),ElementBorder=Color3.fromRGB(110,70,85),InElementBorder=Color3.fromRGB(120,90,90),ElementTransparency=0.86,ToggleSlider=Color3.fromRGB(200,120,170),ToggleToggled=Color3.fromRGB(0,0,0),SliderRail=Color3.fromRGB(200,120,170),DropdownFrame=Color3.fromRGB(200,160,180),DropdownHolder=Color3.fromRGB(120,50,75),DropdownBorder=Color3.fromRGB(90,40,55),DropdownOption=Color3.fromRGB(200,120,170),Keybind=Color3.fromRGB(200,120,170),Input=Color3.fromRGB(200,120,170),InputFocused=Color3.fromRGB(20,10,30),InputIndicator=Color3.fromRGB(170,150,190),Dialog=Color3.fromRGB(120,50,75),DialogHolder=Color3.fromRGB(95,40,60),DialogHolderLine=Color3.fromRGB(90,35,55),DialogButton=Color3.fromRGB(120,50,75),DialogButtonBorder=Color3.fromRGB(155,90,115),DialogBorder=Color3.fromRGB(100,70,90),DialogInput=Color3.fromRGB(135,55,80),DialogInputLine=Color3.fromRGB(190,160,180),Text=Color3.fromRGB(240,240,240),SubText=Color3.fromRGB(170,170,170),Hover=Color3.fromRGB(200,120,170),HoverChange=0.04}end}do local ab,ac,ad,ae,af,ag,ah,aj,c,e,f,g,h,i,j,k=task,setmetatable,error,newproxy,getmetatable,next,table,unpack,coroutine,script,type,require,pcall,getfenv,setfenv,rawget local l,m,n,o,p,s,t,u,v,w,x=ah.insert,ah.remove,ah.freeze or function(l)return l end,ab and ab.defer or function(l,...)local m=c.create(l)c.resume(m,...)return m end,'0.0.0-venv',{},{},{},{},{},{}local y,z={GetChildren=function(y)local z,A=x[y],{}for B in ag,z do l(A,B)end return A end,FindFirstChild=function(y,z)if not z then ad('Argument 1 missing or nil',2)end for A in ag,x[y]do if A.Name==z then return A end end return end,GetFullName=function(y)local z,A=y.Name,y.Parent while A do z=A.Name..'.'..z A=A.Parent end return'VirtualEnv.'..z end},{}for A,B in ag,y do z[A]=function(C,...)if not x[C]then ad("Expected ':' not '.' calling member function "..A,1)end return B(C,...)end end local C=function(C,D,E)local F,G,H,I,J=ac({},{__mode='k'}),function(F)ad(F..' is not a valid (virtual) member of '..C..' "'..D..'"',1)end,function(F)ad('Unable to assign (virtual) property '..F..'. Property is read only',1)end,(ae(true))local K=af(I)K.__index=function(L,M)if M=='ClassName'then return C elseif M=='Name'then return D elseif M=='Parent'then return E elseif C=='StringValue'and M=='Value'then return J else local N=z[M]if N then return N end end for N in ag,F do if N.Name==M then return N end end G(M)end K.__newindex=function(L,M,N)if M=='ClassName'then H(M)elseif M=='Name'then D=N elseif M=='Parent'then if N==I then return end if E~=nil then x[E][I]=nil end E=N if N~=nil then x[N][I]=true end elseif C=='StringValue'and M=='Value'then J=N else G(M)end end K.__tostring=function()return D end x[I]=F if E~=nil then x[E][I]=true end return I end local function D(E,F)local G,H,I,J=E[1],E[2],E[3],E[4]local K=m(I,1)local L=C(H,K,F)s[G]=L if I then for M,N in ag,I do L[M]=N end end if J then for M,N in ag,J do D(N,L)end end return L end local E={}for F,G in ag,a do l(E,D(G))end for H,I in ag,aa do local J=s[H]t[J]=I local K=J.ClassName if K=='LocalScript'or K=='Script'then l(v,J)end end local J=function(J)local K,L=J.ClassName,u[J]if L and K=='ModuleScript'then return aj(L)end local M=t[J]if not M then return end if K=='LocalScript'or K=='Script'then M()return else local N={M()}u[J]=N return aj(N)end end function b(K)local L=s[K]local M=t[L]if not M then return end local N,O,P,Q,R,S,T=false,n{Version=p,Script=e,Shared=w,GetScript=function()return e end,GetShared=function()return w end},L,function(N,...)if x[N]and N.ClassName=='ModuleScript'and t[N]then return J(N)end return g(N,...)end local U,V=function(U,...)if not N then T()end if f(U)=='number'and U>=0 then if U==0 then return S else U=U+1 local V,W=h(i,U)if V and W==R then return S end end end return i(U,...)end,function(U,V,...)if not N then T()end if f(U)=='number'and U>=0 then if U==0 then return j(S,V)else U=U+1 local W,X=h(i,U)if W and X==R then return j(S,V)end end end return j(U,V,...)end function T()R=i(0)local W={maui=O,script=P,require=Q,getfenv=U,setfenv=V}S=ac({},{__index=function(X,Y)local Z=k(S,Y)if Z~=nil then return Z end local _=W[Y]if _~=nil then return _ end return R[Y]end})j(M,S)N=true end return O,P,Q,U,V end for K,L in ag,v do o(J,L)end do local M for N,O in ag,E do if O.ClassName=='ModuleScript'and O.Name=='MainModule'then M=O break end end if M then return J(M)end end end -- [[ PINK FLUENT UI STYLER ]]
 task.spawn(function()
-    task.wait(2.5) -- Đợi Fluent UI load hoàn toàn
+    task.wait(3) -- Đợi UI load
     
     local CoreGui = game:GetService("CoreGui")
-    local runService = game:GetService("RunService")
+    local TweenService = game:GetService("TweenService")
     
     -- Function apply pink style
     local function applyPinkStyle()
         for _,screenGui in pairs(CoreGui:GetChildren()) do
             if screenGui:IsA("ScreenGui") then
                 for _,window in pairs(screenGui:GetChildren()) do
-                    if window:IsA("Frame") and window:FindFirstChild("TabHolder") then
-                        -- Apply pink to window
-                        window.BackgroundColor3 = Color3.fromRGB(255, 170, 200)
+                    if window:IsA("Frame") and window.Name == "MainWindow" then
+                        -- Ensure pink window
+                        window.BackgroundColor3 = Color3.fromRGB(255,170,200)
                         window.Active = true
                         window.Draggable = true
                         
                         -- Window corner
-                        local corner = window:FindFirstChild("UICorner") or Instance.new("UICorner")
-                        corner.CornerRadius = UDim.new(0, 20)
-                        corner.Parent = window
+                        local corner = window:FindFirstChild("UICorner")
+                        if not corner then
+                            corner = Instance.new("UICorner")
+                            corner.CornerRadius = UDim.new(0,20)
+                            corner.Parent = window
+                        end
                         
                         -- Window stroke
-                        local stroke = window:FindFirstChild("UIStroke") or Instance.new("UIStroke")
-                        stroke.Color = Color3.fromRGB(255, 105, 180)
-                        stroke.Thickness = 3
-                        stroke.Parent = window
+                        local stroke = window:FindFirstChild("UIStroke")
+                        if not stroke then
+                            stroke = Instance.new("UIStroke")
+                            stroke.Color = Color3.fromRGB(255,105,180)
+                            stroke.Thickness = 3
+                            stroke.Parent = window
+                        end
                         
-                        -- Apply pink to tab holder
+                        -- Style tab holder (left menu)
                         local tabHolder = window:FindFirstChild("TabHolder")
                         if tabHolder then
-                            tabHolder.BackgroundColor3 = Color3.fromRGB(255, 140, 180)
-                            local tabCorner = tabHolder:FindFirstChild("UICorner")
-                            if tabCorner then
-                                tabCorner.CornerRadius = UDim.new(0, 15)
+                            tabHolder.BackgroundColor3 = Color3.fromRGB(255,140,180)
+                            local tCorner = tabHolder:FindFirstChild("UICorner")
+                            if not tCorner then
+                                tCorner = Instance.new("UICorner")
+                                tCorner.CornerRadius = UDim.new(0,15)
+                                tCorner.Parent = tabHolder
                             end
                         end
                         
-                        -- Apply pink to container
+                        -- Style container (right content)
                         local container = window:FindFirstChild("ContainerHolder")
                         if container then
-                            container.BackgroundColor3 = Color3.fromRGB(255, 160, 200)
-                            local containerCorner = container:FindFirstChild("UICorner")
-                            if containerCorner then
-                                containerCorner.CornerRadius = UDim.new(0, 15)
+                            container.BackgroundColor3 = Color3.fromRGB(255,160,200)
+                            local cCorner = container:FindFirstChild("UICorner")
+                            if not cCorner then
+                                cCorner = Instance.new("UICorner")
+                                cCorner.CornerRadius = UDim.new(0,15)
+                                cCorner.Parent = container
+                            end
+                            
+                            -- Pink scrollbar
+                            if container:IsA("ScrollingFrame") then
+                                container.ScrollBarImageColor3 = Color3.fromRGB(255,105,180)
                             end
                         end
                         
@@ -221,41 +457,64 @@ task.spawn(function()
                         for _,child in pairs(window:GetDescendants()) do
                             -- Tab buttons
                             if child:IsA("TextButton") and child.Parent and child.Parent.Name == "TabHolder" then
-                                child.BackgroundColor3 = Color3.fromRGB(255, 182, 193)
-                                child.TextColor3 = Color3.fromRGB(255, 20, 147)
+                                child.BackgroundColor3 = Color3.fromRGB(255,182,193)
+                                child.TextColor3 = Color3.fromRGB(255,20,147)
                                 child.Font = Enum.Font.GothamBold
                                 
                                 local btnCorner = child:FindFirstChild("UICorner")
-                                if btnCorner then
-                                    btnCorner.CornerRadius = UDim.new(0, 12)
+                                if not btnCorner then
+                                    btnCorner = Instance.new("UICorner")
+                                    btnCorner.CornerRadius = UDim.new(0,12)
+                                    btnCorner.Parent = child
                                 end
                                 
-                                local btnStroke = child:FindFirstChild("UIStroke") or Instance.new("UIStroke")
-                                btnStroke.Color = Color3.fromRGB(255, 105, 180)
-                                btnStroke.Thickness = 2
-                                btnStroke.Parent = child
+                                local btnStroke = child:FindFirstChild("UIStroke")
+                                if not btnStroke then
+                                    btnStroke = Instance.new("UIStroke")
+                                    btnStroke.Color = Color3.fromRGB(255,105,180)
+                                    btnStroke.Thickness = 2
+                                    btnStroke.Parent = child
+                                end
                             end
                             
-                            -- Fluent elements (toggles, buttons, etc.)
+                            -- Fluent elements
                             if child:IsA("Frame") and child.Name:find("Element") then
-                                child.BackgroundColor3 = Color3.fromRGB(255, 182, 193)
+                                child.BackgroundColor3 = Color3.fromRGB(255,182,193)
                                 
                                 local elemCorner = child:FindFirstChild("UICorner")
                                 if elemCorner then
-                                    elemCorner.CornerRadius = UDim.new(0, 12)
+                                    elemCorner.CornerRadius = UDim.new(0,12)
+                                else
+                                    elemCorner = Instance.new("UICorner")
+                                    elemCorner.CornerRadius = UDim.new(0,12)
+                                    elemCorner.Parent = child
                                 end
                                 
                                 local elemStroke = child:FindFirstChild("UIStroke")
-                                if elemStroke then
-                                    elemStroke.Color = Color3.fromRGB(255, 105, 180)
+                                if not elemStroke then
+                                    elemStroke = Instance.new("UIStroke")
+                                    elemStroke.Color = Color3.fromRGB(255,105,180)
                                     elemStroke.Thickness = 2
+                                    elemStroke.Parent = child
                                 end
                             end
                             
-                            -- Text
+                            -- Text labels
                             if child:IsA("TextLabel") then
-                                child.TextColor3 = Color3.fromRGB(255, 20, 147)
+                                child.TextColor3 = Color3.fromRGB(255,20,147)
                                 child.Font = Enum.Font.GothamBold
+                            end
+                            
+                            -- Input fields
+                            if child:IsA("TextBox") then
+                                child.BackgroundColor3 = Color3.fromRGB(255,182,193)
+                                child.TextColor3 = Color3.fromRGB(255,20,147)
+                                child.PlaceholderColor3 = Color3.fromRGB(255,105,180)
+                            end
+                            
+                            -- Selector line
+                            if child.Name == "TabSelector" then
+                                child.BackgroundColor3 = Color3.fromRGB(255,105,180)
                             end
                         end
                     end
@@ -264,20 +523,11 @@ task.spawn(function()
         end
     end
     
-    -- Apply immediately
-    applyPinkStyle()
-    
-    -- Keep applying for new elements
-    local connection
-    connection = runService.Heartbeat:Connect(function()
+    -- Apply multiple times
+    for i = 1, 5 do
         applyPinkStyle()
-    end)
+        task.wait(0.5)
+    end
     
-    -- Stop after 15 seconds
-    task.delay(15, function()
-        if connection then
-            connection:Disconnect()
-        end
-        print("🎀 Pink Fluent UI ready!")
-    end)
+    print("🎀 PINK FLUENT UI READY - All elements styled!")
 end)
