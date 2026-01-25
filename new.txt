@@ -403,219 +403,182 @@ end,
         HoverChange = 0.04
     }
 end,
-[53]=function()local aa,ab,ac,ad,ae=b(53)return{Name='Rose',Accent=Color3.fromRGB(180,55,90),AcrylicMain=Color3.fromRGB(40,40,40),AcrylicBorder=Color3.fromRGB(130,90,110),AcrylicGradient=ColorSequence.new(Color3.fromRGB(190,60,135),Color3.fromRGB(165,50,70)),AcrylicNoise=0.92,TitleBarLine=Color3.fromRGB(140,85,105),Tab=Color3.fromRGB(180,140,160),Element=Color3.fromRGB(200,120,170),ElementBorder=Color3.fromRGB(110,70,85),InElementBorder=Color3.fromRGB(120,90,90),ElementTransparency=0.86,ToggleSlider=Color3.fromRGB(200,120,170),ToggleToggled=Color3.fromRGB(0,0,0),SliderRail=Color3.fromRGB(200,120,170),DropdownFrame=Color3.fromRGB(200,160,180),DropdownHolder=Color3.fromRGB(120,50,75),DropdownBorder=Color3.fromRGB(90,40,55),DropdownOption=Color3.fromRGB(200,120,170),Keybind=Color3.fromRGB(200,120,170),Input=Color3.fromRGB(200,120,170),InputFocused=Color3.fromRGB(20,10,30),InputIndicator=Color3.fromRGB(170,150,190),Dialog=Color3.fromRGB(120,50,75),DialogHolder=Color3.fromRGB(95,40,60),DialogHolderLine=Color3.fromRGB(90,35,55),DialogButton=Color3.fromRGB(120,50,75),DialogButtonBorder=Color3.fromRGB(155,90,115),DialogBorder=Color3.fromRGB(100,70,90),DialogInput=Color3.fromRGB(135,55,80),DialogInputLine=Color3.fromRGB(190,160,180),Text=Color3.fromRGB(240,240,240),SubText=Color3.fromRGB(170,170,170),Hover=Color3.fromRGB(200,120,170),HoverChange=0.04}end}do local ab,ac,ad,ae,af,ag,ah,aj,c,e,f,g,h,i,j,k=task,setmetatable,error,newproxy,getmetatable,next,table,unpack,coroutine,script,type,require,pcall,getfenv,setfenv,rawget local l,m,n,o,p,s,t,u,v,w,x=ah.insert,ah.remove,ah.freeze or function(l)return l end,ab and ab.defer or function(l,...)local m=c.create(l)c.resume(m,...)return m end,'0.0.0-venv',{},{},{},{},{},{}local y,z={GetChildren=function(y)local z,A=x[y],{}for B in ag,z do l(A,B)end return A end,FindFirstChild=function(y,z)if not z then ad('Argument 1 missing or nil',2)end for A in ag,x[y]do if A.Name==z then return A end end return end,GetFullName=function(y)local z,A=y.Name,y.Parent while A do z=A.Name..'.'..z A=A.Parent end return'VirtualEnv.'..z end},{}for A,B in ag,y do z[A]=function(C,...)if not x[C]then ad("Expected ':' not '.' calling member function "..A,1)end return B(C,...)end end local C=function(C,D,E)local F,G,H,I,J=ac({},{__mode='k'}),function(F)ad(F..' is not a valid (virtual) member of '..C..' "'..D..'"',1)end,function(F)ad('Unable to assign (virtual) property '..F..'. Property is read only',1)end,(ae(true))local K=af(I)K.__index=function(L,M)if M=='ClassName'then return C elseif M=='Name'then return D elseif M=='Parent'then return E elseif C=='StringValue'and M=='Value'then return J else local N=z[M]if N then return N end end for N in ag,F do if N.Name==M then return N end end G(M)end K.__newindex=function(L,M,N)if M=='ClassName'then H(M)elseif M=='Name'then D=N elseif M=='Parent'then if N==I then return end if E~=nil then x[E][I]=nil end E=N if N~=nil then x[N][I]=true end elseif C=='StringValue'and M=='Value'then J=N else G(M)end end K.__tostring=function()return D end x[I]=F if E~=nil then x[E][I]=true end return I end local function D(E,F)local G,H,I,J=E[1],E[2],E[3],E[4]local K=m(I,1)local L=C(H,K,F)s[G]=L if I then for M,N in ag,I do L[M]=N end end if J then for M,N in ag,J do D(N,L)end end return L end local E={}for F,G in ag,a do l(E,D(G))end for H,I in ag,aa do local J=s[H]t[J]=I local K=J.ClassName if K=='LocalScript'or K=='Script'then l(v,J)end end local J=function(J)local K,L=J.ClassName,u[J]if L and K=='ModuleScript'then return aj(L)end local M=t[J]if not M then return end if K=='LocalScript'or K=='Script'then M()return else local N={M()}u[J]=N return aj(N)end end function b(K)local L=s[K]local M=t[L]if not M then return end local N,O,P,Q,R,S,T=false,n{Version=p,Script=e,Shared=w,GetScript=function()return e end,GetShared=function()return w end},L,function(N,...)if x[N]and N.ClassName=='ModuleScript'and t[N]then return J(N)end return g(N,...)end local U,V=function(U,...)if not N then T()end if f(U)=='number'and U>=0 then if U==0 then return S else U=U+1 local V,W=h(i,U)if V and W==R then return S end end end return i(U,...)end,function(U,V,...)if not N then T()end if f(U)=='number'and U>=0 then if U==0 then return j(S,V)else U=U+1 local W,X=h(i,U)if W and X==R then return j(S,V)end end end return j(U,V,...)end function T()R=i(0)local W={maui=O,script=P,require=Q,getfenv=U,setfenv=V}S=ac({},{__index=function(X,Y)local Z=k(S,Y)if Z~=nil then return Z end local _=W[Y]if _~=nil then return _ end return R[Y]end})j(M,S)N=true end return O,P,Q,U,V end for K,L in ag,v do o(J,L)end do local M for N,O in ag,E do if O.ClassName=='ModuleScript'and O.Name=='MainModule'then M=O break end end if M then return J(M)end end end -- [[ COMPLETE PINK FLUENT UI STYLER ]]
+[53]=function()local aa,ab,ac,ad,ae=b(53)return{Name='Rose',Accent=Color3.fromRGB(180,55,90),AcrylicMain=Color3.fromRGB(40,40,40),AcrylicBorder=Color3.fromRGB(130,90,110),AcrylicGradient=ColorSequence.new(Color3.fromRGB(190,60,135),Color3.fromRGB(165,50,70)),AcrylicNoise=0.92,TitleBarLine=Color3.fromRGB(140,85,105),Tab=Color3.fromRGB(180,140,160),Element=Color3.fromRGB(200,120,170),ElementBorder=Color3.fromRGB(110,70,85),InElementBorder=Color3.fromRGB(120,90,90),ElementTransparency=0.86,ToggleSlider=Color3.fromRGB(200,120,170),ToggleToggled=Color3.fromRGB(0,0,0),SliderRail=Color3.fromRGB(200,120,170),DropdownFrame=Color3.fromRGB(200,160,180),DropdownHolder=Color3.fromRGB(120,50,75),DropdownBorder=Color3.fromRGB(90,40,55),DropdownOption=Color3.fromRGB(200,120,170),Keybind=Color3.fromRGB(200,120,170),Input=Color3.fromRGB(200,120,170),InputFocused=Color3.fromRGB(20,10,30),InputIndicator=Color3.fromRGB(170,150,190),Dialog=Color3.fromRGB(120,50,75),DialogHolder=Color3.fromRGB(95,40,60),DialogHolderLine=Color3.fromRGB(90,35,55),DialogButton=Color3.fromRGB(120,50,75),DialogButtonBorder=Color3.fromRGB(155,90,115),DialogBorder=Color3.fromRGB(100,70,90),DialogInput=Color3.fromRGB(135,55,80),DialogInputLine=Color3.fromRGB(190,160,180),Text=Color3.fromRGB(240,240,240),SubText=Color3.fromRGB(170,170,170),Hover=Color3.fromRGB(200,120,170),HoverChange=0.04}end}do local ab,ac,ad,ae,af,ag,ah,aj,c,e,f,g,h,i,j,k=task,setmetatable,error,newproxy,getmetatable,next,table,unpack,coroutine,script,type,require,pcall,getfenv,setfenv,rawget local l,m,n,o,p,s,t,u,v,w,x=ah.insert,ah.remove,ah.freeze or function(l)return l end,ab and ab.defer or function(l,...)local m=c.create(l)c.resume(m,...)return m end,'0.0.0-venv',{},{},{},{},{},{}local y,z={GetChildren=function(y)local z,A=x[y],{}for B in ag,z do l(A,B)end return A end,FindFirstChild=function(y,z)if not z then ad('Argument 1 missing or nil',2)end for A in ag,x[y]do if A.Name==z then return A end end return end,GetFullName=function(y)local z,A=y.Name,y.Parent while A do z=A.Name..'.'..z A=A.Parent end return'VirtualEnv.'..z end},{}for A,B in ag,y do z[A]=function(C,...)if not x[C]then ad("Expected ':' not '.' calling member function "..A,1)end return B(C,...)end end local C=function(C,D,E)local F,G,H,I,J=ac({},{__mode='k'}),function(F)ad(F..' is not a valid (virtual) member of '..C..' "'..D..'"',1)end,function(F)ad('Unable to assign (virtual) property '..F..'. Property is read only',1)end,(ae(true))local K=af(I)K.__index=function(L,M)if M=='ClassName'then return C elseif M=='Name'then return D elseif M=='Parent'then return E elseif C=='StringValue'and M=='Value'then return J else local N=z[M]if N then return N end end for N in ag,F do if N.Name==M then return N end end G(M)end K.__newindex=function(L,M,N)if M=='ClassName'then H(M)elseif M=='Name'then D=N elseif M=='Parent'then if N==I then return end if E~=nil then x[E][I]=nil end E=N if N~=nil then x[N][I]=true end elseif C=='StringValue'and M=='Value'then J=N else G(M)end end K.__tostring=function()return D end x[I]=F if E~=nil then x[E][I]=true end return I end local function D(E,F)local G,H,I,J=E[1],E[2],E[3],E[4]local K=m(I,1)local L=C(H,K,F)s[G]=L if I then for M,N in ag,I do L[M]=N end end if J then for M,N in ag,J do D(N,L)end end return L end local E={}for F,G in ag,a do l(E,D(G))end for H,I in ag,aa do local J=s[H]t[J]=I local K=J.ClassName if K=='LocalScript'or K=='Script'then l(v,J)end end local J=function(J)local K,L=J.ClassName,u[J]if L and K=='ModuleScript'then return aj(L)end local M=t[J]if not M then return end if K=='LocalScript'or K=='Script'then M()return else local N={M()}u[J]=N return aj(N)end end function b(K)local L=s[K]local M=t[L]if not M then return end local N,O,P,Q,R,S,T=false,n{Version=p,Script=e,Shared=w,GetScript=function()return e end,GetShared=function()return w end},L,function(N,...)if x[N]and N.ClassName=='ModuleScript'and t[N]then return J(N)end return g(N,...)end local U,V=function(U,...)if not N then T()end if f(U)=='number'and U>=0 then if U==0 then return S else U=U+1 local V,W=h(i,U)if V and W==R then return S end end end return i(U,...)end,function(U,V,...)if not N then T()end if f(U)=='number'and U>=0 then if U==0 then return j(S,V)else U=U+1 local W,X=h(i,U)if W and X==R then return j(S,V)end end end return j(U,V,...)end function T()R=i(0)local W={maui=O,script=P,require=Q,getfenv=U,setfenv=V}S=ac({},{__index=function(X,Y)local Z=k(S,Y)if Z~=nil then return Z end local _=W[Y]if _~=nil then return _ end return R[Y]end})j(M,S)N=true end return O,P,Q,U,V end for K,L in ag,v do o(J,L)end do local M for N,O in ag,E do if O.ClassName=='ModuleScript'and O.Name=='MainModule'then M=O break end end if M then return J(M)end end end -- [[ PINK FLUENT UI - OPTIMIZED NO LAG ]]
 task.spawn(function()
-    task.wait(3) -- Đợi UI load hoàn toàn
+    task.wait(3) -- Đợi UI load
     
     local CoreGui = game:GetService("CoreGui")
-    local TweenService = game:GetService("TweenService")
-    local RunService = game:GetService("RunService")
-    
-    -- Danh sách màu Pink Edition
     local PinkColors = {
-        Main = Color3.fromRGB(255,170,200),      -- Light pink
-        Dark = Color3.fromRGB(255,140,180),      -- Medium pink  
-        Light = Color3.fromRGB(255,160,200),     -- Light pink 2
-        Element = Color3.fromRGB(255,182,193),   -- Rose pink
-        Accent = Color3.fromRGB(255,105,180),    -- Hot pink
-        Text = Color3.fromRGB(255,20,147),       -- Deep pink
-        Border = Color3.fromRGB(255,105,180)     -- Hot pink border
+        Main = Color3.fromRGB(255,170,200),
+        Dark = Color3.fromRGB(255,140,180),  
+        Light = Color3.fromRGB(255,160,200),
+        Element = Color3.fromRGB(255,182,193),
+        Accent = Color3.fromRGB(255,105,180),
+        Text = Color3.fromRGB(255,20,147),
+        Border = Color3.fromRGB(255,105,180)
     }
     
-    -- Function tạo pink stroke
-    local function createPinkStroke(parent)
-        local stroke = parent:FindFirstChild("UIStroke")
-        if not stroke then
-            stroke = Instance.new("UIStroke")
-            stroke.Color = PinkColors.Border
-            stroke.Thickness = 2
-            stroke.Parent = parent
-        end
-        return stroke
-    end
-    
-    -- Function tạo pink corner
-    local function createPinkCorner(parent, radius)
-        local corner = parent:FindFirstChild("UICorner")
-        if not corner then
-            corner = Instance.new("UICorner")
-            corner.CornerRadius = UDim.new(0, radius)
-            corner.Parent = parent
-        else
-            corner.CornerRadius = UDim.new(0, radius)
-        end
-        return corner
-    end
-    
-    -- Function style một element
-    local function styleElement(element)
-        -- Main Window
-        if element:IsA("Frame") and (element.Name == "MainWindow" or element:FindFirstChild("TabHolder")) then
-            element.BackgroundColor3 = PinkColors.Main
-            createPinkCorner(element, 20)
-            createPinkStroke(element).Thickness = 3
-            
-            -- Tìm và style tất cả children
-            for _,child in pairs(element:GetChildren()) do
-                styleElement(child)
-            end
-            return
-        end
+    -- CHỈ CHẠY 1 LẦN, KHÔNG LẶP
+    local function applyPinkStyleOnce()
+        local styledWindows = {}
         
-        -- Tab Holder (Left Menu)
-        if element.Name == "TabHolder" and element:IsA("ScrollingFrame") then
-            element.BackgroundColor3 = PinkColors.Dark
-            createPinkCorner(element, 15)
-            
-            -- Style tab buttons
-            for _,btn in pairs(element:GetChildren()) do
-                if btn:IsA("TextButton") then
-                    btn.BackgroundColor3 = PinkColors.Element
-                    btn.TextColor3 = PinkColors.Text
-                    btn.Font = Enum.Font.GothamBold
-                    createPinkCorner(btn, 12)
-                    createPinkStroke(btn)
-                end
-            end
-            return
-        end
-        
-        -- Container Holder (Right Content)
-        if element.Name == "ContainerHolder" and element:IsA("ScrollingFrame") then
-            element.BackgroundColor3 = PinkColors.Light
-            createPinkCorner(element, 15)
-            element.ScrollBarImageColor3 = PinkColors.Accent
-            
-            -- Style tất cả elements trong container
-            for _,child in pairs(element:GetDescendants()) do
-                styleElement(child)
-            end
-            return
-        end
-        
-        -- Fluent Elements (Toggles, Buttons, etc.)
-        if element:IsA("Frame") and (element.Name:find("Element") or element.Name:find("Toggle") or element.Name:find("Dropdown")) then
-            element.BackgroundColor3 = PinkColors.Element
-            createPinkCorner(element, 12)
-            createPinkStroke(element)
-            return
-        end
-        
-        -- Text Labels
-        if element:IsA("TextLabel") then
-            element.TextColor3 = PinkColors.Text
-            element.Font = Enum.Font.GothamBold
-            return
-        end
-        
-        -- Text Buttons (Fluent buttons)
-        if element:IsA("TextButton") and not element.Parent or element.Parent.Name ~= "TabHolder" then
-            if element.Name:find("Button") or element.Name:find("Toggle") then
-                element.BackgroundColor3 = PinkColors.Element
-                element.TextColor3 = PinkColors.Text
-                element.Font = Enum.Font.GothamBold
-                createPinkCorner(element, 12)
-                createPinkStroke(element)
-            end
-            return
-        end
-        
-        -- Text Boxes
-        if element:IsA("TextBox") then
-            element.BackgroundColor3 = PinkColors.Element
-            element.TextColor3 = PinkColors.Text
-            element.PlaceholderColor3 = PinkColors.Accent
-            createPinkCorner(element, 12)
-            createPinkStroke(element)
-            return
-        end
-        
-        -- Sliders
-        if element:IsA("Frame") and element.Name:find("Slider") then
-            for _,child in pairs(element:GetChildren()) do
-                if child:IsA("Frame") and child.Name:find("Rail") then
-                    child.BackgroundColor3 = PinkColors.Element
-                elseif child:IsA("ImageLabel") then
-                    child.ImageColor3 = PinkColors.Accent
-                end
-            end
-            return
-        end
-        
-        -- Dropdowns
-        if element:IsA("Frame") and element.Name:find("Dropdown") then
-            element.BackgroundColor3 = PinkColors.Element
-            createPinkCorner(element, 12)
-            createPinkStroke(element)
-            return
-        end
-        
-        -- Color pickers
-        if element:IsA("Frame") and element.Name:find("Color") then
-            element.BackgroundColor3 = PinkColors.Element
-            createPinkCorner(element, 12)
-            createPinkStroke(element)
-            return
-        end
-        
-        -- Dialogs
-        if element:IsA("Frame") and element.Name:find("Dialog") then
-            element.BackgroundColor3 = PinkColors.Main
-            createPinkCorner(element, 15)
-            createPinkStroke(element).Thickness = 3
-            return
-        end
-        
-        -- Title bar
-        if element:IsA("Frame") and element.Name:find("TitleBar") then
-            for _,child in pairs(element:GetChildren()) do
-                if child:IsA("TextLabel") then
-                    child.TextColor3 = PinkColors.Text
-                    child.Font = Enum.Font.GothamBold
-                elseif child:IsA("TextButton") then
-                    child.BackgroundColor3 = PinkColors.Element
-                    createPinkCorner(child, 8)
-                end
-            end
-            return
-        end
-    end
-    
-    -- Function chính để apply style
-    local function applyCompletePinkStyle()
         for _,screenGui in pairs(CoreGui:GetChildren()) do
             if screenGui:IsA("ScreenGui") then
                 for _,window in pairs(screenGui:GetChildren()) do
-                    if window:IsA("Frame") then
-                        -- Style window chính
-                        styleElement(window)
+                    if window:IsA("Frame") and not styledWindows[window] then
+                        styledWindows[window] = true
                         
-                        -- Style tất cả descendants
-                        for _,descendant in pairs(window:GetDescendants()) do
-                            styleElement(descendant)
+                        -- 1. STYLE MAIN WINDOW
+                        window.BackgroundColor3 = PinkColors.Main
+                        window.Active = true
+                        window.Draggable = true
+                        
+                        local corner = window:FindFirstChild("UICorner")
+                        if not corner then
+                            corner = Instance.new("UICorner")
+                            corner.CornerRadius = UDim.new(0,20)
+                            corner.Parent = window
+                        end
+                        
+                        local stroke = window:FindFirstChild("UIStroke")
+                        if not stroke then
+                            stroke = Instance.new("UIStroke")
+                            stroke.Color = PinkColors.Border
+                            stroke.Thickness = 3
+                            stroke.Parent = window
+                        end
+                        
+                        -- 2. STYLE TAB HOLDER (LEFT MENU)
+                        local tabHolder = window:FindFirstChild("TabHolder")
+                        if tabHolder then
+                            tabHolder.BackgroundColor3 = PinkColors.Dark
+                            
+                            local tCorner = tabHolder:FindFirstChild("UICorner")
+                            if not tCorner then
+                                tCorner = Instance.new("UICorner")
+                                tCorner.CornerRadius = UDim.new(0,15)
+                                tCorner.Parent = tabHolder
+                            end
+                            
+                            -- Style tab buttons
+                            for _,btn in pairs(tabHolder:GetChildren()) do
+                                if btn:IsA("TextButton") then
+                                    btn.BackgroundColor3 = PinkColors.Element
+                                    btn.TextColor3 = PinkColors.Text
+                                    btn.Font = Enum.Font.GothamBold
+                                    
+                                    local btnCorner = btn:FindFirstChild("UICorner")
+                                    if not btnCorner then
+                                        btnCorner = Instance.new("UICorner")
+                                        btnCorner.CornerRadius = UDim.new(0,12)
+                                        btnCorner.Parent = btn
+                                    end
+                                    
+                                    local btnStroke = btn:FindFirstChild("UIStroke")
+                                    if not btnStroke then
+                                        btnStroke = Instance.new("UIStroke")
+                                        btnStroke.Color = PinkColors.Border
+                                        btnStroke.Thickness = 2
+                                        btnStroke.Parent = btn
+                                    end
+                                end
+                            end
+                        end
+                        
+                        -- 3. STYLE CONTAINER (RIGHT CONTENT)
+                        local container = window:FindFirstChild("ContainerHolder")
+                        if container then
+                            container.BackgroundColor3 = PinkColors.Light
+                            
+                            local cCorner = container:FindFirstChild("UICorner")
+                            if not cCorner then
+                                cCorner = Instance.new("UICorner")
+                                cCorner.CornerRadius = UDim.new(0,15)
+                                cCorner.Parent = container
+                            end
+                            
+                            if container:IsA("ScrollingFrame") then
+                                container.ScrollBarImageColor3 = PinkColors.Accent
+                            end
+                        end
+                        
+                        -- 4. STYLE FLUENT ELEMENTS (Chỉ style khi thấy)
+                        for _,element in pairs(window:GetDescendants()) do
+                            -- Elements (toggles, buttons, etc)
+                            if element:IsA("Frame") and (element.Name:find("Element") or element.Name:find("Toggle")) then
+                                element.BackgroundColor3 = PinkColors.Element
+                                
+                                local eCorner = element:FindFirstChild("UICorner")
+                                if eCorner then
+                                    eCorner.CornerRadius = UDim.new(0,12)
+                                end
+                                
+                                local eStroke = element:FindFirstChild("UIStroke")
+                                if eStroke then
+                                    eStroke.Color = PinkColors.Border
+                                    eStroke.Thickness = 2
+                                end
+                            end
+                            
+                            -- Text labels
+                            if element:IsA("TextLabel") then
+                                element.TextColor3 = PinkColors.Text
+                                element.Font = Enum.Font.GothamBold
+                            end
+                            
+                            -- Text buttons
+                            if element:IsA("TextButton") and element.Parent and element.Parent.Name ~= "TabHolder" then
+                                element.BackgroundColor3 = PinkColors.Element
+                                element.TextColor3 = PinkColors.Text
+                                element.Font = Enum.Font.GothamBold
+                            end
                         end
                     end
                 end
             end
         end
+        
+        print("🌸 Pink UI styled (no lag)")
     end
     
-    -- Apply style nhiều lần để đảm bảo
-    print("🎀 Applying Pink Fluent UI Style...")
+    -- CHẠY 2 LẦN (lần 2 sau 1 giây cho elements load muộn)
+    applyPinkStyleOnce()
+    task.wait(1)
+    applyPinkStyleOnce()
     
-    for i = 1, 10 do
-        applyCompletePinkStyle()
-        task.wait(0.3)
-        
-        -- Force update các Fluent elements
+    -- HOẶC: Style khi có element mới (ít lag hơn)
+    local function setupChildAddedListener()
         for _,screenGui in pairs(CoreGui:GetChildren()) do
             if screenGui:IsA("ScreenGui") then
                 for _,window in pairs(screenGui:GetChildren()) do
                     if window:IsA("Frame") then
-                        -- Force update theme
-                        pcall(function()
-                            local fluent = require(game:GetService("ReplicatedStorage"):WaitForChild("Fluent"))
-                            fluent:SetTheme("Banana")
+                        -- Listen cho elements mới
+                        local connection
+                        connection = window.DescendantAdded:Connect(function(child)
+                            task.wait(0.05) -- Chờ 1 frame
+                            
+                            -- Style element mới
+                            if child:IsA("Frame") and (child.Name:find("Element") or child.Name:find("Toggle")) then
+                                child.BackgroundColor3 = PinkColors.Element
+                                
+                                local corner = child:FindFirstChild("UICorner")
+                                if corner then
+                                    corner.CornerRadius = UDim.new(0,12)
+                                end
+                                
+                                local stroke = child:FindFirstChild("UIStroke")
+                                if stroke then
+                                    stroke.Color = PinkColors.Border
+                                    stroke.Thickness = 2
+                                end
+                            elseif child:IsA("TextLabel") then
+                                child.TextColor3 = PinkColors.Text
+                                child.Font = Enum.Font.GothamBold
+                            elseif child:IsA("TextButton") and child.Parent and child.Parent.Name ~= "TabHolder" then
+                                child.BackgroundColor3 = PinkColors.Element
+                                child.TextColor3 = PinkColors.Text
+                                child.Font = Enum.Font.GothamBold
+                            end
                         end)
                     end
                 end
@@ -623,133 +586,43 @@ task.spawn(function()
         end
     end
     
-    -- Continuous styling cho elements mới
-    local connection
-    connection = RunService.Heartbeat:Connect(function()
-        applyCompletePinkStyle()
-    end)
-    
-    -- Dừng sau 30 giây
-    task.delay(30, function()
-        if connection then
-            connection:Disconnect()
-        end
-        print("✅ Pink Fluent UI styling complete!")
-    end)
-    
-    -- Thêm pink theme override
-    task.spawn(function()
-        task.wait(5)
-        
-        -- Override Banana theme với màu pink
-        local success, fluent = pcall(function()
-            return require(game:GetService("ReplicatedStorage"):WaitForChild("Fluent"))
-        end)
-        
-        if success and fluent then
-            -- Update theme colors
-            local theme = fluent.Themes.Banana
-            if theme then
-                theme.Accent = PinkColors.Accent
-                theme.Background = PinkColors.Main
-                theme.DarkContrast = PinkColors.Dark
-                theme.LightContrast = PinkColors.Light
-                theme.TextColor = PinkColors.Text
-                theme.Element = PinkColors.Element
-                theme.ElementBorder = PinkColors.Border
-                theme.Tab = PinkColors.Dark
-                
-                -- Apply theme update
-                fluent:SetTheme("Banana")
-            end
-        end
-    end)
+    -- Setup listener (ít lag)
+    task.wait(2)
+    setupChildAddedListener()
 end)
 
--- [[ PINK STYLE FOR SPECIFIC FLUENT COMPONENTS ]]
+-- [[ PINK THEME OVERRIDE (Cách tốt nhất, không lag) ]]
 task.spawn(function()
-    task.wait(4)
+    task.wait(5) -- Đợi Fluent load
     
-    local CoreGui = game:GetService("CoreGui")
+    local success, Fluent = pcall(function()
+        return require(game:GetService("ReplicatedStorage"):WaitForChild("Fluent"))
+    end)
     
-    -- Style riêng cho từng component
-    local function styleSpecificComponents()
-        for _,gui in pairs(CoreGui:GetDescendants()) do
-            -- TOGGLES
-            if gui:IsA("Frame") and gui.Name:find("Toggle") then
-                -- Toggle background
-                gui.BackgroundColor3 = Color3.fromRGB(255,182,193)
-                
-                -- Toggle switch
-                for _,child in pairs(gui:GetChildren()) do
-                    if child:IsA("Frame") and child.Name:find("Toggle") then
-                        child.BackgroundColor3 = Color3.fromRGB(255,105,180)
-                        
-                        -- Toggle circle
-                        for _,circle in pairs(child:GetChildren()) do
-                            if circle:IsA("ImageLabel") then
-                                circle.ImageColor3 = Color3.fromRGB(255,20,147)
-                            end
-                        end
-                    end
-                end
-            end
+    if success and Fluent then
+        -- Override Banana theme với màu pink
+        local theme = Fluent.Themes.Banana
+        if theme then
+            theme.Accent = Color3.fromRGB(255, 105, 180)
+            theme.Background = Color3.fromRGB(255, 170, 200)
+            theme.DarkContrast = Color3.fromRGB(255, 140, 180)
+            theme.LightContrast = Color3.fromRGB(255, 160, 200)
+            theme.TextColor = Color3.fromRGB(255, 20, 147)
+            theme.SubTextColor = Color3.fromRGB(255, 105, 180)
+            theme.Element = Color3.fromRGB(255, 182, 193)
+            theme.ElementBorder = Color3.fromRGB(255, 105, 180)
+            theme.Tab = Color3.fromRGB(255, 182, 193)
+            theme.ToggleOff = Color3.fromRGB(255, 182, 193)
+            theme.ToggleOn = Color3.fromRGB(255, 105, 180)
+            theme.Slider = Color3.fromRGB(255, 105, 180)
+            theme.DropdownFrame = Color3.fromRGB(255, 182, 193)
+            theme.Input = Color3.fromRGB(255, 182, 193)
+            theme.Keybind = Color3.fromRGB(255, 182, 193)
+            theme.Hover = Color3.fromRGB(255, 192, 203)
             
-            -- DROPDOWNS
-            if gui:IsA("Frame") and gui.Name:find("Dropdown") then
-                gui.BackgroundColor3 = Color3.fromRGB(255,182,193)
-                
-                -- Dropdown button
-                for _,btn in pairs(gui:GetChildren()) do
-                    if btn:IsA("TextButton") then
-                        btn.BackgroundColor3 = Color3.fromRGB(255,182,193)
-                        btn.TextColor3 = Color3.fromRGB(255,20,147)
-                    end
-                end
-            end
-            
-            -- SLIDERS
-            if gui:IsA("Frame") and gui.Name:find("Slider") then
-                -- Slider rail
-                for _,rail in pairs(gui:GetChildren()) do
-                    if rail:IsA("Frame") and rail.Name:find("Rail") then
-                        rail.BackgroundColor3 = Color3.fromRGB(255,182,193)
-                    end
-                end
-                
-                -- Slider thumb
-                for _,thumb in pairs(gui:GetDescendants()) do
-                    if thumb:IsA("ImageLabel") and thumb.Name:find("Grip") then
-                        thumb.ImageColor3 = Color3.fromRGB(255,105,180)
-                    end
-                end
-            end
-            
-            -- COLORPICKERS
-            if gui:IsA("Frame") and gui.Name:find("Color") then
-                gui.BackgroundColor3 = Color3.fromRGB(255,182,193)
-            end
-            
-            -- INPUT FIELDS
-            if gui:IsA("TextBox") then
-                gui.BackgroundColor3 = Color3.fromRGB(255,182,193)
-                gui.TextColor3 = Color3.fromRGB(255,20,147)
-                gui.PlaceholderColor3 = Color3.fromRGB(255,105,180)
-            end
-            
-            -- KEYBINDS
-            if gui:IsA("TextButton") and gui.Name:find("Keybind") then
-                gui.BackgroundColor3 = Color3.fromRGB(255,182,193)
-                gui.TextColor3 = Color3.fromRGB(255,20,147)
-            end
+            -- Apply theme
+            Fluent:SetTheme("Banana")
+            print("🎨 Pink theme applied via Fluent system (no lag)")
         end
     end
-    
-    -- Apply liên tục
-    for i = 1, 20 do
-        styleSpecificComponents()
-        task.wait(0.2)
-    end
-    
-    print("🎨 All Fluent components styled pink!")
 end)
