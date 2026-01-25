@@ -11202,3 +11202,17 @@ toggleButton.MouseButton1Click:Connect(function()
         end
     end
 end)
+-- ===== FAST ATTACK (GẮN CUỐI SCRIPT) =====
+task.spawn(function()
+    while task.wait(0.1) do
+        if getgenv().OnFarm then
+            pcall(function()
+                local CF = require(game.Players.LocalPlayer.PlayerScripts.CombatFramework)
+                local controller = getupvalues(CF)[2].activeController
+                controller.timeToNextAttack = 0
+                controller.hitboxMagnitude = 60
+                controller:attack()
+            end)
+        end
+    end
+end)
