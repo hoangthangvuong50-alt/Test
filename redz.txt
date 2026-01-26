@@ -11093,53 +11093,51 @@ get_Monster = function()
         end
     end
 end
-local RepStorage = game:GetService("ReplicatedStorage")
-local LP = game:GetService("Players").LocalPlayer
 
--- Hàm kích hoạt sát thương trực tiếp vào Server
-local function DamageRig(target)
-    local tool = LP.Character:FindFirstChildOfClass("Tool")
-    if tool then
-        -- Thay vì dùng LeftClickRemote cũ, ta dùng trực tiếp RigEvent của Game
-        local args = {
-            [1] = target.UpperTorso.Position,
-            [2] = target
-        }
-        -- Một số bản dùng "RigEvent", một số dùng "Attack"
-        local event = tool:FindFirstChild("RigEvent") or tool:FindFirstChild("Attack")
-        if event then
-            event:FireServer(unpack(args))
-        end
-    end
-end
 
--- Vòng lặp chính
-task.spawn(function()
-    while task.wait(0.08) do -- Tốc độ đánh tối ưu 2026 để không bị No Damage
-        pcall(function()
-            if _G.Seriality then
-                local MobAura, Mon = get_Monster()
-                if MobAura and Mon and Mon:FindFirstChild("UpperTorso") then
-                    
-                    -- Bước 1: Kích hoạt đòn đánh ảo trên máy khách (Để né Anti-cheat)
-                    local virtualUser = game:GetService("VirtualUser")
-                    virtualUser:CaptureController()
-                    virtualUser:ClickButton1(Vector2.new(850, 520))
-                    
-                    -- Bước 2: Ép sát thương lên Server
-                    DamageRig(Mon)
-                    
-                    -- Bước 3: Reset Cooldown nội bộ (Chỉ dành cho Tool có ToolTip là Blox Fruit)
-                    local tool = LP.Character:FindFirstChildOfClass("Tool")
-                    if tool and tool.ToolTip == "Blox Fruit" then
-                        for i, v in pairs(getconnections(tool.Activated)) do
-                            v:Function()
-                        end
-                    end
+(getgenv()).Config = {
+ ["FastAttack"] = true,
+ ["ClickAttack"] = true
+} 
+
+coroutine.wrap(function()
+local StopCamera = require(game.ReplicatedStorage.Util.CameraShaker)StopCamera:Stop()
+    for v,v in pairs(getreg()) do
+        if typeof(v) == "function" and getfenv(v).script == game:GetService("Players").LocalPlayer.PlayerScripts.CombatFramework then
+             for v,v in pairs(debug.getupvalues(v)) do
+                if typeof(v) == "table" then
+                    spawn(function()
+                        game:GetService("RunService").RenderStepped:Connect(function()
+                            if getgenv().Config['FastAttack'] then
+                                 pcall(function()
+                                     v.activeController.timeToNextAttack = -(math.huge^math.huge^math.huge)
+                                     v.activeController.attacking = false
+                                     v.activeController.increment = 4
+                                     v.activeController.blocking = false   
+                                     v.activeController.hitboxMagnitude = 150
+    		                         v.activeController.humanoid.AutoRotate = true
+    	                      	     v.activeController.focusStart = 0
+    	                      	     v.activeController.currentAttackTrack = 0
+                                     sethiddenproperty(game:GetService("Players").LocalPlayer, "SimulationRaxNerous", math.huge)
+                                 end)
+                             end
+                         end)
+                    end)
                 end
             end
-        end)
+        end
     end
+end)();
+
+spawn(function()
+    game:GetService("RunService").RenderStepped:Connect(function()
+        if getgenv().Config['ClickAttack'] then
+             pcall(function()
+                game:GetService'VirtualUser':CaptureController()
+			    game:GetService'VirtualUser':Button1Down(Vector2.new(0,1,0,1))
+            end)
+        end
+    end)
 end)
 
 
