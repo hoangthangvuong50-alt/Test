@@ -11093,34 +11093,48 @@ get_Monster = function()
         end
     end
 end
-local CombatFramework = require(game:GetService("Players").LocalPlayer.PlayerScripts.Module.CombatFramework)
-local RigLib = require(game:GetService("Players").LocalPlayer.PlayerScripts.Module.CombatFramework.RigLib)
+local RepStorage = game:GetService("ReplicatedStorage")
+local LP = game:GetService("Players").LocalPlayer
 
-local function GetCombatFramework()
-    return debug.getupvalues(CombatFramework.Shared)[1]
-end
-
-local function AttackNoDamageFix()
-    local AC = GetCombatFramework().activeController
-    if AC and AC.equipped then
-        -- Giải thuật vượt qua bước kiểm tra Animation để gây sát thương
-        for i = 1, 3 do -- Đánh 3 lần mỗi vòng lặp
-            AC.hitboxMagnitude = 60 -- Mở rộng tầm đánh để không bị hụt
-            AC:attack() 
+-- Hàm kích hoạt sát thương trực tiếp vào Server
+local function DamageRig(target)
+    local tool = LP.Character:FindFirstChildOfClass("Tool")
+    if tool then
+        -- Thay vì dùng LeftClickRemote cũ, ta dùng trực tiếp RigEvent của Game
+        local args = {
+            [1] = target.UpperTorso.Position,
+            [2] = target
+        }
+        -- Một số bản dùng "RigEvent", một số dùng "Attack"
+        local event = tool:FindFirstChild("RigEvent") or tool:FindFirstChild("Attack")
+        if event then
+            event:FireServer(unpack(args))
         end
     end
 end
 
--- Chạy vòng lặp tấn công
+-- Vòng lặp chính
 task.spawn(function()
-    while task.wait(0.05) do -- Không nên để 0, sẽ bị No Damage
+    while task.wait(0.08) do -- Tốc độ đánh tối ưu 2026 để không bị No Damage
         pcall(function()
             if _G.Seriality then
                 local MobAura, Mon = get_Monster()
-                if MobAura and Mon then
-                    -- Đảm bảo bạn đang cầm vũ khí
-                    if game.Players.LocalPlayer.Character:FindFirstChildOfClass("Tool") then
-                        AttackNoDamageFix()
+                if MobAura and Mon and Mon:FindFirstChild("UpperTorso") then
+                    
+                    -- Bước 1: Kích hoạt đòn đánh ảo trên máy khách (Để né Anti-cheat)
+                    local virtualUser = game:GetService("VirtualUser")
+                    virtualUser:CaptureController()
+                    virtualUser:ClickButton1(Vector2.new(850, 520))
+                    
+                    -- Bước 2: Ép sát thương lên Server
+                    DamageRig(Mon)
+                    
+                    -- Bước 3: Reset Cooldown nội bộ (Chỉ dành cho Tool có ToolTip là Blox Fruit)
+                    local tool = LP.Character:FindFirstChildOfClass("Tool")
+                    if tool and tool.ToolTip == "Blox Fruit" then
+                        for i, v in pairs(getconnections(tool.Activated)) do
+                            v:Function()
+                        end
                     end
                 end
             end
