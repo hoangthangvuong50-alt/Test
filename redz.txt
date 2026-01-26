@@ -11093,37 +11093,43 @@ get_Monster = function()
         end
     end
 end
-Actived = function()
-    local a = game.Players.LocalPlayer.Character:FindFirstChildOfClass("Tool")
-    for b, c in next, getconnections(a.Activated) do
-        if typeof(c.Function) == 'function' then
-            getupvalues(c.Function)
-        end
-    end
-end
+local VIM = game:GetService("VirtualInputManager")
+local RunService = game:GetService("RunService")
+local Players = game:GetService("Players")
+local LP = Players.LocalPlayer
+
+_G.FastAttack = true -- Bật/Tắt
+
 task.spawn(function()
-    RunSer.Heartbeat:Connect(function()
+    while task.wait() do
         pcall(function()
-            if not _G.Seriality then
-                return
-            end
-            AttackNoCoolDown()
-            local Pretool = game.Players.LocalPlayer.Character:FindFirstChildOfClass("Tool")
-            local ToolTip = Pretool.ToolTip
-            local MobAura, Mon = get_Monster()
-            if ToolTip == "Blox Fruit" then
-                if MobAura then
-                    local LeftClickRemote = Pretool:FindFirstChild('LeftClickRemote');
-                    if LeftClickRemote then
-                        Actived()
-                        LeftClickRemote:FireServer(Vector3.new(0.01, - 500, 0.01), 1, true);
-                        LeftClickRemote:FireServer(false)
+            if _G.FastAttack and _G.Seriality then
+                local Tool = LP.Character:FindFirstChildOfClass("Tool")
+                if not Tool then return end
+                
+                -- Lấy quái vật gần nhất từ hàm của bạn
+                local MobAura, Mon = get_Monster() 
+                
+                if MobAura and Mon then
+                    -- CƠ CHẾ MỚI: Giả lập nhấn chuột để kích hoạt Animation đánh
+                    VIM:SendMouseButtonEvent(0, 0, 0, true, game, 0)
+                    VIM:SendMouseButtonEvent(0, 0, 0, false, game, 0)
+                    
+                    -- CƠ CHẾ PHỤ: Gửi Remote kèm theo vị trí chính xác của quái để tránh No Damage
+                    local Remote = Tool:FindFirstChild("Remote") or Tool:FindFirstChild("LeftClickRemote")
+                    if Remote then
+                        -- Gửi vị trí thực của quái để Server xác nhận sát thương hợp lệ
+                        Remote:FireServer(Mon.UpperTorso.Position) 
                     end
+                    
+                    -- Tốc độ đánh (0.05 - 0.1 là an toàn nhất năm 2026)
+                    task.wait(0.05) 
                 end
             end
         end)
-    end)
+    end
 end)
+
 local UserInputService = game:GetService("UserInputService")
 
 local UserInputService = game:GetService("UserInputService")
@@ -11202,18 +11208,4 @@ toggleButton.MouseButton1Click:Connect(function()
         end
     end
 end)
--- ===== FAST ATTACK (GẮN CUỐI SCRIPT) =====
-task.spawn(function()
-    while task.wait(0.1) do
-        if getgenv().OnFarm then
-            pcall(function()
-                local CF = require(game.Players.LocalPlayer.PlayerScripts.CombatFramework)
-                local controller = getupvalues(CF)[2].activeController
-                controller.timeToNextAttack = 0
-                controller.hitboxMagnitude = 60
-                controller:attack()
-            end)
-        end
-    end
-end)
-loadstring(game:HttpGet("https://pandadevelopment.net/virtual/file/369e27991d8fdcc6"))()
+
