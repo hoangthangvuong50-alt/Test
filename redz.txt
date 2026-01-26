@@ -11093,42 +11093,41 @@ get_Monster = function()
         end
     end
 end
-local VIM = game:GetService("VirtualInputManager")
-local RunService = game:GetService("RunService")
-local Players = game:GetService("Players")
-local LP = Players.LocalPlayer
+local CombatFramework = require(game:GetService("Players").LocalPlayer.PlayerScripts.Module.CombatFramework)
+local RigLib = require(game:GetService("Players").LocalPlayer.PlayerScripts.Module.CombatFramework.RigLib)
 
-_G.FastAttack = true -- Bật/Tắt
+local function GetCombatFramework()
+    return debug.getupvalues(CombatFramework.Shared)[1]
+end
 
+local function AttackNoDamageFix()
+    local AC = GetCombatFramework().activeController
+    if AC and AC.equipped then
+        -- Giải thuật vượt qua bước kiểm tra Animation để gây sát thương
+        for i = 1, 3 do -- Đánh 3 lần mỗi vòng lặp
+            AC.hitboxMagnitude = 60 -- Mở rộng tầm đánh để không bị hụt
+            AC:attack() 
+        end
+    end
+end
+
+-- Chạy vòng lặp tấn công
 task.spawn(function()
-    while task.wait() do
+    while task.wait(0.05) do -- Không nên để 0, sẽ bị No Damage
         pcall(function()
-            if _G.FastAttack and _G.Seriality then
-                local Tool = LP.Character:FindFirstChildOfClass("Tool")
-                if not Tool then return end
-                
-                -- Lấy quái vật gần nhất từ hàm của bạn
-                local MobAura, Mon = get_Monster() 
-                
+            if _G.Seriality then
+                local MobAura, Mon = get_Monster()
                 if MobAura and Mon then
-                    -- CƠ CHẾ MỚI: Giả lập nhấn chuột để kích hoạt Animation đánh
-                    VIM:SendMouseButtonEvent(0, 0, 0, true, game, 0)
-                    VIM:SendMouseButtonEvent(0, 0, 0, false, game, 0)
-                    
-                    -- CƠ CHẾ PHỤ: Gửi Remote kèm theo vị trí chính xác của quái để tránh No Damage
-                    local Remote = Tool:FindFirstChild("Remote") or Tool:FindFirstChild("LeftClickRemote")
-                    if Remote then
-                        -- Gửi vị trí thực của quái để Server xác nhận sát thương hợp lệ
-                        Remote:FireServer(Mon.UpperTorso.Position) 
+                    -- Đảm bảo bạn đang cầm vũ khí
+                    if game.Players.LocalPlayer.Character:FindFirstChildOfClass("Tool") then
+                        AttackNoDamageFix()
                     end
-                    
-                    -- Tốc độ đánh (0.05 - 0.1 là an toàn nhất năm 2026)
-                    task.wait(0.05) 
                 end
             end
         end)
     end
 end)
+
 
 local UserInputService = game:GetService("UserInputService")
 
