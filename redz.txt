@@ -36,7 +36,7 @@ local Window = WindUI:CreateWindow({
     ScrollBarEnabled = false,
     User = {
         Enabled = true,
-        Anonymous = false
+        Anonymous = true
     },
 });
 Window:EditOpenButton({
