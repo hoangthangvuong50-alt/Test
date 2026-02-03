@@ -5,10 +5,10 @@ end
 if setfpscap then
     setfpscap(1000000)
     game:GetService("StarterGui"):SetCore("SendNotification", {
-        Title = "Vylera Hub",
-        Text = "FPS Unlocked!",
+        Title = "kaitoMC Hub",
+        Text = "Đăng kí kaitoMC!",
         Duration = 5,
-        Button1 = "Okay"
+        Button1 = "Được"
     })
     warn("FPS Unlocked!")
 else
@@ -19,14 +19,14 @@ else
         Button1 = "Okay"
     })
     warn("Your exploit does not support setfpscap.")
-end
+end,
 
 local WindUI = (loadstring(game:HttpGet("https://raw.githubusercontent.com/hoangthangvuong50-alt/Test/refs/heads/main/new.txt")))();
 local Window = WindUI:CreateWindow({
-    Title = "Vylera Hub",
+    Title = "kaitoMC  Hub",
     Icon = "rbxassetid://84228153855933",
-    Author = "Vylera Hub | Blox Fruit",
-    Folder = "Vylera Hub_BF",
+    Author = "KaitoMC | Blox Fruit",
+    Folder = "KaitoMC Hub_BF",
     Size = UDim2.fromOffset(550, 300),
     Transparent = true,
     Theme = "Dark",
@@ -35,12 +35,12 @@ local Window = WindUI:CreateWindow({
     HideSearchBar = true,
     ScrollBarEnabled = false,
     User = {
-        Enabled = true,
-        Anonymous = false
+        Enabled = false,
+        Anonymous = true
     },
 });
 Window:EditOpenButton({
-    Title = "Vylera Hub - Open",
+    Title = "KaitoMC Hub - Mở",
     Icon = "monitor",
     CornerRadius = UDim.new(0, 6),
     StrokeThickness = 2,
@@ -50,12 +50,12 @@ Window:EditOpenButton({
 local Tabs = {
     InfoTab = Window:Tab({
         Title = "Information",
-        Icon = "info",
+        Icon = "Thông tin",
         Desc = "Info Section"
     }),
     MainDivider = Window:Divider(),
     MainTab = Window:Tab({
-        Title = "Farming",
+        Title = "Cày",
         Icon = "rocket",
         Desc = "Main Section"
     }),
@@ -65,29 +65,29 @@ local Tabs = {
         Desc = "Farming Section"
     }),
     ItemsTab = Window:Tab({
-        Title = "Items",
+        Title = "Vật phẩm",
         Icon = "box",
         Desc = "Items Section"
     }),
     SettingsTab = Window:Tab({
-        Title = "Settings",
+        Title = "Cài đặt",
         Icon = "settings",
         Desc = "Settings Section"
     }),
     PlayerDivider = Window:Divider(),
     LocalPlayerTab = Window:Tab({
-        Title = "Player",
+        Title = "Người ",
         Icon = "user",
         Desc = "Local Player Section"
     }),
     StatsTab = Window:Tab({
-        Title = "Stats",
+        Title = "Chỉ số",
         Icon = "sliders-horizontal",
         Desc = "Stats Section"
     }),
     SeaDivider = Window:Divider(),
     SeaEventTab = Window:Tab({
-        Title = "Sea Event",
+        Title = "Biển",
         Icon = "anchor",
         Desc = "Sea Event Section"
     }),
@@ -108,7 +108,7 @@ local Tabs = {
         Desc = "Dragon Dojo Section"
     }),
     RaceTab = Window:Tab({
-        Title = "Race V4",
+        Title = "cày V4",
         Icon = "bot",
         Desc = "Race Section"
     }),
@@ -124,22 +124,22 @@ local Tabs = {
         Desc = "Raid Section"
     }),
     EspTab = Window:Tab({
-        Title = "Esp",
+        Title = "Định vị",
         Icon = "eye",
         Desc = "Esp Section"
     }),
     TeleportTab = Window:Tab({
-        Title = "Teleport",
+        Title = "Dịch chuyển",
         Icon = "map-pinned",
         Desc = "Teleport Section"
     }),
     ShopTab = Window:Tab({
-        Title = "Shop",
+        Title = "Cửa hàng",
         Icon = "shopping-cart",
         Desc = "Shop Section"
     }),
     FruitTab = Window:Tab({
-        Title = "Fruit",
+        Title = "trái",
         Icon = "apple",
         Desc = "Fruit Section"
     }),
@@ -150,7 +150,7 @@ local Tabs = {
         Desc = "Misc Section"
     }),
     ServerTab = Window:Tab({
-        Title = "Server",
+        Title = "Thế giới",
         Icon = "server",
         Desc = "Server Section"
     })
@@ -2451,7 +2451,7 @@ spawn(function()
 end);
 DiscordServerParagraph = Tabs.InfoTab:Paragraph({
     Title = "Discord Server",
-    Desc = "Link Discord Vylera Hub!",
+    Desc = "Link Discord kaitoMC Hub!",
     TextXAlignment = "Left",
     Buttons = {{
         Title = "Copy Link Discord",
@@ -2547,7 +2547,7 @@ LevelFarmMethodDropdown = Tabs.MainTab:Dropdown({
     end
 });
 AutoLevelFarmToggle = Tabs.MainTab:Toggle({
-    Title = "Auto Farm Level",
+    Title = "Auto Cày cấp",
     Desc = "Automatic Plowing Level",
     Value = _G.Settings.Main["Auto Farm"],
     Callback = function(state)
@@ -2669,7 +2669,7 @@ spawn(function()
     end
 end);
 AutoFastFarmToggle = Tabs.MainTab:Toggle({
-    Title = "Auto Fast Farm",
+    Title = "Auto cày nhanh ",
     Desc = "Work on Sea 1 Only",
     Value = _G.Settings.Main["Auto Fast Farm"],
     Callback = function(state)
@@ -2691,7 +2691,7 @@ spawn(function()
     end);
 end);
 MasteryFarmSection = Tabs.MainTab:Section({
-    Title = "Mastery Farm",
+    Title = " Farm thông thạo",
     TextXAlignment = "Left"
 });
 if World3 then
@@ -2763,7 +2763,7 @@ spawn(function()
     end
 end);
 AutoSwordMasteryToggle = Tabs.MainTab:Toggle({
-    Title = "Auto Sword Mastery",
+    Title = "Thông thạo kiếm",
     Value = _G.Settings.Main["Auto Farm Sword Mastery"],
     Callback = function(state)
         _G.Settings.Main["Auto Farm Sword Mastery"] = state;
