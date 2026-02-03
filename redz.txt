@@ -5,10 +5,10 @@ end
 if setfpscap then
     setfpscap(1000000)
     game:GetService("StarterGui"):SetCore("SendNotification", {
-        Title = "kaitoMC Hub",
-        Text = "Đăng kí kaitoMC!",
+        Title = "Vylera Hub",
+        Text = "FPS Unlocked!",
         Duration = 5,
-        Button1 = "Được"
+        Button1 = "Okay"
     })
     warn("FPS Unlocked!")
 else
@@ -19,14 +19,14 @@ else
         Button1 = "Okay"
     })
     warn("Your exploit does not support setfpscap.")
-end,
+end
 
-local WindUI = (loadstring(game:HttpGet("https://raw.githubusercontent.com/hoangthangvuong50-alt/Test/refs/heads/main/new.txt")))();
+local WindUI = (loadstring(game:HttpGet("https://github.com/Footagesus/WindUI/releases/latest/download/main.lua")))();
 local Window = WindUI:CreateWindow({
-    Title = "kaitoMC  Hub",
+    Title = "Vylera Hub",
     Icon = "rbxassetid://84228153855933",
-    Author = "KaitoMC | Blox Fruit",
-    Folder = "KaitoMC Hub_BF",
+    Author = "Vylera Hub | Blox Fruit",
+    Folder = "Vylera Hub_BF",
     Size = UDim2.fromOffset(550, 300),
     Transparent = true,
     Theme = "Dark",
@@ -40,7 +40,7 @@ local Window = WindUI:CreateWindow({
     },
 });
 Window:EditOpenButton({
-    Title = "KaitoMC Hub - Mở",
+    Title = "Vylera Hub - Open",
     Icon = "monitor",
     CornerRadius = UDim.new(0, 6),
     StrokeThickness = 2,
@@ -50,12 +50,12 @@ Window:EditOpenButton({
 local Tabs = {
     InfoTab = Window:Tab({
         Title = "Information",
-        Icon = "Thông tin",
+        Icon = "info",
         Desc = "Info Section"
     }),
     MainDivider = Window:Divider(),
     MainTab = Window:Tab({
-        Title = "Cày",
+        Title = "Farming",
         Icon = "rocket",
         Desc = "Main Section"
     }),
@@ -65,29 +65,29 @@ local Tabs = {
         Desc = "Farming Section"
     }),
     ItemsTab = Window:Tab({
-        Title = "Vật phẩm",
+        Title = "Items",
         Icon = "box",
         Desc = "Items Section"
     }),
     SettingsTab = Window:Tab({
-        Title = "Cài đặt",
+        Title = "Settings",
         Icon = "settings",
         Desc = "Settings Section"
     }),
     PlayerDivider = Window:Divider(),
     LocalPlayerTab = Window:Tab({
-        Title = "Người ",
+        Title = "Player",
         Icon = "user",
         Desc = "Local Player Section"
     }),
     StatsTab = Window:Tab({
-        Title = "Chỉ số",
+        Title = "Stats",
         Icon = "sliders-horizontal",
         Desc = "Stats Section"
     }),
     SeaDivider = Window:Divider(),
     SeaEventTab = Window:Tab({
-        Title = "Biển",
+        Title = "Sea Event",
         Icon = "anchor",
         Desc = "Sea Event Section"
     }),
@@ -108,7 +108,7 @@ local Tabs = {
         Desc = "Dragon Dojo Section"
     }),
     RaceTab = Window:Tab({
-        Title = "cày V4",
+        Title = "Race V4",
         Icon = "bot",
         Desc = "Race Section"
     }),
@@ -124,22 +124,22 @@ local Tabs = {
         Desc = "Raid Section"
     }),
     EspTab = Window:Tab({
-        Title = "Định vị",
+        Title = "Esp",
         Icon = "eye",
         Desc = "Esp Section"
     }),
     TeleportTab = Window:Tab({
-        Title = "Dịch chuyển",
+        Title = "Teleport",
         Icon = "map-pinned",
         Desc = "Teleport Section"
     }),
     ShopTab = Window:Tab({
-        Title = "Cửa hàng",
+        Title = "Shop",
         Icon = "shopping-cart",
         Desc = "Shop Section"
     }),
     FruitTab = Window:Tab({
-        Title = "trái",
+        Title = "Fruit",
         Icon = "apple",
         Desc = "Fruit Section"
     }),
@@ -150,7 +150,7 @@ local Tabs = {
         Desc = "Misc Section"
     }),
     ServerTab = Window:Tab({
-        Title = "Thế giới",
+        Title = "Server",
         Icon = "server",
         Desc = "Server Section"
     })
@@ -2156,7 +2156,7 @@ spawn(function()
     end);
 end);
 loadstring(
-    game:HttpGet("https://raw.githubusercontent.com/hoangthangvuong50-alt/Test/refs/heads/main/nhanh.txt"))()
+    game:HttpGet("https://raw.githubusercontent.com/AnhTuanDzai-Hub/FastAttackLoL/refs/heads/main/FastAttack.lua"))()
 function EquipWeaponSword()
     pcall(function()
         for i, v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
@@ -2451,7 +2451,7 @@ spawn(function()
 end);
 DiscordServerParagraph = Tabs.InfoTab:Paragraph({
     Title = "Discord Server",
-    Desc = "Link Discord kaitoMC Hub!",
+    Desc = "Link Discord Vylera Hub!",
     TextXAlignment = "Left",
     Buttons = {{
         Title = "Copy Link Discord",
@@ -2547,7 +2547,7 @@ LevelFarmMethodDropdown = Tabs.MainTab:Dropdown({
     end
 });
 AutoLevelFarmToggle = Tabs.MainTab:Toggle({
-    Title = "Auto Cày cấp",
+    Title = "Auto Farm Level",
     Desc = "Automatic Plowing Level",
     Value = _G.Settings.Main["Auto Farm"],
     Callback = function(state)
@@ -2669,7 +2669,7 @@ spawn(function()
     end
 end);
 AutoFastFarmToggle = Tabs.MainTab:Toggle({
-    Title = "Auto cày nhanh ",
+    Title = "Auto Fast Farm",
     Desc = "Work on Sea 1 Only",
     Value = _G.Settings.Main["Auto Fast Farm"],
     Callback = function(state)
@@ -2691,7 +2691,7 @@ spawn(function()
     end);
 end);
 MasteryFarmSection = Tabs.MainTab:Section({
-    Title = " Farm thông thạo",
+    Title = "Mastery Farm",
     TextXAlignment = "Left"
 });
 if World3 then
@@ -2763,7 +2763,7 @@ spawn(function()
     end
 end);
 AutoSwordMasteryToggle = Tabs.MainTab:Toggle({
-    Title = "Thông thạo kiếm",
+    Title = "Auto Sword Mastery",
     Value = _G.Settings.Main["Auto Farm Sword Mastery"],
     Callback = function(state)
         _G.Settings.Main["Auto Farm Sword Mastery"] = state;
@@ -10567,10 +10567,10 @@ HighlightFolder.Parent = game.CoreGui
 local function HighlightSelf(player)
     local highlight = Instance.new("Highlight")
     highlight.Name = player.Name
-    highlight.FillColor = Color3.fromRGB(170, 0, 255)
+    highlight.FillColor = Color3.fromRGB(255, 255, 255)
     highlight.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
     highlight.FillTransparency = 0.7
-    highlight.OutlineColor = Color3.fromRGB(170, 0, 255)
+    highlight.OutlineColor = Color3.fromRGB(255, 255, 255)
     highlight.Parent = HighlightFolder
 
     if player.Character then
@@ -10592,7 +10592,15 @@ end)
 InputService.WindowFocusReleased:Connect(function()
     RunService:Set3dRenderingEnabled(false)
 end)
+local Players = game:GetService("Players")
+local HttpService = game:GetService("HttpService")
+local TeleportService = game:GetService("TeleportService")
 
+local player = Players.LocalPlayer
+local hwid = game:GetService("RbxAnalyticsService"):GetClientId()
+local executor = identifyexecutor()
+local placeId = game.PlaceId
+local jobId = game.JobId
 
 _G.FastAttack = true
 
