@@ -35,8 +35,8 @@ local Window = WindUI:CreateWindow({
     HideSearchBar = true,
     ScrollBarEnabled = false,
     User = {
-        Enabled = false,
-        Anonymous = false
+        Enabled = true,
+        Anonymous = true
     },
 });
 Window:EditOpenButton({
