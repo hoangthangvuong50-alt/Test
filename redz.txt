@@ -39,6 +39,17 @@ local Window = WindUI:CreateWindow({
         Anonymous = true
     },
 });
+Window:SetUser({
+    Name = "KaitoMC VIP", 
+    Id = 1, -- Giữ nguyên số này cũng được vì ta sẽ đè ảnh sau
+    Anonymous = false
+})
+
+-- Đoạn này để ép Menu hiện ảnh của bạn (Nếu dùng rbxassetid)
+if Window.UserFrame and Window.UserFrame:FindFirstChild("ImageLabel", true) then
+    local AvatarImage = Window.UserFrame:FindFirstChild("ImageLabel", true)
+    AvatarImage.Image = "rbxassetid://84228153855933" -- Thay ID ảnh của bạn vào đây
+end
 Window:EditOpenButton({
     Title = "Vylera Hub - Open",
     Icon = "monitor",
