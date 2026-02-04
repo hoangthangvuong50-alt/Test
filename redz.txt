@@ -5,15 +5,15 @@ end
 if setfpscap then
     setfpscap(1000000)
     game:GetService("StarterGui"):SetCore("SendNotification", {
-        Title = "Vylera Hub",
-        Text = "FPS Unlocked!",
+        Title = "Kaito Hub",
+        Text = "Đăng kí kênh!",
         Duration = 5,
         Button1 = "Okay"
     })
     warn("FPS Unlocked!")
 else
     game:GetService("StarterGui"):SetCore("SendNotification", {
-        Title = "Vylera Hub",
+        Title = "Kaito Hub",
         Text = "Your exploit does not support setfpscap.",
         Duration = 5,
         Button1 = "Okay"
@@ -23,10 +23,10 @@ end
 
 local WindUI = (loadstring(game:HttpGet("https://github.com/Footagesus/WindUI/releases/latest/download/main.lua")))();
 local Window = WindUI:CreateWindow({
-    Title = "Vylera Hub",
+    Title = "KaitoMC Hub",
     Icon = "rbxassetid://84228153855933",
-    Author = "Vylera Hub | Blox Fruit",
-    Folder = "Vylera Hub_BF",
+    Author = "Kaito Hub | Blox Fruit",
+    Folder = "Kaito Hub_BF",
     Size = UDim2.fromOffset(550, 300),
     Transparent = true,
     Theme = "Dark",
@@ -39,19 +39,9 @@ local Window = WindUI:CreateWindow({
         Anonymous = true
     },
 });
-Window:SetUser({
-    Name = "KaitoMC VIP", 
-    Id = 1, -- Giữ nguyên số này cũng được vì ta sẽ đè ảnh sau
-    Anonymous = false
-})
 
--- Đoạn này để ép Menu hiện ảnh của bạn (Nếu dùng rbxassetid)
-if Window.UserFrame and Window.UserFrame:FindFirstChild("ImageLabel", true) then
-    local AvatarImage = Window.UserFrame:FindFirstChild("ImageLabel", true)
-    AvatarImage.Image = "rbxassetid://84228153855933" -- Thay ID ảnh của bạn vào đây
-end
 Window:EditOpenButton({
-    Title = "Vylera Hub - Open",
+    Title = "Kaito Hub - Mở",
     Icon = "monitor",
     CornerRadius = UDim.new(0, 6),
     StrokeThickness = 2,
@@ -1171,6 +1161,25 @@ function CheckQuest()
             NameMon = "Skull Slayer";
             CFrameQuest = CFrame.new(-16661.890625, 105.2862319946289, 1576.69775390625);
             CFrameMon = CFrame.new(-16885.203125, 114.12911224365234, 1627.949951171875);
+elseif MyLevel >= 2600 or MyLevel <= 2624 then
+            Mon = "Reef Bandit"
+            LevelQuest = 1
+            NameQuest = "SubmergedQuest1"
+            NameMon = "Reef Bandits"
+            CFrameQuest = CFrame.new(10778.875, -2087.72437, 9265.18359, 0.934615612, -9.33109447e-08, -0.355659455, 9.17655143e-08, 1, -2.12154276e-08, 0.355659455, -1.28090019e-08, 0.934615612)
+            CFrameMon = CFrame.new(11019.1318, -2146.06812, 9342.3916, -0.719955266, -1.74275385e-08, 0.69402045, 5.76556367e-08, 1, 8.49211546e-08, -0.69402045, 1.01153624e-07, -0.719955266)
+                if getgenv().AutoFarm then
+        -- TP tới chỗ submarine ngay khi bật farm
+        topos(CFrame.new(-16269.7041, 25.2288494, 1373.65955))
+        task.wait(1)
+
+        -- Nói chuyện NPC để đi Submerged Island
+        local args = {"TravelToSubmergedIsland"}
+        game:GetService("ReplicatedStorage")
+            .Modules.Net
+            :FindFirstChild("RF/SubmarineWorkerSpeak")
+            :InvokeServer(unpack(args))
+    end
         end
     end
 end
@@ -10381,7 +10390,7 @@ FpsBoostButton = Tabs.MiscTab:Button({
     end
 });
 FpsBoostButton = Tabs.MiscTab:Button({
-    Title = "Fps Boost (Vylera Hub)",
+    Title = "Fps Boost (Kaito Hub)",
     Callback = function()
         loadstring(game:HttpGet("https://raw.githubusercontent.com/dyumra/DYHUB-Universal-Game/refs/heads/main/Nigga.lua"))()
     end
