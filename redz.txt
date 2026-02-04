@@ -1161,7 +1161,7 @@ function CheckQuest()
             NameMon = "Skull Slayer";
             CFrameQuest = CFrame.new(-16661.890625, 105.2862319946289, 1576.69775390625);
             CFrameMon = CFrame.new(-16885.203125, 114.12911224365234, 1627.949951171875);
-elseif MyLevel >= 2600 or MyLevel <= 2624 then
+elseif MyLevel == 2600 or MyLevel >= 2624 then
             Mon = "Reef Bandit"
             LevelQuest = 1
             NameQuest = "SubmergedQuest1"
