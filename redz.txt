@@ -1,9 +1,25 @@
+
+local Library = loadstring(game:HttpGet(
+    "https://raw.githubusercontent.com/shlexware/Orion/main/source"
+))()
+
+local Beautify_By_HNC_Roblox = Library:MakeWindow({
+    Name = "Dungeon Vip",
+    HidePremium = false,
+    SaveConfig = false,
+    ConfigFolder = "DungeonVip"
+})
+
 --[[
 This source was beautified by HNC Roblox
 ]]--
-Beautify_By_HNC_Roblox = Beautify_By_HNC_Roblox:AddSection({
-"Dungeon-Vip"
+local Tab = Beautify_By_HNC_Roblox:MakeTab({
+    Name = "Dungeon-Vip",
+    Icon = "rbxassetid://4483345998",
+    PremiumOnly = false
 })
+
+Beautify_By_HNC_Roblox = Tab
 
 Beautify_By_HNC_Roblox:AddToggle({
 ["Name"] = "Auto Join Dungeon Server",
